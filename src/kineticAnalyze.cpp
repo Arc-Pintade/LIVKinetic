@@ -45,9 +45,13 @@ KineticAnalyze::KineticAnalyze(){
 
     aL = std::vector< std::vector<double> >(nExp);
     aR = std::vector< std::vector<double> >(nExp);
+    bL = std::vector< std::vector<double> >(nExp);
+    bR = std::vector< std::vector<double> >(nExp);
     for(int i=0; i<nExp; i++){
         aL[i] = std::vector<double>(6);
         aR[i] = std::vector<double>(6);
+        bL[i] = std::vector<double>(4);
+        bR[i] = std::vector<double>(4);
     }// first index "experiment", second index "a coefficient"
 
 
@@ -55,24 +59,44 @@ KineticAnalyze::KineticAnalyze(){
     fRList = std::vector< std::vector< std::vector<double> > >(nExp);
     fCList = std::vector< std::vector< std::vector<double> > >(nExp);
     fDList = std::vector< std::vector< std::vector<double> > >(nExp);
-    amplitudeLList = std::vector< std::vector<double> >(nExp);
-    amplitudeRList = std::vector< std::vector<double> >(nExp);
-    amplitudeCList = std::vector< std::vector<double> >(nExp);
-    amplitudeDList = std::vector< std::vector<double> >(nExp);
+    gLList = std::vector< std::vector< std::vector<double> > >(nExp);
+    gRList = std::vector< std::vector< std::vector<double> > >(nExp);
+    gCList = std::vector< std::vector< std::vector<double> > >(nExp);
+    gDList = std::vector< std::vector< std::vector<double> > >(nExp);
+    amplitudeLListf = std::vector< std::vector<double> >(nExp);
+    amplitudeRListf = std::vector< std::vector<double> >(nExp);
+    amplitudeCListf = std::vector< std::vector<double> >(nExp);
+    amplitudeDListf = std::vector< std::vector<double> >(nExp);
+    amplitudeLListg = std::vector< std::vector<double> >(nExp);
+    amplitudeRListg = std::vector< std::vector<double> >(nExp);
+    amplitudeCListg = std::vector< std::vector<double> >(nExp);
+    amplitudeDListg = std::vector< std::vector<double> >(nExp);
     for(int i=0; i<nExp; i++){
-        amplitudeLList[i] = std::vector<double>(4);
-        amplitudeRList[i] = std::vector<double>(4);
-        amplitudeCList[i] = std::vector<double>(4);
-        amplitudeDList[i] = std::vector<double>(4);
+        amplitudeLListf[i] = std::vector<double>(4);
+        amplitudeRListf[i] = std::vector<double>(4);
+        amplitudeCListf[i] = std::vector<double>(4);
+        amplitudeDListf[i] = std::vector<double>(4);
+        amplitudeLListg[i] = std::vector<double>(4);
+        amplitudeRListg[i] = std::vector<double>(4);
+        amplitudeCListg[i] = std::vector<double>(4);
+        amplitudeDListg[i] = std::vector<double>(4);
         fLList[i] = std::vector< std::vector<double> >(4);
         fRList[i] = std::vector< std::vector<double> >(4);
         fCList[i] = std::vector< std::vector<double> >(4);
         fDList[i] = std::vector< std::vector<double> >(4);
+        gLList[i] = std::vector< std::vector<double> >(4);
+        gRList[i] = std::vector< std::vector<double> >(4);
+        gCList[i] = std::vector< std::vector<double> >(4);
+        gDList[i] = std::vector< std::vector<double> >(4);
         for(int j=0; j<4; j++){
             fLList[i][j] = std::vector<double>(time24);
             fRList[i][j] = std::vector<double>(time24);
             fCList[i][j] = std::vector<double>(time24);
             fDList[i][j] = std::vector<double>(time24);
+            gLList[i][j] = std::vector<double>(time24);
+            gRList[i][j] = std::vector<double>(time24);
+            gCList[i][j] = std::vector<double>(time24);
+            gDList[i][j] = std::vector<double>(time24);
         }
     }// first index "experiment", second index "XX(0), XY(1), XZ(2), YZ(3)", third index "time stamp"
 
@@ -110,8 +134,12 @@ KineticAnalyze::KineticAnalyze(){
         Aprod[i] = calculateAverageMatrix(3, nPqq[i], nPgg[i], nF[i], APqq[i], APgg[i], AF[i]);
         Areal[i] = calculateAverageMatrix(0, nPqq[i], nPgg[i], nF[i], APqq[i], APgg[i], AF[i]);
         for(int j=1; j<6; j++){ //carefull index start at 1
-            aL[i][j] = calculateCoefficent(j, Areal[i], latitudeCMS, azimuthCMS, true);
-            aR[i][j] = calculateCoefficent(j, Aprod[i], latitudeCMS, azimuthCMS, true);
+            aL[i][j] = calculateCoefficent_a(j, Areal[i], latitudeCMS, azimuthCMS, true);
+            aR[i][j] = calculateCoefficent_a(j, Aprod[i], latitudeCMS, azimuthCMS, true);
+        }
+        for(int j=0; j<4; j++){
+            bL[i][j] = calculateCoefficent_b(j+1, Areal[i], latitudeCMS, azimuthCMS);
+            bR[i][j] = calculateCoefficent_b(j+1, Aprod[i], latitudeCMS, azimuthCMS);
         }
         aL[i][0] = (aL[i][1]-aL[i][2])/2.;
         aR[i][0] = (aR[i][1]-aR[i][2])/2.;
@@ -120,10 +148,18 @@ KineticAnalyze::KineticAnalyze(){
             fRList[i][j] = calculatef(time24, i, j, 0, cmunuRConst, 0, 0);
             fCList[i][j] = calculatef(time24, i, j, 0, 0, cmunuConst, 0);
             fDList[i][j] = calculatef(time24, i, j, 0, 0, 0, dmunuConst);
-            amplitudeLList[i][j] = calculateMax(fLList[i][j]);
-            amplitudeRList[i][j] = calculateMax(fRList[i][j]);
-            amplitudeCList[i][j] = calculateMax(fCList[i][j]);
-            amplitudeDList[i][j] = calculateMax(fDList[i][j]);
+            gLList[i][j] = calculateg(time24, i, j, cmunuLConst, 0, 0, 0);
+            gRList[i][j] = calculateg(time24, i, j, 0, cmunuRConst, 0, 0);
+            gCList[i][j] = calculateg(time24, i, j, 0, 0, cmunuConst, 0);
+            gDList[i][j] = calculateg(time24, i, j, 0, 0, 0, dmunuConst);
+            amplitudeLListf[i][j] = calculateMax(fLList[i][j]);
+            amplitudeRListf[i][j] = calculateMax(fRList[i][j]);
+            amplitudeCListf[i][j] = calculateMax(fCList[i][j]);
+            amplitudeDListf[i][j] = calculateMax(fDList[i][j]);
+            amplitudeLListg[i][j] = calculateMax(gLList[i][j]);
+            amplitudeRListg[i][j] = calculateMax(gRList[i][j]);
+            amplitudeCListg[i][j] = calculateMax(gCList[i][j]);
+            amplitudeDListg[i][j] = calculateMax(gDList[i][j]);
         }
     }
 /*
@@ -206,7 +242,7 @@ TMatrixD KineticAnalyze::calculateAverageMatrix(int option, int nP1_user, int nP
     return foo;
 }
 
-double KineticAnalyze::calculateCoefficent(int i, TMatrixD m_user, double latitude_user, double azimuth_user, bool isCMS){
+double KineticAnalyze::calculateCoefficent_a(int i, TMatrixD m_user, double latitude_user, double azimuth_user, bool isCMS){
     double foo = 0;
     if(isCMS){
         if(i==1)
@@ -241,6 +277,21 @@ double KineticAnalyze::calculateCoefficent(int i, TMatrixD m_user, double latitu
     return foo;
 }
 
+double KineticAnalyze::calculateCoefficent_b(int i, TMatrixD m_user, double latitude_user, double azimuth_user){
+    double foo = 0;
+        if(i==1)
+            foo = -sin(latitudeCMS)*sin(azimuthCMS)*m_user(3,0) + cos(latitudeCMS)*m_user(3,1) + sin(latitudeCMS)*cos(azimuthCMS)*m_user(3,2);
+        else if(i==2)
+            foo = cos(azimuthCMS)*m_user(3,0) + sin(azimuthCMS)*m_user(3,2);
+        else if(i==3)
+            foo = -cos(latitudeCMS)*sin(azimuthCMS)*m_user(3,0) - sin(latitudeCMS)*m_user(3,1) + cos(latitudeCMS)*cos(azimuthCMS)*m_user(3,2);
+        else if(i==4)
+            foo = (cos(latitudeCMS)*cos(latitudeCMS)*sin(azimuthCMS)*sin(azimuthCMS) + sin(latitudeCMS)*sin(latitudeCMS))*m_user(0,0) + cos(latitudeCMS)*cos(latitudeCMS)*cos(azimuthCMS)*cos(azimuthCMS)*m_user(2,2) + m_user(3,3);
+        else
+            std::cout<<"error with coefficient"<<std::endl;
+    return foo;
+}
+
 std::vector<double> KineticAnalyze::calculatef(int n, int exp,int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu){
     std::vector<double> foo(n);
     for(int i=0; i<n; i++){
@@ -269,6 +320,41 @@ std::vector<double> KineticAnalyze::calculatef(int n, int exp,int wilson, double
             else if(wilson==3)
                 foo[i] = cmunu * 2 * ((aL[exp][4] + aR[exp][4]) * sin(omega*i) - (aL[exp][5] + aR[exp][5]) * cos(omega*i))
                     + dmunu * 2 * ((aL[exp][4] - aR[exp][4]) * sin(omega*i) - (aL[exp][5] - aR[exp][5]) * cos(omega*i));
+            else
+                std::cout<<"error f fonction"<<std::endl;
+        }
+        else
+            std::cout<<"error with cmunu coeff with f function"<<std::endl;
+    }
+    return foo;
+}
+
+std::vector<double> KineticAnalyze::calculateg(int n, int exp,int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu){
+    std::vector<double> foo(n);
+    for(int i=0; i<n; i++){
+        if(cmunu==0 and dmunu==0){
+            if(wilson==0)
+                foo[i] = cmunuL * 2 * (bL[exp][0] * cos(omega*i) + bL[exp][1] * sin(omega*i)) + cmunuR * 2 * (bR[exp][0] * cos(omega*i) + bR[exp][1] * sin(omega*i));
+            else if(wilson==1)
+                foo[i] = cmunuL * 2 * (bL[exp][0] * sin(omega*i) - bL[exp][1] * cos(omega*i)) + cmunuR * 2 * (bR[exp][0] * sin(omega*i) - bR[exp][1] * cos(omega*i));
+            else if(wilson==2)
+                foo[i] = cmunuL * 2 * bL[exp][2] + cmunuR * 2 * bR[exp][2];
+            else if(wilson==3)
+                foo[i] = cmunuL * 2 * bL[exp][3] + cmunuR * 2 * bR[exp][3];
+            else
+                std::cout<<"error f fonction"<<std::endl;
+        }
+        else if(cmunuL==0 and cmunuR==0){
+            if(wilson==0)
+                foo[i] = 2 * cmunu * ((bL[exp][0] * cos(omega*i) + bL[exp][1] * sin(omega*i)) + (bR[exp][0] * cos(omega*i) + bR[exp][1] * sin(omega*i)))
+                + 2 * dmunu * ((bL[exp][0] * cos(omega*i) + bL[exp][1] * sin(omega*i)) - (bR[exp][0] * cos(omega*i) + bR[exp][1] * sin(omega*i)));
+            else if(wilson==1)
+                foo[i] = 2 * cmunu * ((bL[exp][0] * sin(omega*i) - bL[exp][1] * cos(omega*i)) + (bR[exp][0] * sin(omega*i) - bR[exp][1] * cos(omega*i)))
+                + 2 * dmunu * ((bL[exp][0] * sin(omega*i) - bL[exp][1] * cos(omega*i)) - (bR[exp][0] * sin(omega*i) - bR[exp][1] * cos(omega*i)));
+            else if(wilson==2)
+                foo[i] = 2 * cmunu * (bL[exp][2] + bR[exp][2]) + 2 * dmunu * (bL[exp][2] - bR[exp][2]);
+            else if(wilson==3)
+                foo[i] = 2 * cmunu * (bL[exp][3] + bR[exp][3]) + 2 * dmunu * (bL[exp][3] - bR[exp][3]);
             else
                 std::cout<<"error f fonction"<<std::endl;
         }
@@ -366,6 +452,122 @@ void KineticAnalyze::fTime(int munu, int exp){
         std::cout<<"error with cmunu"<<std::endl;
 }
 
+void KineticAnalyze::gTime(int munu, int exp){
+    // histograms of fSME in time for each coefficients cmunu, Wilson is the choice of cmunu left/right or cmunu/dmunu
+    TCanvas* w = new TCanvas("","",200,10,800,600);
+    TH1F* h1 = new TH1F("","", time24, 0, 24);
+    TH1F* h2 = new TH1F("","", time24, 0, 24);
+    TH1F* h3 = new TH1F("","", time24, 0, 24);
+    for (int k=0; k<86400; k++){
+        if(munu==0){
+            h1->SetBinContent(k+1, gLList[exp][0][k]);
+            h2->SetBinContent(k+1, gLList[exp][1][k]);
+            h3->SetBinContent(k+1, gLList[exp][2][k]);
+        }
+        else if(munu==1){
+            h1->SetBinContent(k+1, gRList[exp][0][k]);
+            h2->SetBinContent(k+1, gRList[exp][1][k]);
+            h3->SetBinContent(k+1, gRList[exp][2][k]);
+        }
+        else if(munu==2){
+            h1->SetBinContent(k+1, gCList[exp][0][k]);
+            h2->SetBinContent(k+1, gCList[exp][1][k]);
+            h3->SetBinContent(k+1, gCList[exp][2][k]);
+        }
+        else if(munu==3){
+            h1->SetBinContent(k+1, gDList[exp][0][k]);
+            h2->SetBinContent(k+1, gDList[exp][1][k]);
+            h3->SetBinContent(k+1, gDList[exp][2][k]);
+        }
+        else
+            std::cout<<"error with cmunu"<<std::endl;
+    }
+
+    h1->Draw();          h1->Write();   h1->SetLineWidth(2);   h1->SetLineColor(kRed);
+    h2->Draw("SAME");    h2->Write();   h2->SetLineWidth(2);   h2->SetLineColor(kMagenta);
+    h3->Draw("SAME");    h3->Write();   h3->SetLineWidth(2);   h3->SetLineColor(kBlue);
+
+    h1->GetYaxis()->SetTitle("f_{SME}(t)");
+    h1->GetXaxis()->SetTitle("sideral time #hat{t} (in h)");
+    h1->SetStats(0);
+
+    TLegend* legend = new TLegend(0.1,0.7,0.48,0.9);
+    legend->SetHeader("f_{SME}(t) functions histogram ","C"); // option "C" allows to center the header
+    legend->AddEntry(h1,"c_{TX} = c_{XT}","l"); // option "l" is for line (form of legend)
+    legend->AddEntry(h2,"c_{TY} = c_{YT}","l");
+    legend->AddEntry(h3,"c_{TZ} = c_{ZT}","l");
+    legend->Draw();
+
+    w->Update();
+    if(munu==0){
+        h1->SetTitle("c_{L#mu#nu} = 0.1");
+        w->SaveAs("results/gComparaisonL.png");
+    }
+    else if(munu==1){
+        h1->SetTitle("c_{R#mu#nu} = 0.1");
+        w->SaveAs("results/gComparaisonR.png");
+    }
+    else if(munu==2){
+        h1->SetTitle("c_{#mu#nu} = 0.1");
+        w->SaveAs("results/gComparaisonC.png");
+    }
+    else if(munu==3){
+        h1->SetTitle("d_{#mu#nu} = 0.1");
+        w->SaveAs("results/gComparaisonD.png");
+    }
+    else
+        std::cout<<"error with cmunu"<<std::endl;
+}
+
+void KineticAnalyze::gTimeTT(int munu, int exp){
+    // histograms of fSME in time for each coefficients cmunu, Wilson is the choice of cmunu left/right or cmunu/dmunu
+    TCanvas* w = new TCanvas("","",200,10,800,600);
+    TH1F* h1 = new TH1F("","", time24, 0, 24);
+    for (int k=0; k<86400; k++){
+        if(munu==0)
+            h1->SetBinContent(k+1, gLList[exp][3][k]);
+        else if(munu==1)
+            h1->SetBinContent(k+1, gRList[exp][3][k]);
+        else if(munu==2)
+            h1->SetBinContent(k+1, gCList[exp][3][k]);
+        else if(munu==3)
+            h1->SetBinContent(k+1, gDList[exp][3][k]);
+        else
+            std::cout<<"error with cmunu"<<std::endl;
+    }
+
+    h1->Draw();          h1->Write();   h1->SetLineWidth(2);   h1->SetLineColor(kRed);
+
+    h1->GetYaxis()->SetTitle("f_{SME}(t)");
+    h1->GetXaxis()->SetTitle("sideral time #hat{t} (in h)");
+    h1->SetStats(0);
+
+    TLegend* legend = new TLegend(0.1,0.7,0.48,0.9);
+    legend->SetHeader("f_{SME}(t) functions histogram ","C"); // option "C" allows to center the header
+    legend->AddEntry(h1,"c_{TT} = c_{ZZ}","l"); // option "l" is for line (form of legend)
+    legend->Draw();
+
+    w->Update();
+    if(munu==0){
+        h1->SetTitle("c_{L#mu#nu} = 0.1");
+        w->SaveAs("results/gComparaisonLTT.png");
+    }
+    else if(munu==1){
+        h1->SetTitle("c_{R#mu#nu} = 0.1");
+        w->SaveAs("results/gComparaisonRTT.png");
+    }
+    else if(munu==2){
+        h1->SetTitle("c_{#mu#nu} = 0.1");
+        w->SaveAs("results/gComparaisonCTT.png");
+    }
+    else if(munu==3){
+        h1->SetTitle("d_{#mu#nu} = 0.1");
+        w->SaveAs("results/gComparaisonDTT.png");
+    }
+    else
+        std::cout<<"error with cmunu"<<std::endl;
+}
+
 void KineticAnalyze::amplEnergy(){
     TString name[4];    TString name2[4];
     name[0]="cL";    name[1]="cR";    name[2]="c";    name[3]="d";
@@ -381,7 +583,7 @@ void KineticAnalyze::amplEnergy(){
         for(int j=0; j<4; j++){
             y[i][j] = new double[nExp];
             for(int k=0; k<nExp; k++)
-                y[i][j][k] = amplitudeLList[k][j];
+                y[i][j][k] = amplitudeLListf[k][j];
         }
     }
 
