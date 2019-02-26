@@ -1,37 +1,36 @@
 #include "RooStats/HistFactory/Measurement.h"
 #include "RooStats/HistFactory/MakeModelAndMeasurementsFast.h"
-#include "include/const.hpp"
-#include "include/NiqueTaMereRoot.h"
+#include "../include/const.hpp"
+#include "../include/kineticAnalyze.hpp"
+#include "../src/kineticAnalyze.cpp"
 
 using namespace RooFit;
 using namespace RooStats;
 using namespace HistFactory;
 
 
-void createHistos(TString lum, TString cross, TString exp, TString XX){
+void createHistos(int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, double bkgd, double ttbar){
 
 //___________________________________________ SME preparation ___________________________________________//
 
-    double cmunuL = 0.1;
-    double cmunuR = 0;
     int time = 24;              //hours
     int bin = 24;               //bins
 
-    TH1F* hBkgd = new TH1F("hBkgd", "hBkgd", 24, 0, 24);
-    TH1F* hTTbarSM = new TH1F("hTTbarSM", "hTTbarSM", 24, 0, 24);
-    TH1F* hAsimovNullHyp = new TH1F("hTTbarSM", "hTTbarSM", 24, 0, 24);
-    TH1F* hSME = new TH1F("hSME", "hSME", 24, 0, 24);
+    KineticAnalyze k;
+
+    TH1F* hBkgd = k.statHistosConst("hBkgd", value);
+    TH1F* hTTbarSM = statHistosConst("hTTbarSM", value);
+    TH1F* hAsimovNullHyp = new statHistosConst("hAsimovNullHyp", value);
+    TH1F* hSME = statHistosf("hSME", int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isXX);
 
 
-   TFile* fOutput = new TFile("stats/statHistFactory.root","RECREATE");
+   TFile* fOutput = new TFile("../stats/statgTT.root","RECREATE");
    hBkgd->Write();
    hTTbarSM->Write();
    hAsimovNullHyp->Write();
    hSME->Write();
    fOutput->Write();
    fOutput->Close();
-
-   return;
 }
 
 
@@ -39,7 +38,7 @@ void TTstat(){
 
 //_____________________ All needed parameters _____________________//
 
-
+/*
   createHistos();
 
    RooStats::HistFactory::Measurement meas("myMeasurement", "stat");
@@ -76,7 +75,7 @@ void TTstat(){
    meas.PrintTree();
    MakeModelAndMeasurementFast(meas);
 
-    cout<<
+*/
 
    return;
 

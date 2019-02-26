@@ -81,6 +81,15 @@ class KineticAnalyze{
         void gTimeTT(int munu, int exp);
         void amplEnergy();
 
+//_________________________________________________//
+//________________ statistical stuff ______________//
+//_________________________________________________//
+
+        TH1F* statHistosConst(TString name, double value);
+        TH1F* statHistosf(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isXX);
+        TH1F* statHistosg(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isTZ);
+        TH1F* statHistosgTT(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu);
+
 };
 
 #endif
