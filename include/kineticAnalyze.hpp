@@ -4,6 +4,7 @@
 #include "const.hpp"
 #include <TMatrixD.h>
 #include <TString.h>
+#include <TH1F.h>
 
 class KineticAnalyze{
 
@@ -86,9 +87,9 @@ class KineticAnalyze{
 //_________________________________________________//
 
         TH1F* statHistosConst(TString name, double value);
-        TH1F* statHistosf(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isXX);
-        TH1F* statHistosg(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isTZ);
-        TH1F* statHistosgTT(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu);
+        TH1F* statHistosf(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isXX, double bkgd, double ttbar);
+        TH1F* statHistosg(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isTZ, double bkgd, double ttbar);
+        TH1F* statHistosgTT(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, double bkgd, double ttbar);
 
 };
 

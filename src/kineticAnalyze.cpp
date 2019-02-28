@@ -4,7 +4,6 @@
 #include <fstream>
 
 #include <TCanvas.h>
-#include <TH1F.h>
 #include <TSpline.h>
 #include <TGraph.h>
 #include <TLegend.h>
@@ -618,36 +617,38 @@ TH1F* KineticAnalyze::statHistosConst(TString name, double value){
     return foo;
 }
 
-TH1F* KineticAnalyze::statHistosf(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isXX){
+TH1F* KineticAnalyze::statHistosf(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isXX, double bkgd, double ttbar){
     int bin=24;
     TH1F* foo = new TH1F(name, name, bin, 0, bin);
     if(cmunuL!=0 and cmunuR==0 and cmunu==0 and dmunu==0)//L
         for(int i=0; i<bin; i++){
-            if(isXX)
-                foo->SetBinContent(i+1, fLList[exp][0][i*3600]);
+            if(isXX){
+                foo->SetBinContent(i+1, (bkgd + ttbar + ttbar*fLList[exp][0][i*3600]));
+                std::cout<<fLList[exp][1][i*3600]<<std::endl;
+            }
             else
-                foo->SetBinContent(i+1, fLList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fLList[exp][2][i*3600]);
         }
     else if(cmunuL==0 and cmunuR!=0 and cmunu==0 and dmunu==0)//R
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, fRList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fRList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, fRList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fRList[exp][2][i*3600]);
         }
     else if(cmunuL==0 and cmunuR==0 and cmunu!=0 and dmunu==0)//C
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, fCList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fCList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, fCList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fCList[exp][2][i*3600]);
         }
     else if(cmunuL==0 and cmunuR==0 and cmunu==0 and dmunu!=0)//D
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, fDList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fDList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, fDList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fDList[exp][2][i*3600]);
         }
     else
         std::cout<<"error with stats"<<std::endl;
@@ -656,6 +657,6 @@ TH1F* KineticAnalyze::statHistosf(TString name, int exp, double cmunuL, double c
 }
 
 
-TH1F* KineticAnalyze::statHistosg(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isTZ){}
-TH1F* KineticAnalyze::statHistosgTT(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu){}
+TH1F* KineticAnalyze::statHistosg(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isTZ, double bkgd, double ttbar){}
+TH1F* KineticAnalyze::statHistosgTT(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, double bkgd, double ttbar){}
 
