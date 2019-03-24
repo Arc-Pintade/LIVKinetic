@@ -7,8 +7,9 @@ using namespace std;
 int main (){
 
     cout<<"Hello World !"<<endl;
+    double val = 0.01;
 
-    KineticAnalyze k;
+    KineticAnalyze k(val,val,val,val);
 // 13 Tev is experiment 3
     for(int i=0; i<4; i++){
         k.fTime(i, 3);

@@ -11,13 +11,6 @@
 
 #include <cmath>
 
-//______________ cmunu _____________________//
-
-const double cmunuLConst = 0.1;
-const double cmunuRConst = 0.1;
-const double cmunuConst = 0.1;
-const double dmunuConst = 0.1;
-
 
 //____________ MMSM ALL IN GeV ______________//
 

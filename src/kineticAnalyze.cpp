@@ -7,13 +7,17 @@
 #include <TSpline.h>
 #include <TGraph.h>
 #include <TLegend.h>
-#include <TString.h>
 
-KineticAnalyze::KineticAnalyze(){
+KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cmunu_user, double dmunu_user){
 
 //_______________________________________________________//
 //____________________initialisations____________________//
 //_______________________________________________________//
+
+    cmunuL_class = cmunuL_user;
+    cmunuR_class = cmunuR_user;
+    cmunu_class = cmunu_user;
+    dmunu_class = dmunu_user;
 
     nExp = 6;
     time24 = 86400;
@@ -143,14 +147,14 @@ KineticAnalyze::KineticAnalyze(){
         aL[i][0] = (aL[i][1]-aL[i][2])/2.;
         aR[i][0] = (aR[i][1]-aR[i][2])/2.;
         for(int j=0; j<4; j++){
-            fLList[i][j] = calculatef(time24, i, j, cmunuLConst, 0, 0, 0);
-            fRList[i][j] = calculatef(time24, i, j, 0, cmunuRConst, 0, 0);
-            fCList[i][j] = calculatef(time24, i, j, 0, 0, cmunuConst, 0);
-            fDList[i][j] = calculatef(time24, i, j, 0, 0, 0, dmunuConst);
-            gLList[i][j] = calculateg(time24, i, j, cmunuLConst, 0, 0, 0);
-            gRList[i][j] = calculateg(time24, i, j, 0, cmunuRConst, 0, 0);
-            gCList[i][j] = calculateg(time24, i, j, 0, 0, cmunuConst, 0);
-            gDList[i][j] = calculateg(time24, i, j, 0, 0, 0, dmunuConst);
+            fLList[i][j] = calculatef(time24, i, j, cmunuL_class, 0, 0, 0);
+            fRList[i][j] = calculatef(time24, i, j, 0, cmunuR_class, 0, 0);
+            fCList[i][j] = calculatef(time24, i, j, 0, 0, cmunu_class, 0);
+            fDList[i][j] = calculatef(time24, i, j, 0, 0, 0, dmunu_class);
+            gLList[i][j] = calculateg(time24, i, j, cmunuL_class, 0, 0, 0);
+            gRList[i][j] = calculateg(time24, i, j, 0, cmunuR_class, 0, 0);
+            gCList[i][j] = calculateg(time24, i, j, 0, 0, cmunu_class, 0);
+            gDList[i][j] = calculateg(time24, i, j, 0, 0, 0, dmunu_class);
             amplitudeLListf[i][j] = calculateMax(fLList[i][j]);
             amplitudeRListf[i][j] = calculateMax(fRList[i][j]);
             amplitudeCListf[i][j] = calculateMax(fCList[i][j]);
@@ -165,7 +169,7 @@ KineticAnalyze::KineticAnalyze(){
 for(int i=0; i<nExp; i++)
     for(int j=0; j<time24; j++)
         if(j%500==0)
-            std::cout<<fLList[i][1][j]<<std::endl;
+calculatef(time24, i, j, cmunuLConst, 0, 0, 0);
 */
 }
 
@@ -431,24 +435,27 @@ void KineticAnalyze::fTime(int munu, int exp){
     legend->Draw();
 
     w->Update();
-    if(munu==0){
-        h1->SetTitle("c_{L#mu#nu} = 0.1");
-        w->SaveAs("results/fComparaisonL.png");
+    TString format[2];    format[0]=".png";    format[1]=".eps";
+    for(int i=0; i<2; i++){
+        if(munu==0){
+            h1->SetTitle("c_{L#mu#nu} = "+TString::Format("%f",cmunuL_class));
+            w->SaveAs("results/fComparaisonL"+format[i]);
+        }
+        else if(munu==1){
+            h1->SetTitle("c_{R#mu#nu} = "+TString::Format("%f",cmunuR_class));
+            w->SaveAs("results/fComparaisonR"+format[i]);
+        }
+        else if(munu==2){
+            h1->SetTitle("c_{#mu#nu} = "+TString::Format("%f",cmunu_class));
+            w->SaveAs("results/fComparaisonC"+format[i]);
+        }
+        else if(munu==3){
+            h1->SetTitle("d_{#mu#nu} = "+TString::Format("%f",dmunu_class));
+            w->SaveAs("results/fComparaisonD"+format[i]);
+        }
+        else
+            std::cout<<"error with cmunu"<<std::endl;
     }
-    else if(munu==1){
-        h1->SetTitle("c_{R#mu#nu} = 0.1");
-        w->SaveAs("results/fComparaisonR.png");
-    }
-    else if(munu==2){
-        h1->SetTitle("c_{#mu#nu} = 0.1");
-        w->SaveAs("results/fComparaisonC.png");
-    }
-    else if(munu==3){
-        h1->SetTitle("d_{#mu#nu} = 0.1");
-        w->SaveAs("results/fComparaisonD.png");
-    }
-    else
-        std::cout<<"error with cmunu"<<std::endl;
 }
 
 void KineticAnalyze::gTime(int munu, int exp){
@@ -498,24 +505,27 @@ void KineticAnalyze::gTime(int munu, int exp){
     legend->Draw();
 
     w->Update();
-    if(munu==0){
-        h1->SetTitle("c_{L#mu#nu} = 0.1");
-        w->SaveAs("results/gComparaisonL.png");
+    TString format[2];    format[0]=".png";    format[1]=".eps";
+    for(int i=0; i<2; i++){
+        if(munu==0){
+            h1->SetTitle("c_{L#mu#nu} = "+TString::Format("%f",cmunuL_class));
+            w->SaveAs("results/gComparaisonL"+format[i]);
+        }
+        else if(munu==1){
+            h1->SetTitle("c_{R#mu#nu} = "+TString::Format("%f",cmunuR_class));
+            w->SaveAs("results/gComparaisonR"+format[i]);
+        }
+        else if(munu==2){
+            h1->SetTitle("c_{#mu#nu} = "+TString::Format("%f",cmunu_class));
+            w->SaveAs("results/gComparaisonC"+format[i]);
+        }
+        else if(munu==3){
+            h1->SetTitle("d_{#mu#nu} = "+TString::Format("%f",dmunu_class));
+            w->SaveAs("results/gComparaisonD"+format[i]);
+        }
+        else
+            std::cout<<"error with cmunu"<<std::endl;
     }
-    else if(munu==1){
-        h1->SetTitle("c_{R#mu#nu} = 0.1");
-        w->SaveAs("results/gComparaisonR.png");
-    }
-    else if(munu==2){
-        h1->SetTitle("c_{#mu#nu} = 0.1");
-        w->SaveAs("results/gComparaisonC.png");
-    }
-    else if(munu==3){
-        h1->SetTitle("d_{#mu#nu} = 0.1");
-        w->SaveAs("results/gComparaisonD.png");
-    }
-    else
-        std::cout<<"error with cmunu"<<std::endl;
 }
 
 void KineticAnalyze::gTimeTT(int munu, int exp){
@@ -547,24 +557,27 @@ void KineticAnalyze::gTimeTT(int munu, int exp){
     legend->Draw();
 
     w->Update();
-    if(munu==0){
-        h1->SetTitle("c_{L#mu#nu} = 0.1");
-        w->SaveAs("results/gComparaisonLTT.png");
+    TString format[2];    format[0]=".png";    format[1]=".eps";
+    for(int i=0; i<2; i++){
+        if(munu==0){
+            h1->SetTitle("c_{L#mu#nu} = "+TString::Format("%f",cmunuL_class));
+            w->SaveAs("results/gComparaisonLTT"+format[i]);
+        }
+        else if(munu==1){
+            h1->SetTitle("c_{R#mu#nu} = "+TString::Format("%f",cmunuR_class));
+            w->SaveAs("results/gComparaisonRTT"+format[i]);
+        }
+        else if(munu==2){
+            h1->SetTitle("c_{#mu#nu} = "+TString::Format("%f",cmunu_class));
+            w->SaveAs("results/gComparaisonCTT"+format[i]);
+        }
+        else if(munu==3){
+            h1->SetTitle("d_{#mu#nu} = "+TString::Format("%f",dmunu_class));
+            w->SaveAs("results/gComparaisonDTT"+format[i]);
+        }
+        else
+            std::cout<<"error with cmunu"<<std::endl;
     }
-    else if(munu==1){
-        h1->SetTitle("c_{R#mu#nu} = 0.1");
-        w->SaveAs("results/gComparaisonRTT.png");
-    }
-    else if(munu==2){
-        h1->SetTitle("c_{#mu#nu} = 0.1");
-        w->SaveAs("results/gComparaisonCTT.png");
-    }
-    else if(munu==3){
-        h1->SetTitle("d_{#mu#nu} = 0.1");
-        w->SaveAs("results/gComparaisonDTT.png");
-    }
-    else
-        std::cout<<"error with cmunu"<<std::endl;
 }
 
 void KineticAnalyze::amplEnergy(){
@@ -594,12 +607,14 @@ void KineticAnalyze::amplEnergy(){
         for(int j=0; j<4; j++){
             w[i][j] = new TCanvas(name[i]+name2[j],"",200,10,800,600);
             g[i][j] = new TGraph(nExp, x, y[i][j]);
-            g[i][j]->SetTitle(name[i]+name2[j]);
+//            g[i][j]->SetTitle(name[i]+name2[j]);
             g[i][j]->Draw("A*");
-            g[i][j]->GetYaxis()->SetTitle("f_{SME}(t)");
-            g[i][j]->GetXaxis()->SetTitle("sideral time #hat{t} (in h)");
+            g[i][j]->SetTitle(name[i]+name2[j]+";energy (in GeV);Amplitude");
+//            g[i][j]->GetYaxis()->SetTitle("f_{SME}(t)");
+//            g[i][j]->GetXaxis()->SetTitle("sideral time #hat{t} (in h)");
             w[i][j]->SetLogx();
             w[i][j]->SaveAs("results/amplEnergy"+name[i]+name2[j]+".png");
+            w[i][j]->SaveAs("results/amplEnergy"+name[i]+name2[j]+".eps");
         }
     }
 }
@@ -617,38 +632,38 @@ TH1F* KineticAnalyze::statHistosConst(TString name, double value){
     return foo;
 }
 
-TH1F* KineticAnalyze::statHistosf(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isXX, double bkgd, double ttbar){
+TH1F* KineticAnalyze::statHistosf(TString name, int exp, TString wilson, bool isXX, double bkgd, double ttbar){
     int bin=24;
+    double b12 = bkgd/((double)bin);
+    double s12 = ttbar/((double)bin);
     TH1F* foo = new TH1F(name, name, bin, 0, bin);
-    if(cmunuL!=0 and cmunuR==0 and cmunu==0 and dmunu==0)//L
-        for(int i=0; i<bin; i++){
-            if(isXX){
-                foo->SetBinContent(i+1, (bkgd + ttbar + ttbar*fLList[exp][0][i*3600]));
-                std::cout<<fLList[exp][1][i*3600]<<std::endl;
-            }
-            else
-                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fLList[exp][2][i*3600]);
-        }
-    else if(cmunuL==0 and cmunuR!=0 and cmunu==0 and dmunu==0)//R
+    if(wilson=="cL")//L
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fRList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, (b12 + s12 + s12*fLList[exp][0][i*3600]));
             else
-                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fRList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, b12 + s12 + s12*fLList[exp][2][i*3600]);
         }
-    else if(cmunuL==0 and cmunuR==0 and cmunu!=0 and dmunu==0)//C
+    else if(wilson=="cR")//R
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fCList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, b12 + s12 + s12*fRList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fCList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, b12 + s12 + s12*fRList[exp][2][i*3600]);
         }
-    else if(cmunuL==0 and cmunuR==0 and cmunu==0 and dmunu!=0)//D
+    else if(wilson=="c")//C
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fDList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, b12 + s12 + s12*fCList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, bkgd + ttbar + ttbar*fDList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, b12 + s12 + s12*fCList[exp][2][i*3600]);
+        }
+    else if(wilson=="d")//D
+        for(int i=0; i<bin; i++){
+            if(isXX)
+                foo->SetBinContent(i+1, b12 + s12 + s12*fDList[exp][0][i*3600]);
+            else
+                foo->SetBinContent(i+1, b12 + s12 + s12*fDList[exp][2][i*3600]);
         }
     else
         std::cout<<"error with stats"<<std::endl;
@@ -657,6 +672,67 @@ TH1F* KineticAnalyze::statHistosf(TString name, int exp, double cmunuL, double c
 }
 
 
-TH1F* KineticAnalyze::statHistosg(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isTZ, double bkgd, double ttbar){}
-TH1F* KineticAnalyze::statHistosgTT(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, double bkgd, double ttbar){}
+TH1F* KineticAnalyze::statHistosg(TString name, int exp, TString wilson, bool isTZ, double bkgd, double ttbar){
+    int bin=24;
+    double b12 = bkgd/((double)bin);
+    double s12 = ttbar/((double)bin);
+    TH1F* foo = new TH1F(name, name, bin, 0, bin);
+    if(wilson=="cL")//L
+        for(int i=0; i<bin; i++){
+            if(!isTZ)
+                foo->SetBinContent(i+1, (b12 + s12 + s12*gLList[exp][0][i*3600]));
+            else
+                foo->SetBinContent(i+1, (b12 + s12 + s12*gLList[exp][2][i*3600]));
+        }
+    else if(wilson=="cR")//R
+        for(int i=0; i<bin; i++){
+            if(!isTZ)
+                foo->SetBinContent(i+1, (b12 + s12 + s12*gRList[exp][0][i*3600]));
+            else
+                foo->SetBinContent(i+1, (b12 + s12 + s12*gRList[exp][2][i*3600]));
+        }
+    else if(wilson=="c")//C
+        for(int i=0; i<bin; i++){
+            if(!isTZ)
+                foo->SetBinContent(i+1, (b12 + s12 + s12*gCList[exp][0][i*3600]));
+            else
+                foo->SetBinContent(i+1, (b12 + s12 + s12*gCList[exp][2][i*3600]));
+        }
+    else if(wilson=="d")//D
+        for(int i=0; i<bin; i++){
+            if(!isTZ)
+                foo->SetBinContent(i+1, (b12 + s12 + s12*gDList[exp][0][i*3600]));
+            else
+                foo->SetBinContent(i+1, (b12 + s12 + s12*gDList[exp][2][i*3600]));
+        }
+    else
+        std::cout<<"error with stats"<<std::endl;
+
+    return foo;
+}
+
+
+
+TH1F* KineticAnalyze::statHistosgTT(TString name, int exp, TString wilson, double bkgd, double ttbar){
+    int bin=24;
+    double b12 = bkgd/((double)bin);
+    double s12 = ttbar/((double)bin);
+    TH1F* foo = new TH1F(name, name, bin, 0, bin);
+
+    if(wilson=="cL")//L
+        for(int i=0; i<bin; i++)
+            foo->SetBinContent(i+1, (b12 + s12 + s12*gLList[exp][3][i*3600]));
+    else if(wilson=="cR")//R
+        for(int i=0; i<bin; i++)
+            foo->SetBinContent(i+1, (b12 + s12 + s12*gRList[exp][3][i*3600]));
+    else if(wilson=="c")//C
+        for(int i=0; i<bin; i++)
+            foo->SetBinContent(i+1, (b12 + s12 + s12*gCList[exp][3][i*3600]));
+    else if(wilson=="d")//D
+        for(int i=0; i<bin; i++)
+            foo->SetBinContent(i+1, (b12 + s12 + s12*gDList[exp][3][i*3600]));
+    else
+        std::cout<<"error with stats"<<std::endl;
+    return foo;
+}
 

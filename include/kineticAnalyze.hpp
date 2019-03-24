@@ -1,7 +1,7 @@
 #ifndef KineticAnalyze_h
 #define KineticAnalyze_h
 
-#include "const.hpp"
+#include "../include/const.hpp"
 #include <TMatrixD.h>
 #include <TString.h>
 #include <TH1F.h>
@@ -9,6 +9,14 @@
 class KineticAnalyze{
 
     private:
+
+
+//______________ cmunu _____________________//
+
+        double cmunuL_class;
+        double cmunuR_class;
+        double cmunu_class;
+        double dmunu_class;
 
         int nExp;
         int time24;
@@ -63,6 +71,7 @@ class KineticAnalyze{
 //_________________________________________________//
 
         KineticAnalyze();
+        KineticAnalyze(double cmunuL_user, double cmunuR_user, double cmunu_user, double dmunu_user);
         ~KineticAnalyze(){};
 //_________________________________________________//
 //__________________ Read Values __________________//
@@ -87,9 +96,9 @@ class KineticAnalyze{
 //_________________________________________________//
 
         TH1F* statHistosConst(TString name, double value);
-        TH1F* statHistosf(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isXX, double bkgd, double ttbar);
-        TH1F* statHistosg(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, bool isTZ, double bkgd, double ttbar);
-        TH1F* statHistosgTT(TString name, int exp, double cmunuL, double cmunuR, double cmunu, double dmunu, double bkgd, double ttbar);
+        TH1F* statHistosf(TString name, int exp, TString wislon, bool isXX, double bkgd, double ttbar);
+        TH1F* statHistosg(TString name, int exp, TString wilson, bool isTZ, double bkgd, double ttbar);
+        TH1F* statHistosgTT(TString name, int exp, TString wilson, double bkgd, double ttbar);
 
 };
 
