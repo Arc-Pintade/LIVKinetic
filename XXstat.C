@@ -28,7 +28,7 @@ void createHistos(int exp, double cmunuGen, TString wilson, bool isXX, double bk
     TH1F* hSME = k.statHistosf("hSME", exp, wilson, isXX, bkgd, ttbar);
 //    TH1F* hSME = k.statHistosConst("hSME", bkgd+ttbar);
 
-   TFile* fOutput = new TFile("stats/"+s+"/statsfXX.root","RECREATE");
+   TFile* fOutput = new TFile("stats/cXX/"+s+"/statsfXX.root","RECREATE");
    hBkgd->Write();
    hTTbarSM->Write();
    hAsimovNullHyp->Write();
@@ -49,15 +49,17 @@ void XXstat(){
            bkgdVal[3] = 44045;      bkgdVal[2] = (970*efficiency*3000/ratioSB);     bkgdVal[1] = (3727*efficiency*15000/ratioSB);      bkgdVal[0] = (34810*efficiency*15000/ratioSB);
            sigVal[3] = 676431;      sigVal[2] = 970*efficiency*3000;     sigVal[1] = 3727*efficiency*15000;      sigVal[0] = 34810*efficiency*15000;
 
-    double test[4];
-            test[0] = 0.1;
-            test[1] = 0.01;
-            test[2] = 0.001;
-            test[3] = 0.0001;
+    double test[5];
+            test[0] = 0.01;
+            test[1] = 0.001;
+            test[2] = 0.0001;
+            test[3] = 0.00001;
+            test[4] = 0.000001;
 
-    for(int i=0; i<4; i++){
+    for(int i=0; i<5; i++)
+        for(int j=0; j<4; j++){
 
-       createHistos(3, test[i], "cL",true,bkgdVal[3],sigVal[3]);
+         createHistos(j, test[i], "D",false,bkgdVal[j],sigVal[j]);
 //       createHistos(2, 0,1,0,0,true,(970*efficiency*3000/ratioSB),(970*efficiency*3000));
 //       createHistos(1, 0,1,0,0,true,(3727*efficiency*15000/ratioSB),(3727*efficiency*15000));
 //       createHistos(0, 0,1,0,0,true,(34810*efficiency*15000/ratioSB),(34810*efficiency*15000));
@@ -65,7 +67,7 @@ void XXstat(){
             RooStats::HistFactory::Measurement meas("fXX", "stats");
 
             ostringstream sout;
-            sout<<"stats/"<<test[i]<<"/statsfXX";
+            sout<<"stats/cXX/"<<test[i]<<"/statsfXX";
             meas.SetOutputFilePrefix(sout.str());
             meas.SetExportOnly(false);
 

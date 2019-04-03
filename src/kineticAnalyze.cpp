@@ -5,7 +5,8 @@
 
 #include <TCanvas.h>
 #include <TSpline.h>
-#include <TGraph.h>
+#include <TMultiGraph.h>
+#include <TMarker.h>
 #include <TLegend.h>
 
 KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cmunu_user, double dmunu_user){
@@ -50,11 +51,31 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
     aR = std::vector< std::vector<double> >(nExp);
     bL = std::vector< std::vector<double> >(nExp);
     bR = std::vector< std::vector<double> >(nExp);
+//-------------------------------------------- Article ---------------------------------------//
+    aLgg = std::vector< std::vector<double> >(nExp);
+    aRgg = std::vector< std::vector<double> >(nExp);
+    bLgg = std::vector< std::vector<double> >(nExp);
+    bRgg = std::vector< std::vector<double> >(nExp);
+    aLqq = std::vector< std::vector<double> >(nExp);
+    aRqq = std::vector< std::vector<double> >(nExp);
+    bLqq = std::vector< std::vector<double> >(nExp);
+    bRqq = std::vector< std::vector<double> >(nExp);
+//-------------------------------------------------------------------------------------------//
     for(int i=0; i<nExp; i++){
         aL[i] = std::vector<double>(6);
         aR[i] = std::vector<double>(6);
         bL[i] = std::vector<double>(4);
         bR[i] = std::vector<double>(4);
+//-------------------------------------------- Article ---------------------------------------//
+        aLgg[i] = std::vector<double>(6);
+        aRgg[i] = std::vector<double>(6);
+        bLgg[i] = std::vector<double>(4);
+        bRgg[i] = std::vector<double>(4);
+        aLqq[i] = std::vector<double>(6);
+        aRqq[i] = std::vector<double>(6);
+        bLqq[i] = std::vector<double>(4);
+        bRqq[i] = std::vector<double>(4);
+//-------------------------------------------------------------------------------------------//
     }// first index "experiment", second index "a coefficient"
 
 
@@ -66,6 +87,24 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
     gRList = std::vector< std::vector< std::vector<double> > >(nExp);
     gCList = std::vector< std::vector< std::vector<double> > >(nExp);
     gDList = std::vector< std::vector< std::vector<double> > >(nExp);
+//-------------------------------------------- Article ---------------------------------------//
+    fLListgg = std::vector< std::vector< std::vector<double> > >(nExp);
+    fRListgg = std::vector< std::vector< std::vector<double> > >(nExp);
+    fCListgg = std::vector< std::vector< std::vector<double> > >(nExp);
+    fDListgg = std::vector< std::vector< std::vector<double> > >(nExp);
+    gLListgg = std::vector< std::vector< std::vector<double> > >(nExp);
+    gRListgg = std::vector< std::vector< std::vector<double> > >(nExp);
+    gCListgg = std::vector< std::vector< std::vector<double> > >(nExp);
+    gDListgg = std::vector< std::vector< std::vector<double> > >(nExp);
+    fLListqq = std::vector< std::vector< std::vector<double> > >(nExp);
+    fRListqq = std::vector< std::vector< std::vector<double> > >(nExp);
+    fCListqq = std::vector< std::vector< std::vector<double> > >(nExp);
+    fDListqq = std::vector< std::vector< std::vector<double> > >(nExp);
+    gLListqq = std::vector< std::vector< std::vector<double> > >(nExp);
+    gRListqq = std::vector< std::vector< std::vector<double> > >(nExp);
+    gCListqq = std::vector< std::vector< std::vector<double> > >(nExp);
+    gDListqq = std::vector< std::vector< std::vector<double> > >(nExp);
+//-------------------------------------------------------------------------------------------//
     amplitudeLListf = std::vector< std::vector<double> >(nExp);
     amplitudeRListf = std::vector< std::vector<double> >(nExp);
     amplitudeCListf = std::vector< std::vector<double> >(nExp);
@@ -91,6 +130,24 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
         gRList[i] = std::vector< std::vector<double> >(4);
         gCList[i] = std::vector< std::vector<double> >(4);
         gDList[i] = std::vector< std::vector<double> >(4);
+//-------------------------------------------- Article ---------------------------------------//
+        fLListgg[i] = std::vector< std::vector<double> >(4);
+        fRListgg[i] = std::vector< std::vector<double> >(4);
+        fCListgg[i] = std::vector< std::vector<double> >(4);
+        fDListgg[i] = std::vector< std::vector<double> >(4);
+        gLListgg[i] = std::vector< std::vector<double> >(4);
+        gRListgg[i] = std::vector< std::vector<double> >(4);
+        gCListgg[i] = std::vector< std::vector<double> >(4);
+        gDListgg[i] = std::vector< std::vector<double> >(4);
+        fLListqq[i] = std::vector< std::vector<double> >(4);
+        fRListqq[i] = std::vector< std::vector<double> >(4);
+        fCListqq[i] = std::vector< std::vector<double> >(4);
+        fDListqq[i] = std::vector< std::vector<double> >(4);
+        gLListqq[i] = std::vector< std::vector<double> >(4);
+        gRListqq[i] = std::vector< std::vector<double> >(4);
+        gCListqq[i] = std::vector< std::vector<double> >(4);
+        gDListqq[i] = std::vector< std::vector<double> >(4);
+//-------------------------------------------------------------------------------------------//
         for(int j=0; j<4; j++){
             fLList[i][j] = std::vector<double>(time24);
             fRList[i][j] = std::vector<double>(time24);
@@ -100,11 +157,29 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
             gRList[i][j] = std::vector<double>(time24);
             gCList[i][j] = std::vector<double>(time24);
             gDList[i][j] = std::vector<double>(time24);
+//-------------------------------------------- Article ---------------------------------------//
+            fLListgg[i][j] = std::vector<double>(time24);
+            fRListgg[i][j] = std::vector<double>(time24);
+            fCListgg[i][j] = std::vector<double>(time24);
+            fDListgg[i][j] = std::vector<double>(time24);
+            gLListgg[i][j] = std::vector<double>(time24);
+            gRListgg[i][j] = std::vector<double>(time24);
+            gCListgg[i][j] = std::vector<double>(time24);
+            gDListgg[i][j] = std::vector<double>(time24);
+            fLListqq[i][j] = std::vector<double>(time24);
+            fRListqq[i][j] = std::vector<double>(time24);
+            fCListqq[i][j] = std::vector<double>(time24);
+            fDListqq[i][j] = std::vector<double>(time24);
+            gLListqq[i][j] = std::vector<double>(time24);
+            gRListqq[i][j] = std::vector<double>(time24);
+            gCListqq[i][j] = std::vector<double>(time24);
+            gDListqq[i][j] = std::vector<double>(time24);
+//-------------------------------------------------------------------------------------------//
         }
     }// first index "experiment", second index "XX(0), XY(1), XZ(2), YZ(3)", third index "time stamp"
 
 //_________________________________________________________________________________//
-// read in txt files the values (for more informations go to line 70 of this file) //
+// read in txt files the values (for more informations go to line 179 of this file) //
 //_________________________________________________________________________________//
 
 // 100 TeV                                      //13 TeV
@@ -139,13 +214,31 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
         for(int j=1; j<6; j++){ //carefull index start at 1
             aL[i][j] = calculateCoefficent_a(j, Areal[i], latitudeCMS, azimuthCMS, true);
             aR[i][j] = calculateCoefficent_a(j, Aprod[i], latitudeCMS, azimuthCMS, true);
+//-------------------------------------------- Article ---------------------------------------//
+            aLgg[i][j] = calculateCoefficent_a(j, Afus[i], latitudeCMS, azimuthCMS, true);
+            aRgg[i][j] = calculateCoefficent_a(j, APgg[i], latitudeCMS, azimuthCMS, true);
+            aLqq[i][j] = calculateCoefficent_a(j, Aani[i], latitudeCMS, azimuthCMS, true);
+            aRqq[i][j] = calculateCoefficent_a(j, APqq[i], latitudeCMS, azimuthCMS, true);
+//--------------------------------------------------------------------------------------------//
         }
         for(int j=0; j<4; j++){
             bL[i][j] = calculateCoefficent_b(j+1, Areal[i], latitudeCMS, azimuthCMS);
             bR[i][j] = calculateCoefficent_b(j+1, Aprod[i], latitudeCMS, azimuthCMS);
+//-------------------------------------------- Article ---------------------------------------//
+            bLgg[i][j] = calculateCoefficent_b(j+1, Afus[i], latitudeCMS, azimuthCMS);
+            bRgg[i][j] = calculateCoefficent_b(j+1, APgg[i], latitudeCMS, azimuthCMS);
+            bLqq[i][j] = calculateCoefficent_b(j+1, Aani[i], latitudeCMS, azimuthCMS);
+            bRqq[i][j] = calculateCoefficent_b(j+1, APqq[i], latitudeCMS, azimuthCMS);
+//--------------------------------------------------------------------------------------------//
         }
         aL[i][0] = (aL[i][1]-aL[i][2])/2.;
         aR[i][0] = (aR[i][1]-aR[i][2])/2.;
+//-------------------------------------------- Article ---------------------------------------//
+        aLgg[i][0] = (aLgg[i][1]-aLgg[i][2])/2.;
+        aRgg[i][0] = (aRgg[i][1]-aRgg[i][2])/2.;
+        aLqq[i][0] = (aLqq[i][1]-aLqq[i][2])/2.;
+        aRqq[i][0] = (aRqq[i][1]-aRqq[i][2])/2.;
+//--------------------------------------------------------------------------------------------//
         for(int j=0; j<4; j++){
             fLList[i][j] = calculatef(time24, i, j, cmunuL_class, 0, 0, 0);
             fRList[i][j] = calculatef(time24, i, j, 0, cmunuR_class, 0, 0);
@@ -155,6 +248,24 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
             gRList[i][j] = calculateg(time24, i, j, 0, cmunuR_class, 0, 0);
             gCList[i][j] = calculateg(time24, i, j, 0, 0, cmunu_class, 0);
             gDList[i][j] = calculateg(time24, i, j, 0, 0, 0, dmunu_class);
+//-------------------------------------------- Article ---------------------------------------//
+            fLList[i][j] = calculatef(time24, i, j, cmunuL_class, 0, 0, 0);
+            fRList[i][j] = calculatef(time24, i, j, 0, cmunuR_class, 0, 0);
+            fCList[i][j] = calculatef(time24, i, j, 0, 0, cmunu_class, 0);
+            fDList[i][j] = calculatef(time24, i, j, 0, 0, 0, dmunu_class);
+            gLList[i][j] = calculateg(time24, i, j, cmunuL_class, 0, 0, 0);
+            gRList[i][j] = calculateg(time24, i, j, 0, cmunuR_class, 0, 0);
+            gCList[i][j] = calculateg(time24, i, j, 0, 0, cmunu_class, 0);
+            gDList[i][j] = calculateg(time24, i, j, 0, 0, 0, dmunu_class);
+            fLList[i][j] = calculatef(time24, i, j, cmunuL_class, 0, 0, 0);
+            fRList[i][j] = calculatef(time24, i, j, 0, cmunuR_class, 0, 0);
+            fCList[i][j] = calculatef(time24, i, j, 0, 0, cmunu_class, 0);
+            fDList[i][j] = calculatef(time24, i, j, 0, 0, 0, dmunu_class);
+            gLList[i][j] = calculateg(time24, i, j, cmunuL_class, 0, 0, 0);
+            gRList[i][j] = calculateg(time24, i, j, 0, cmunuR_class, 0, 0);
+            gCList[i][j] = calculateg(time24, i, j, 0, 0, cmunu_class, 0);
+            gDList[i][j] = calculateg(time24, i, j, 0, 0, 0, dmunu_class);
+//--------------------------------------------------------------------------------------------//
             amplitudeLListf[i][j] = calculateMax(fLList[i][j]);
             amplitudeRListf[i][j] = calculateMax(fRList[i][j]);
             amplitudeCListf[i][j] = calculateMax(fCList[i][j]);
@@ -373,6 +484,11 @@ double KineticAnalyze::calculateMax(std::vector<double> vector_user){
         if(vector_user[i] >= foo)
             foo = vector_user[i];
     }
+    if(foo==0)
+        for(int i=0; i<time24; i++){
+            if(vector_user[i] <= foo)
+                foo = vector_user[i];
+        }    
     return foo;
 }
 
@@ -580,45 +696,82 @@ void KineticAnalyze::gTimeTT(int munu, int exp){
     }
 }
 
-void KineticAnalyze::amplEnergy(){
+void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
     TString name[4];    TString name2[4];
-    name[0]="cL";    name[1]="cR";    name[2]="c";    name[3]="d";
-    name2[0]="_{XX}";    name2[1]="_{XY}";    name2[2]="_{XZ}";    name2[3]="_{YZ}";
+    if(isBenchmark){
+        name[0]="cL";    name[1]="cR";    name[2]="c";    name[3]="d";
+        name2[0]="_{XX}";    name2[1]="_{XY}";    name2[2]="_{XZ}";    name2[3]="_{YZ}";
+    }    
+    else{
+        name[0]="cL";    name[1]="cR";    name[2]="c";    name[3]="d";
+        name2[0]="_{TX}";    name2[1]="_{TY}";    name2[2]="_{TZ}";    name2[3]="_{TT}";
+    }
+
+    std::vector<TCanvas*> c(4);
+    std::vector<TMultiGraph*> m(4);
+    std::vector<TLegend*> legend(4);
+    std::vector< std::vector<TGraph*> > g(4);
+    std::vector< std::vector<double*> > y(4);
+    for(int i=0; i<4; i++){
+        m[i] = new TMultiGraph();
+        y[i] = std::vector<double*>(4);
+        g[i] = std::vector<TGraph*>(4);
+        for(int j=0; j<4; j++){
+            y[i][j] = new double[nExp];
+        }
+    }
 
     double* x = new double[nExp];
     for(int i=0; i<nExp; i++)
         x[i] = expList[i];
 
-    std::vector< std::vector<double*> > y(4);
-    for(int i=0; i<4; i++){
-        y[i] = std::vector<double*>(4);
-        for(int j=0; j<4; j++){
-            y[i][j] = new double[nExp];
-            for(int k=0; k<nExp; k++)
-                y[i][j][k] = amplitudeLListf[k][j];
-        }
+    for(int j=0; j<4; j++){
+        for(int k=0; k<nExp; k++){
+            if(isBenchmark){
+                y[0][j][k] = amplitudeLListf[k][j];
+                y[1][j][k] = amplitudeRListf[k][j];
+                y[2][j][k] = amplitudeCListf[k][j];
+                y[3][j][k] = amplitudeDListf[k][j];
+            }
+            else{
+                y[0][j][k] = amplitudeLListg[k][j];
+                y[1][j][k] = amplitudeRListg[k][j];
+                y[2][j][k] = amplitudeCListg[k][j];
+                y[3][j][k] = amplitudeDListg[k][j];                
+            }
+        }       
     }
 
-    TCanvas*** w = new TCanvas**[4];
-    TGraph*** g = new TGraph**[4];
     for(int i=0; i<4; i++){
-        w[i] = new TCanvas*[4];
-        g[i] = new TGraph*[4];
         for(int j=0; j<4; j++){
-            w[i][j] = new TCanvas(name[i]+name2[j],"",200,10,800,600);
             g[i][j] = new TGraph(nExp, x, y[i][j]);
-//            g[i][j]->SetTitle(name[i]+name2[j]);
-            g[i][j]->Draw("A*");
-            g[i][j]->SetTitle(name[i]+name2[j]+";energy (in GeV);Amplitude");
-//            g[i][j]->GetYaxis()->SetTitle("f_{SME}(t)");
-//            g[i][j]->GetXaxis()->SetTitle("sideral time #hat{t} (in h)");
-            w[i][j]->SetLogx();
-            w[i][j]->SaveAs("results/amplEnergy"+name[i]+name2[j]+".png");
-            w[i][j]->SaveAs("results/amplEnergy"+name[i]+name2[j]+".eps");
+            g[i][j]->SetMarkerStyle(20);
+            g[i][j]->SetMarkerSize(1);
         }
+        g[i][0]->SetMarkerColor(i+1);
+        g[i][1]->SetMarkerColor(i+1);
+        g[i][2]->SetMarkerColor(i+1);
+        g[i][3]->SetMarkerColor(i+1);
+        for(int j=0; j<4; j++){
+            m[j]->Add(g[i][j]);
+            legend[j] = new TLegend(0.1,0.7,0.48,0.9);
+            legend[j]->SetHeader("Amplitude","C"); // option "C" allows to center the header
+            legend[j]->AddEntry(g[0][j],"c_{L}"); // option "l" is for line (form of legend)
+            legend[j]->AddEntry(g[1][j],"c_{R}");
+            legend[j]->AddEntry(g[2][j],"c");
+            legend[j]->AddEntry(g[3][j],"d");
+        }
+    }
+    for(int i=0; i<4; i++){
+        c[i] = new TCanvas(name[i],"",200,10,800,600);
+        m[i]->Draw("AP");
+        m[i]->SetTitle("");
+        legend[i]->Draw();
+        c[i]->SetLogx();
+        c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".png");
+        c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".eps");
     }
 }
-
 
 //_________________________________________________//
 //________________ statistical stuff ______________//
@@ -632,38 +785,37 @@ TH1F* KineticAnalyze::statHistosConst(TString name, double value){
     return foo;
 }
 
-TH1F* KineticAnalyze::statHistosf(TString name, int exp, TString wilson, bool isXX, double bkgd, double ttbar){
+TH1F* KineticAnalyze::statHistosf(TString name, int exp, TString wilson, bool isXX, double ttbar){
     int bin=24;
-    double b12 = bkgd/((double)bin);
     double s12 = ttbar/((double)bin);
     TH1F* foo = new TH1F(name, name, bin, 0, bin);
-    if(wilson=="cL")//L
+    if(wilson=="L")//L
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, (b12 + s12 + s12*fLList[exp][0][i*3600]));
+                foo->SetBinContent(i+1, s12*fLList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, b12 + s12 + s12*fLList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, s12*fLList[exp][2][i*3600]);
         }
-    else if(wilson=="cR")//R
+    else if(wilson=="R")//R
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, b12 + s12 + s12*fRList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, s12*fRList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, b12 + s12 + s12*fRList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, s12*fRList[exp][2][i*3600]);
         }
-    else if(wilson=="c")//C
+    else if(wilson=="C")//C
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, b12 + s12 + s12*fCList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, s12*fCList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, b12 + s12 + s12*fCList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, s12*fCList[exp][2][i*3600]);
         }
-    else if(wilson=="d")//D
+    else if(wilson=="D")//D
         for(int i=0; i<bin; i++){
             if(isXX)
-                foo->SetBinContent(i+1, b12 + s12 + s12*fDList[exp][0][i*3600]);
+                foo->SetBinContent(i+1, s12*fDList[exp][0][i*3600]);
             else
-                foo->SetBinContent(i+1, b12 + s12 + s12*fDList[exp][2][i*3600]);
+                foo->SetBinContent(i+1, s12*fDList[exp][2][i*3600]);
         }
     else
         std::cout<<"error with stats"<<std::endl;
@@ -672,38 +824,37 @@ TH1F* KineticAnalyze::statHistosf(TString name, int exp, TString wilson, bool is
 }
 
 
-TH1F* KineticAnalyze::statHistosg(TString name, int exp, TString wilson, bool isTZ, double bkgd, double ttbar){
+TH1F* KineticAnalyze::statHistosg(TString name, int exp, TString wilson, bool isTZ, double ttbar){
     int bin=24;
-    double b12 = bkgd/((double)bin);
     double s12 = ttbar/((double)bin);
     TH1F* foo = new TH1F(name, name, bin, 0, bin);
-    if(wilson=="cL")//L
+    if(wilson=="L")//L
         for(int i=0; i<bin; i++){
             if(!isTZ)
-                foo->SetBinContent(i+1, (b12 + s12 + s12*gLList[exp][0][i*3600]));
+                foo->SetBinContent(i+1, (s12*gLList[exp][0][i*3600]));
             else
-                foo->SetBinContent(i+1, (b12 + s12 + s12*gLList[exp][2][i*3600]));
+                foo->SetBinContent(i+1, (s12*gLList[exp][2][i*3600]));
         }
-    else if(wilson=="cR")//R
+    else if(wilson=="R")//R
         for(int i=0; i<bin; i++){
             if(!isTZ)
-                foo->SetBinContent(i+1, (b12 + s12 + s12*gRList[exp][0][i*3600]));
+                foo->SetBinContent(i+1, (s12*gRList[exp][0][i*3600]));
             else
-                foo->SetBinContent(i+1, (b12 + s12 + s12*gRList[exp][2][i*3600]));
+                foo->SetBinContent(i+1, (s12*gRList[exp][2][i*3600]));
         }
-    else if(wilson=="c")//C
+    else if(wilson=="C")//C
         for(int i=0; i<bin; i++){
             if(!isTZ)
-                foo->SetBinContent(i+1, (b12 + s12 + s12*gCList[exp][0][i*3600]));
+                foo->SetBinContent(i+1, (s12*gCList[exp][0][i*3600]));
             else
-                foo->SetBinContent(i+1, (b12 + s12 + s12*gCList[exp][2][i*3600]));
+                foo->SetBinContent(i+1, (s12*gCList[exp][2][i*3600]));
         }
-    else if(wilson=="d")//D
+    else if(wilson=="D")//D
         for(int i=0; i<bin; i++){
             if(!isTZ)
-                foo->SetBinContent(i+1, (b12 + s12 + s12*gDList[exp][0][i*3600]));
+                foo->SetBinContent(i+1, (s12*gDList[exp][0][i*3600]));
             else
-                foo->SetBinContent(i+1, (b12 + s12 + s12*gDList[exp][2][i*3600]));
+                foo->SetBinContent(i+1, (s12*gDList[exp][2][i*3600]));
         }
     else
         std::cout<<"error with stats"<<std::endl;
@@ -713,24 +864,23 @@ TH1F* KineticAnalyze::statHistosg(TString name, int exp, TString wilson, bool is
 
 
 
-TH1F* KineticAnalyze::statHistosgTT(TString name, int exp, TString wilson, double bkgd, double ttbar){
+TH1F* KineticAnalyze::statHistosgTT(TString name, int exp, TString wilson, double ttbar){
     int bin=24;
-    double b12 = bkgd/((double)bin);
     double s12 = ttbar/((double)bin);
     TH1F* foo = new TH1F(name, name, bin, 0, bin);
 
-    if(wilson=="cL")//L
+    if(wilson=="L")//L
         for(int i=0; i<bin; i++)
-            foo->SetBinContent(i+1, (b12 + s12 + s12*gLList[exp][3][i*3600]));
-    else if(wilson=="cR")//R
+            foo->SetBinContent(i+1, (s12*gLList[exp][3][i*3600]));
+    else if(wilson=="R")//R
         for(int i=0; i<bin; i++)
-            foo->SetBinContent(i+1, (b12 + s12 + s12*gRList[exp][3][i*3600]));
-    else if(wilson=="c")//C
+            foo->SetBinContent(i+1, (s12*gRList[exp][3][i*3600]));
+    else if(wilson=="C")//C
         for(int i=0; i<bin; i++)
-            foo->SetBinContent(i+1, (b12 + s12 + s12*gCList[exp][3][i*3600]));
-    else if(wilson=="d")//D
+            foo->SetBinContent(i+1, (s12*gCList[exp][3][i*3600]));
+    else if(wilson=="D")//D
         for(int i=0; i<bin; i++)
-            foo->SetBinContent(i+1, (b12 + s12 + s12*gDList[exp][3][i*3600]));
+            foo->SetBinContent(i+1, (s12*gDList[exp][3][i*3600]));
     else
         std::cout<<"error with stats"<<std::endl;
     return foo;

@@ -16,7 +16,8 @@ int main (){
         k.gTime(i,3);
         k.gTimeTT(i,3);
     }
-    k.amplEnergy();
+    k.amplEnergyComparaison(true);
+    k.amplEnergyComparaison(false);
 
     return 0;
 }

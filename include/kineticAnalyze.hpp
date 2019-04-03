@@ -17,7 +17,7 @@ class KineticAnalyze{
         double cmunuR_class;
         double cmunu_class;
         double dmunu_class;
-
+    
         int nExp;
         int time24;
         std::vector<double> expList;
@@ -38,7 +38,16 @@ class KineticAnalyze{
         std::vector< std::vector<double> > aR;
         std::vector< std::vector<double> > bL;
         std::vector< std::vector<double> > bR;
-
+//---------------------- Article -------------------------//
+        std::vector< std::vector<double> > aLgg;
+        std::vector< std::vector<double> > aRgg;
+        std::vector< std::vector<double> > bLgg;
+        std::vector< std::vector<double> > bRgg;
+        std::vector< std::vector<double> > aLqq;
+        std::vector< std::vector<double> > aRqq;
+        std::vector< std::vector<double> > bLqq;
+        std::vector< std::vector<double> > bRqq;
+//-------------------------------------------------------//
         std::vector< std::vector< std::vector<double> > > fLList;
         std::vector< std::vector< std::vector<double> > > fRList;
         std::vector< std::vector< std::vector<double> > > fCList;
@@ -47,7 +56,24 @@ class KineticAnalyze{
         std::vector< std::vector< std::vector<double> > > gRList;
         std::vector< std::vector< std::vector<double> > > gCList;
         std::vector< std::vector< std::vector<double> > > gDList;
-
+//---------------------- Article -------------------------//
+        std::vector< std::vector< std::vector<double> > > fLListgg;
+        std::vector< std::vector< std::vector<double> > > fRListgg;
+        std::vector< std::vector< std::vector<double> > > fCListgg;
+        std::vector< std::vector< std::vector<double> > > fDListgg;
+        std::vector< std::vector< std::vector<double> > > gLListgg;
+        std::vector< std::vector< std::vector<double> > > gRListgg;
+        std::vector< std::vector< std::vector<double> > > gCListgg;
+        std::vector< std::vector< std::vector<double> > > gDListgg;
+        std::vector< std::vector< std::vector<double> > > fLListqq;
+        std::vector< std::vector< std::vector<double> > > fRListqq;
+        std::vector< std::vector< std::vector<double> > > fCListqq;
+        std::vector< std::vector< std::vector<double> > > fDListqq;
+        std::vector< std::vector< std::vector<double> > > gLListqq;
+        std::vector< std::vector< std::vector<double> > > gRListqq;
+        std::vector< std::vector< std::vector<double> > > gCListqq;
+        std::vector< std::vector< std::vector<double> > > gDListqq;
+//-------------------------------------------------------//
         std::vector< std::vector<double> > amplitudeLListf;
         std::vector< std::vector<double> > amplitudeRListf;
         std::vector< std::vector<double> > amplitudeCListf;
@@ -89,16 +115,17 @@ class KineticAnalyze{
         void fTime(int munu, int exp);
         void gTime(int munu, int exp);
         void gTimeTT(int munu, int exp);
-        void amplEnergy();
+        void amplEnergy(bool isBenchmark);
+        void amplEnergyComparaison(bool isBenchmark);
 
 //_________________________________________________//
 //________________ statistical stuff ______________//
 //_________________________________________________//
 
         TH1F* statHistosConst(TString name, double value);
-        TH1F* statHistosf(TString name, int exp, TString wislon, bool isXX, double bkgd, double ttbar);
-        TH1F* statHistosg(TString name, int exp, TString wilson, bool isTZ, double bkgd, double ttbar);
-        TH1F* statHistosgTT(TString name, int exp, TString wilson, double bkgd, double ttbar);
+        TH1F* statHistosf(TString name, int exp, TString wislon, bool isXX, double ttbar);
+        TH1F* statHistosg(TString name, int exp, TString wilson, bool isTZ, double ttbar);
+        TH1F* statHistosgTT(TString name, int exp, TString wilson, double ttbar);
 
 };
 
