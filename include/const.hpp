@@ -40,12 +40,18 @@
 // Longitude
    const double longitudeCMS = (6.0766/180) * M_PI;    //Uncertainties ~0.0001
 // Azimuth
-   const double azimuthCMS = (101.279/180) * M_PI;     //Uncertainties ~0.003
+   const double azimuthCMS = (101.2794/180) * M_PI;     //Uncertainties ~0.003
 // Tilt
    const double tiltCMS = (0.20632/180) * M_PI;     //Uncertainties ~0.00003
 // Universal Frequence
    const double omega = 7.29211515e-5;           // en rad/s
 
+// Latitude
+   const double latitudeATLAS = (46.2357/180) * M_PI;    //Uncertainties ~0.0001
+// Longitude
+   const double longitudeATLAS = (6.0553/180) * M_PI;    //Uncertainties ~0.0001
+// Azimuth
+   const double azimuthATLAS = (281.265/180) * M_PI;     //Uncertainties ~0.003
 
 //______________ Rotation D0______________//
 

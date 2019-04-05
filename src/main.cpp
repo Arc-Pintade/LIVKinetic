@@ -5,7 +5,6 @@
 using namespace std;
 
 int main (){
-
     cout<<"Hello World !"<<endl;
     double val = 0.01;
 
@@ -15,9 +14,14 @@ int main (){
         k.fTime(i, 3);
         k.gTime(i,3);
         k.gTimeTT(i,3);
+        k.compareFusAni(i,3);
+        k.compareCMSD0(i);
     }
+
     k.amplEnergyComparaison(true);
     k.amplEnergyComparaison(false);
+    k.earthSignal(true);
+    k.earthSignal(false);
 
     return 0;
 }
