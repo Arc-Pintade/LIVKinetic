@@ -920,6 +920,10 @@ void KineticAnalyze::gTimeTT(int munu, int exp){
 
 void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
     TString name[4];    TString name2[4];
+    TString xx1[4];     TString xx2[4]; TString CL[2];
+    xx1[0]="XX";xx1[1]="XY";xx1[2]="XZ";xx1[3]="XY";
+    xx2[0]="YY";xx2[1]="YX";xx2[2]="ZX";xx2[3]="YX";
+    CL[0]="L";    CL[1]="R";
     if(isBenchmark){
         name[0]="cL";    name[1]="cR";    name[2]="c";    name[3]="d";
         name2[0]="_{XX}";    name2[1]="_{XY}";    name2[2]="_{XZ}";    name2[3]="_{YZ}";
@@ -977,11 +981,19 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         for(int j=0; j<4; j++){
             m[j]->Add(g[i][j]);
             legend[j] = new TLegend(0.1,0.7,0.48,0.9);
-            legend[j]->SetHeader("Amplitude","C"); // option "C" allows to center the header
-            legend[j]->AddEntry(g[0][j],"c_{L}"); // option "l" is for line (form of legend)
-            legend[j]->AddEntry(g[1][j],"c_{R}");
-            legend[j]->AddEntry(g[2][j],"c");
-            legend[j]->AddEntry(g[3][j],"d");
+            legend[j]->SetHeader("","C"); // option "C" allows to center the header
+            if(j==0){
+                legend[j]->AddEntry(g[0][j],"c_{"+CL[0]+xx1[j]+"} = -c_{"+CL[0]+xx2[j]+"} #neq 0 "); // option "l" is for line (form of legend)
+                legend[j]->AddEntry(g[1][j],"c_{"+CL[1]+xx1[j]+"} = -c_{"+CL[1]+xx2[j]+"} #neq 0 ");
+                legend[j]->AddEntry(g[2][j],"c_{"+xx1[j]+"} = -c_{"+xx2[j]+"} #neq 0 ");
+                legend[j]->AddEntry(g[3][j],"d_{"+xx1[j]+"} = -d_{"+xx2[j]+"} #neq 0 ");
+            }
+            else{
+                legend[j]->AddEntry(g[0][j],"c_{"+CL[0]+xx1[j]+"} = c_{"+CL[0]+xx2[j]+"} #neq 0 "); // option "l" is for line (form of legend)
+                legend[j]->AddEntry(g[1][j],"c_{"+CL[1]+xx1[j]+"} = c_{"+CL[1]+xx2[j]+"} #neq 0 ");
+                legend[j]->AddEntry(g[2][j],"c_{"+xx1[j]+"} = c_{"+xx2[j]+"} #neq 0 ");
+                legend[j]->AddEntry(g[3][j],"d_{"+xx1[j]+"} = d_{"+xx2[j]+"} #neq 0 ");
+            }
         }
     }
     for(int i=0; i<4; i++){
@@ -989,6 +1001,8 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         c[i]->SetFillColor(kWhite);
         m[i]->Draw("AP");
         m[i]->SetTitle("");
+        m[i]->GetXaxis()->SetTitle("energy (in GeV)");
+        m[i]->GetYaxis()->SetTitle("amplitude f(t)");
         legend[i]->Draw();
         c[i]->SetLogx();
         c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".png");
@@ -1087,11 +1101,13 @@ void KineticAnalyze::compareCMSD0(int munu){
     for(int i=0; i<2; i++)
         m[i] = std::vector<TMarker*>(4);
 
+    TString wil[4];
+    wil[0]="cL";    wil[1]="cR";    wil[2]="c";    wil[3]="d";
 
-    h1->GetXaxis()->SetBinLabel(1,"c_{XX} = -c_{YY} #neq 0"); 
-    h1->GetXaxis()->SetBinLabel(2,"c_{XY} = c_{YX} #neq 0"); 
-    h1->GetXaxis()->SetBinLabel(3,"c_{XZ} = -c_{ZX} #neq 0"); 
-    h1->GetXaxis()->SetBinLabel(4,"c_{YZ} = -c_{ZY} #neq 0"); 
+    h1->GetXaxis()->SetBinLabel(1,wil[munu]+"_{XX} = -"+wil[munu]+"_{YY} #neq 0"); 
+    h1->GetXaxis()->SetBinLabel(2,wil[munu]+"_{XY} = "+wil[munu]+"_{YX} #neq 0"); 
+    h1->GetXaxis()->SetBinLabel(3,wil[munu]+"_{XZ} = "+wil[munu]+"_{ZX} #neq 0"); 
+    h1->GetXaxis()->SetBinLabel(4,wil[munu]+"_{YZ} = "+wil[munu]+"_{ZY} #neq 0"); 
 
     for (int k=0; k<4; k++){
         if(munu==0){
@@ -1189,7 +1205,7 @@ void KineticAnalyze::compareCMSD0(int munu){
 
 }
 
-void KineticAnalyze::earthSignal(bool isXX){
+void KineticAnalyze::earthSignal(TString XX){
 
     double pas = 1000;
     double cmunuEarthSignal = 0.1;
@@ -1201,40 +1217,56 @@ void KineticAnalyze::earthSignal(bool isXX){
 
     for(int i = 0; i<pas; i++)
         for(int j=0; j<pas; j++){
-            if(isXX){
+            if(XX=="XX" or XX=="XY"){
                 a1 = calculateCoefficent_a(1, Areal[3], i*tmp, j*tmp2, true);
                 a2 = calculateCoefficent_a(2, Areal[3], i*tmp, j*tmp2, true);
                 a0 = (a1-a2)/2.;
                 a3 = calculateCoefficent_a(3, Areal[3], i*tmp, j*tmp2, true);
-                if(a0*cos(2*omega*arg1+0.001) + a3*sin(2*omega*arg1+0.001)<0){
+                if(XX=="XX"){
                     if(a0>0)
                         arg1 = atan(a3/a0);
                     else if(a0<0)
                         arg1 = -atan(a3/abs(a0)) + M_PI;
                     else if(a0==0)
                         arg1 = 0;
-                    h->SetBinContent(i+1, j+1, 2*cmunuEarthSignal*(a0*cos(2*omega*arg1) + a3*sin(2*omega*arg1)) );
+                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a0*cos(2*omega*arg1) + a3*sin(2*omega*arg1))) );
+                }
+                else if(XX=="XY"){
+                    if(a3>0)
+                        arg1 = atan(-a0/a3);
+                    else if(a3<0)
+                        arg1 = -atan(-a0/abs(a3)) + M_PI;
+                    else if(a3==0)
+                        arg1 = 0;
+                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a0*sin(2*omega*arg1) - a3*cos(2*omega*arg1))) );
                 }
             }
-            else if(!isXX){
+            else if(XX=="XZ" or XX=="YZ"){
                 a4 = calculateCoefficent_a(4, Areal[3], i*tmp, j*tmp2, true);
                 a5 = calculateCoefficent_a(5, Areal[3], i*tmp, j*tmp2, true);
-                if(a4*cos(omega*arg1+0.001) + a5*sin(omega*arg1+0.001)<0){
+                if(XX=="XZ"){
                     if(a4>0)
                         arg1 = atan(a5/a4);
                     else if(a4<0)
                         arg1 = -atan(a5/abs(a4)) + M_PI;
                     else if(a4==0)
                         arg1 = 0;
-                    h->SetBinContent(i+1, j+1, 2*cmunuEarthSignal*(a4*cos(omega*arg1) + a5*sin(omega*arg1)) );
+                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a4*cos(omega*arg1) + a5*sin(omega*arg1))) );
+                }
+                else if(XX=="YZ"){
+                    if(a5>0)
+                        arg1 = atan(-a4/a5);
+                    else if(a5<0)
+                        arg1 = -atan(-a4/abs(a5)) + M_PI;
+                    else if(a5==0)
+                        arg1 = 0;
+                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a4*sin(omega*arg1) - a5*cos(omega*arg1))) );
                 }
             }
         }
 
-    if(isXX)
-        h->SetTitle("Amplitude f_{SME}(#lambda, #theta)) fXX");
-    else
-        h->SetTitle("Amplitude f_{SME}(#lambda, #theta)) fXZ");
+    
+    h->SetTitle("Amplitude f_{SME}(#lambda, #theta)) f"+XX);
     h->GetYaxis()->SetTitle("Azimuth #theta (in rad)");
     h->GetXaxis()->SetTitle("Latitude #lambda (in rad)");
 
@@ -1255,20 +1287,14 @@ void KineticAnalyze::earthSignal(bool isXX){
     pointATLAS->Draw("same");
     h->SetStats(0);
 
-    TLegend* legend = new TLegend(0.1,0.7,0.3,0.9);
+    TLegend* legend = new TLegend(0.4,0.6,0.89,0.89);
     legend->AddEntry(pointCMS,"CMS","p");
     legend->AddEntry(pointATLAS,"ATLAS","p");
     legend->AddEntry(pointD0,"D0","p");
     legend->Draw();
 
-    if(isXX){
-        c->SaveAs("results/earthSignal/XX.png");
-        c->SaveAs("results/earthSignal/XX.eps");
-    }
-    else{
-        c->SaveAs("results/earthSignal/XZ.png");
-        c->SaveAs("results/earthSignal/XZ.eps");
-    }
+    c->SaveAs("results/earthSignal/"+XX+".png");
+    c->SaveAs("results/earthSignal/"+XX+".eps");
 }
 
 //_________________________________________________//

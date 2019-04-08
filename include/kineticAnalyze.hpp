@@ -139,14 +139,14 @@ class KineticAnalyze{
         void amplEnergyComparaison(bool isBenchmark);
         void compareFusAni(int munu, int exp);
         void compareCMSD0(int munu);
-        void earthSignal(bool isXX);
+        void earthSignal(TString XX);
 
 //_________________________________________________//
 //________________ statistical stuff ______________//
 //_________________________________________________//
 
         TH1F* statHistosConst(TString name, double value);
-        TH1F* statHistosf(TString name, int exp, TString wislon, bool isXX, double ttbar);
+        TH1F* statHistosf(TString name, int exp, TString wilson, bool isXX, double ttbar);
         TH1F* statHistosg(TString name, int exp, TString wilson, bool isTZ, double ttbar);
         TH1F* statHistosgTT(TString name, int exp, TString wilson, double ttbar);
 

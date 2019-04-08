@@ -57,14 +57,14 @@ void TTstat(){
             test[4] = 0.00001;
 
     //for(int i=0; i<5; i++)
-        for(int j=0; j<4; j++){
+        for(int j=1; j<4; j++){
 
-         createHistos(j, test[2], "R", bkgdVal[j], sigVal[j]);
+         createHistos(3, test[j], "L", bkgdVal[3], sigVal[3]);
 
             RooStats::HistFactory::Measurement meas("gTT", "stats");
 
             ostringstream sout;
-            sout<<"stats/cTT/"<<test[2]<<"/statsgTT";
+            sout<<"stats/cTT/"<<test[j]<<"/statsgTT";
             meas.SetOutputFilePrefix(sout.str());
             meas.SetExportOnly(false);
 
@@ -79,7 +79,7 @@ void TTstat(){
             chan.SetData("hAsimovNullHyp", sout.str()+".root");
 
             RooStats::HistFactory::Sample ttbar("hTTbarSM", "hTTbarSM", sout.str()+".root");
-            //ttbar.AddNormFactor("SigXsecOverSM", 1, -1, 1);
+            ttbar.AddNormFactor("SigXsecOverSM", 1, -1, 1);
             ttbar.AddOverallSys("syst1",  0.95, 1.05);
             chan.AddSample(ttbar); 
 
