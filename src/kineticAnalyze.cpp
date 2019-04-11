@@ -1,4 +1,5 @@
 #include "../include/kineticAnalyze.hpp"
+#include "../include/style.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -9,6 +10,7 @@
 #include <TMarker.h>
 #include <TLegend.h>
 #include <TH2F.h>
+
 
 KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cmunu_user, double dmunu_user){
 
@@ -919,6 +921,9 @@ void KineticAnalyze::gTimeTT(int munu, int exp){
 }
 
 void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
+
+    TStyle* style1 = myStyle();
+    
     TString name[4];    TString name2[4];
     TString xx1[4];     TString xx2[4]; TString CL[2];
     xx1[0]="XX";xx1[1]="XY";xx1[2]="XZ";xx1[3]="XY";
@@ -971,8 +976,9 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
     for(int i=0; i<4; i++){
         for(int j=0; j<4; j++){
             g[i][j] = new TGraph(nExp, x, y[i][j]);
-            g[i][j]->SetMarkerStyle(20);
-            g[i][j]->SetMarkerSize(1);
+            g[i][j]->SetMarkerStyle(i+20);
+            g[i][j]->SetMarkerSize(1.5);
+
         }
         g[i][0]->SetMarkerColor(i+1);
         g[i][1]->SetMarkerColor(i+1);
@@ -980,29 +986,36 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         g[i][3]->SetMarkerColor(i+1);
         for(int j=0; j<4; j++){
             m[j]->Add(g[i][j]);
-            legend[j] = new TLegend(0.1,0.7,0.48,0.9);
-            legend[j]->SetHeader("","C"); // option "C" allows to center the header
+            legend[j] = new TLegend(0.2,0.9,0.55,0.75,"","brNDC");
+            legend[j]->SetBorderSize(1); //without shadow effect
             if(j==0){
-                legend[j]->AddEntry(g[0][j],"c_{"+CL[0]+xx1[j]+"} = -c_{"+CL[0]+xx2[j]+"} #neq 0 "); // option "l" is for line (form of legend)
-                legend[j]->AddEntry(g[1][j],"c_{"+CL[1]+xx1[j]+"} = -c_{"+CL[1]+xx2[j]+"} #neq 0 ");
-                legend[j]->AddEntry(g[2][j],"c_{"+xx1[j]+"} = -c_{"+xx2[j]+"} #neq 0 ");
-                legend[j]->AddEntry(g[3][j],"d_{"+xx1[j]+"} = -d_{"+xx2[j]+"} #neq 0 ");
+                legend[j]->AddEntry(g[0][j],"c_{"+CL[0]+xx1[j]+"} = -c_{"+CL[0]+xx2[j]+"} = 0.01","p"); // option "l" is for line (form of legend)
+                legend[j]->AddEntry(g[1][j],"c_{"+CL[1]+xx1[j]+"} = -c_{"+CL[1]+xx2[j]+"} = 0.01","p");
+                legend[j]->AddEntry(g[2][j],"c_{"+xx1[j]+"} = -c_{"+xx2[j]+"} = 0.01","p");
+                legend[j]->AddEntry(g[3][j],"d_{"+xx1[j]+"} = -d_{"+xx2[j]+"} = 0.01","p");
             }
             else{
-                legend[j]->AddEntry(g[0][j],"c_{"+CL[0]+xx1[j]+"} = c_{"+CL[0]+xx2[j]+"} #neq 0 "); // option "l" is for line (form of legend)
-                legend[j]->AddEntry(g[1][j],"c_{"+CL[1]+xx1[j]+"} = c_{"+CL[1]+xx2[j]+"} #neq 0 ");
-                legend[j]->AddEntry(g[2][j],"c_{"+xx1[j]+"} = c_{"+xx2[j]+"} #neq 0 ");
-                legend[j]->AddEntry(g[3][j],"d_{"+xx1[j]+"} = d_{"+xx2[j]+"} #neq 0 ");
+                legend[j]->AddEntry(g[0][j],"c_{"+CL[0]+xx1[j]+"} = c_{"+CL[0]+xx2[j]+"} = 0.01","p"); // option "l" is for line (form of legend)
+                legend[j]->AddEntry(g[1][j],"c_{"+CL[1]+xx1[j]+"} = c_{"+CL[1]+xx2[j]+"} = 0.01","p");
+                legend[j]->AddEntry(g[2][j],"c_{"+xx1[j]+"} = c_{"+xx2[j]+"} = 0.01","p");
+                legend[j]->AddEntry(g[3][j],"d_{"+xx1[j]+"} = d_{"+xx2[j]+"} = 0.01","p");
             }
         }
     }
     for(int i=0; i<4; i++){
-        c[i] = new TCanvas(name[i],"",200,10,800,600);
+        c[i] = new TCanvas(name[i],"");
         c[i]->SetFillColor(kWhite);
-        m[i]->Draw("AP");
         m[i]->SetTitle("");
-        m[i]->GetXaxis()->SetTitle("energy (in GeV)");
-        m[i]->GetYaxis()->SetTitle("amplitude f(t)");
+        m[i]->GetXaxis()->SetTitle("#sqrt{s} (TeV)");
+        m[i]->GetXaxis()->CenterTitle();
+        m[i]->GetYaxis()->SetTitle("Amplitude of #sigma_{LIV}(t)/#sigma_{SM} - 1");
+        m[i]->GetYaxis()->CenterTitle();
+        m[i]->Draw("AP");
+        if(i==0 or i==1)
+            m[i]->GetYaxis()->SetRangeUser(0,0.4);
+        else 
+            m[i]->GetYaxis()->SetRangeUser(0,0.1);
+        m[i]->GetXaxis()->SetLimits(1,200);
         legend[i]->Draw();
         c[i]->SetLogx();
         c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".png");
