@@ -332,7 +332,7 @@ calculatef(time24, i, j, cmunuLConst, 0, 0, 0);
 //__________________ Read Values __________________//
 //_________________________________________________//
 
-// Text input type : 
+// Text input type :
 /*
 ________________________________
 | Title                        |
@@ -357,6 +357,18 @@ TMatrixD KineticAnalyze::readMatrix(TString s){
     for(int i=0; i<4; i++)
         for(int j=0; j<4; j++)
             f>>foo(i,j);
+    return foo;
+}
+
+std::vector<TMatrixD> KineticAnalyze::readVecMatrix(TString s, int n){
+    std::vector<TMatrixD> foo(n);
+    std::fstream f("../DATA/VecMatrix/"+s+".txt", std::ios::in);
+    for(int i=0; i<n; i++){
+        foo[i].ResizeTo(4,4,-1);
+        for(int j=0; j<4; j++)
+            for(int k=0; k<4; k++)
+                f>>foo[i].operator()(j,k);
+    }
     return foo;
 }
 
@@ -709,7 +721,7 @@ double KineticAnalyze::calculateMax(std::vector<double> vector_user){
         for(int i=0; i<time24; i++){
             if(vector_user[i] <= foo)
                 foo = vector_user[i];
-        }    
+        }
     return foo;
 }
 
@@ -773,7 +785,7 @@ void KineticAnalyze::fTime(int munu, int exp){
     legend->Draw();
 
     w->Update();
-    TString format[2];    format[0]=".png";    format[1]=".eps";
+    TString format[2];    format[0]=".png";    format[1]=".pdf";
     for(int i=0; i<2; i++){
         if(munu==0){
             h1->SetTitle("c_{L#mu#nu} = "+TString::Format("%f",cmunuL_class));
@@ -844,7 +856,7 @@ void KineticAnalyze::gTime(int munu, int exp){
     legend->Draw();
 
     w->Update();
-    TString format[2];    format[0]=".png";    format[1]=".eps";
+    TString format[2];    format[0]=".png";    format[1]=".pdf";
     for(int i=0; i<2; i++){
         if(munu==0){
             h1->SetTitle("c_{L#mu#nu} = "+TString::Format("%f",cmunuL_class));
@@ -897,7 +909,7 @@ void KineticAnalyze::gTimeTT(int munu, int exp){
     legend->Draw();
 
     w->Update();
-    TString format[2];    format[0]=".png";    format[1]=".eps";
+    TString format[2];    format[0]=".png";    format[1]=".pdf";
     for(int i=0; i<2; i++){
         if(munu==0){
             h1->SetTitle("c_{L#mu#nu} = "+TString::Format("%f",cmunuL_class));
@@ -923,7 +935,7 @@ void KineticAnalyze::gTimeTT(int munu, int exp){
 void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
 
     TStyle* style1 = myStyle();
-    
+
     TString name[4];    TString name2[4];
     TString xx1[4];     TString xx2[4]; TString CL[2];
     xx1[0]="XX";xx1[1]="XY";xx1[2]="XZ";xx1[3]="XY";
@@ -932,7 +944,7 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
     if(isBenchmark){
         name[0]="cL";    name[1]="cR";    name[2]="c";    name[3]="d";
         name2[0]="_{XX}";    name2[1]="_{XY}";    name2[2]="_{XZ}";    name2[3]="_{YZ}";
-    }    
+    }
     else{
         name[0]="cL";    name[1]="cR";    name[2]="c";    name[3]="d";
         name2[0]="_{TX}";    name2[1]="_{TY}";    name2[2]="_{TZ}";    name2[3]="_{TT}";
@@ -968,9 +980,9 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
                 y[0][j][k] = amplitudeLListg[k][j];
                 y[1][j][k] = amplitudeRListg[k][j];
                 y[2][j][k] = amplitudeCListg[k][j];
-                y[3][j][k] = amplitudeDListg[k][j];                
+                y[3][j][k] = amplitudeDListg[k][j];
             }
-        }       
+        }
     }
 
     for(int i=0; i<4; i++){
@@ -1013,13 +1025,13 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         m[i]->Draw("AP");
         if(i==0 or i==1)
             m[i]->GetYaxis()->SetRangeUser(0,0.4);
-        else 
+        else
             m[i]->GetYaxis()->SetRangeUser(0,0.1);
         m[i]->GetXaxis()->SetLimits(1,200);
         legend[i]->Draw();
         c[i]->SetLogx();
         c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".png");
-        c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".eps");
+        c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".pdf");
     }
 }
 
@@ -1077,9 +1089,9 @@ void KineticAnalyze::compareFusAni(int munu, int exp){
     }
 
     w->Update();
-    TString format[2];    format[0]=".png";    format[1]=".eps";
+    TString format[2];    format[0]=".png";    format[1]=".pdf";
     for(int i=0; i<2; i++){
-        if(munu==0){            
+        if(munu==0){
             legend->SetHeader("f_{SME}(t) functions histogram for c_{LXX} = - c_{LYY} = 0.01", "C"); // option "C" allows to center the header
             legend->Draw();
             w->SaveAs("results/compaFusAni/fComparaisonL"+format[i]);
@@ -1117,10 +1129,10 @@ void KineticAnalyze::compareCMSD0(int munu){
     TString wil[4];
     wil[0]="cL";    wil[1]="cR";    wil[2]="c";    wil[3]="d";
 
-    h1->GetXaxis()->SetBinLabel(1,wil[munu]+"_{XX} = -"+wil[munu]+"_{YY} #neq 0"); 
-    h1->GetXaxis()->SetBinLabel(2,wil[munu]+"_{XY} = "+wil[munu]+"_{YX} #neq 0"); 
-    h1->GetXaxis()->SetBinLabel(3,wil[munu]+"_{XZ} = "+wil[munu]+"_{ZX} #neq 0"); 
-    h1->GetXaxis()->SetBinLabel(4,wil[munu]+"_{YZ} = "+wil[munu]+"_{ZY} #neq 0"); 
+    h1->GetXaxis()->SetBinLabel(1,wil[munu]+"_{XX} = -"+wil[munu]+"_{YY} #neq 0");
+    h1->GetXaxis()->SetBinLabel(2,wil[munu]+"_{XY} = "+wil[munu]+"_{YX} #neq 0");
+    h1->GetXaxis()->SetBinLabel(3,wil[munu]+"_{XZ} = "+wil[munu]+"_{ZX} #neq 0");
+    h1->GetXaxis()->SetBinLabel(4,wil[munu]+"_{YZ} = "+wil[munu]+"_{ZY} #neq 0");
 
     for (int k=0; k<4; k++){
         if(munu==0){
@@ -1202,7 +1214,7 @@ void KineticAnalyze::compareCMSD0(int munu){
     legend->Draw();
 
     w->Update();
-    TString format[2];    format[0]=".png";    format[1]=".eps";
+    TString format[2];    format[0]=".png";    format[1]=".pdf";
     for(int i=0; i<2; i++){
         if(munu==0)
             w->SaveAs("results/compaFusAni/compaCMSTEVL"+format[i]);
@@ -1278,7 +1290,7 @@ void KineticAnalyze::earthSignal(TString XX){
             }
         }
 
-    
+
     h->SetTitle("Amplitude f_{SME}(#lambda, #theta)) f"+XX);
     h->GetYaxis()->SetTitle("Azimuth #theta (in rad)");
     h->GetXaxis()->SetTitle("Latitude #lambda (in rad)");
@@ -1307,7 +1319,43 @@ void KineticAnalyze::earthSignal(TString XX){
     legend->Draw();
 
     c->SaveAs("results/earthSignal/"+XX+".png");
-    c->SaveAs("results/earthSignal/"+XX+".eps");
+    c->SaveAs("results/earthSignal/"+XX+".pdf");
+}
+
+void KineticAnalyze::amunuHist(){
+
+    std::cout<<readVecMatrix("VMAPqqbar13TEVCMS", n13TeV)[17](0,0)<<std::endl;
+    std::vector<std::vector<TMatrixD> > amunuForHist(4);
+    amunuForHist[0] = readVecMatrix("VMAPqqbar13TEVCMS", n13TeV);
+    amunuForHist[1] = readVecMatrix("VMAP2g13TEVCMS", n13TeV);
+    amunuForHist[2] = readVecMatrix("VMAP13TEVCMS", n13TeV);
+    amunuForHist[3] = std::vector<TMatrixD>(n13TeV);
+    for(int i=0; i<n13TeV; i++){
+        amunuForHist[3][i].ResizeTo(4,4,-1);
+        amunuForHist[3][i] = 0.5*(((double)nPqq[3])/nF[3])*amunuForHist[0][i] + 0.5*(((double)nPgg[3])/nF[3])*amunuForHist[1][i] + amunuForHist[2][i];
+    }
+
+    std::array<std::array<TCanvas*, 4>, 4 > c;
+    std::array<std::array<std::array<TH1F*, 4>, 4>, 4> h;
+    for(int i=0; i<4; i++)
+        for(int j=0; j<4; j++){
+            c[i][j] = new TCanvas();
+            c[i][j]->Divide(2,2);
+            for(int k=0; k<4; k++)
+                h[i][j][k] = new TH1F("","",100,0,50);
+            for(int k=0; k<n13TeV; k++)
+                for(int a=0; a<4; a++){
+                    c[i][j]->cd(a+1);
+                    if(amunuForHist[a][k](i,j)!=0){
+                        h[i][j][a]->Fill(amunuForHist[a][k](i,j));
+                    }
+                }
+            for(int k=0; k<4; k++)
+               h[i][j][k]->Draw();
+            c[i][j]->Update();
+            c[i][j]->SaveAs("results/amunu/truc.png");
+    }
+
 }
 
 //_________________________________________________//
@@ -1423,4 +1471,3 @@ TH1F* KineticAnalyze::statHistosgTT(TString name, int exp, TString wilson, doubl
         std::cout<<"error with stats"<<std::endl;
     return foo;
 }
-

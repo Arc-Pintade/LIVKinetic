@@ -11,6 +11,8 @@
 
 #include <cmath>
 
+    const int n13TeV = 5000000;
+    const int n100TeV = 1000000;
 
 //____________ MMSM ALL IN GeV ______________//
 

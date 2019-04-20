@@ -17,7 +17,7 @@ class KineticAnalyze{
         double cmunuR_class;
         double cmunu_class;
         double dmunu_class;
-    
+
         int nExp;
         int time24;
         std::vector<double> expList;
@@ -124,8 +124,10 @@ class KineticAnalyze{
 //_________________________________________________//
 
         // Text file input, text file with a number of events and the value of the average matrix assossiated
+        static void showMatrix(TMatrixD m) const; 
         static int readNumber(TString s);
         static TMatrixD readMatrix(TString s);
+        static std::vector<TMatrixD> readVecMatrix(TString s, int n);
         static double* extractArray(TString s, int n);
 
 //_________________________________________________//
@@ -140,6 +142,7 @@ class KineticAnalyze{
         void compareFusAni(int munu, int exp);
         void compareCMSD0(int munu);
         void earthSignal(TString XX);
+        void amunuHist();
 
 //_________________________________________________//
 //________________ statistical stuff ______________//
@@ -153,4 +156,3 @@ class KineticAnalyze{
 };
 
 #endif
-
