@@ -124,7 +124,7 @@ class KineticAnalyze{
 //_________________________________________________//
 
         // Text file input, text file with a number of events and the value of the average matrix assossiated
-        static void showMatrix(TMatrixD m) const; 
+        static void showMatrix(TMatrixD m); 
         static int readNumber(TString s);
         static TMatrixD readMatrix(TString s);
         static std::vector<TMatrixD> readVecMatrix(TString s, int n);

@@ -5,7 +5,7 @@
 using namespace std;
 
 int main (){
-    cout<<"Hello World !"<<endl;
+    cout<<"Hello Sane !"<<endl;
     double wilson = 0.01;
     string XX[4];
     XX[0] = "XX";    XX[1] = "XY";    XX[2] = "XZ";    XX[3] = "YZ";
@@ -24,7 +24,7 @@ int main (){
     k.amplEnergyComparaison(true);
 //    k.amplEnergyComparaison(false);
     */
-    k.amunuHist();
+//    k.amunuHist();
 
     return 0;
 }

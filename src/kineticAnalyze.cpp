@@ -12,11 +12,14 @@
 #include <TH2F.h>
 
 
-KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cmunu_user, double dmunu_user){
+KineticAnalyze::KineticAnalyze(double cmunuL_user,
+                               double cmunuR_user,
+                               double cmunu_user,
+                               double dmunu_user){
 
-//_______________________________________________________//
-//____________________initialisations____________________//
-//_______________________________________________________//
+//____________________________________________________________________________//
+//________________________________initialisations_____________________________//
+//____________________________________________________________________________//
 
     cmunuL_class = cmunuL_user;
     cmunuR_class = cmunuR_user;
@@ -54,7 +57,7 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
     aR = std::vector< std::vector<double> >(nExp);
     bL = std::vector< std::vector<double> >(nExp);
     bR = std::vector< std::vector<double> >(nExp);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
     aLTEV = std::vector< std::vector<double> >(nExp);
     aRTEV = std::vector< std::vector<double> >(nExp);
     aLgg = std::vector< std::vector<double> >(nExp);
@@ -65,13 +68,13 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
     aRqq = std::vector< std::vector<double> >(nExp);
     bLqq = std::vector< std::vector<double> >(nExp);
     bRqq = std::vector< std::vector<double> >(nExp);
-//-------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
     for(int i=0; i<nExp; i++){
         aL[i] = std::vector<double>(6);
         aR[i] = std::vector<double>(6);
         bL[i] = std::vector<double>(4);
         bR[i] = std::vector<double>(4);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
         aLTEV[i] = std::vector<double>(6);
         aRTEV[i] = std::vector<double>(6);
         aLgg[i] = std::vector<double>(6);
@@ -82,7 +85,7 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
         aRqq[i] = std::vector<double>(6);
         bLqq[i] = std::vector<double>(4);
         bRqq[i] = std::vector<double>(4);
-//-------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
     }// first index "experiment", second index "a coefficient"
 
     fLList = std::vector< std::vector< std::vector<double> > >(nExp);
@@ -93,7 +96,7 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
     gRList = std::vector< std::vector< std::vector<double> > >(nExp);
     gCList = std::vector< std::vector< std::vector<double> > >(nExp);
     gDList = std::vector< std::vector< std::vector<double> > >(nExp);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
     fLListTEV = std::vector< std::vector< std::vector<double> > >(nExp);
     fRListTEV = std::vector< std::vector< std::vector<double> > >(nExp);
     fCListTEV = std::vector< std::vector< std::vector<double> > >(nExp);
@@ -114,7 +117,7 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
     gRListqq = std::vector< std::vector< std::vector<double> > >(nExp);
     gCListqq = std::vector< std::vector< std::vector<double> > >(nExp);
     gDListqq = std::vector< std::vector< std::vector<double> > >(nExp);
-//-------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
     amplitudeLListf = std::vector< std::vector<double> >(nExp);
     amplitudeRListf = std::vector< std::vector<double> >(nExp);
     amplitudeCListf = std::vector< std::vector<double> >(nExp);
@@ -123,12 +126,12 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
     amplitudeRListg = std::vector< std::vector<double> >(nExp);
     amplitudeCListg = std::vector< std::vector<double> >(nExp);
     amplitudeDListg = std::vector< std::vector<double> >(nExp);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
     amplitudeLListfTEV = std::vector< std::vector<double> >(nExp);
     amplitudeRListfTEV = std::vector< std::vector<double> >(nExp);
     amplitudeCListfTEV = std::vector< std::vector<double> >(nExp);
     amplitudeDListfTEV = std::vector< std::vector<double> >(nExp);
-//-------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
     for(int i=0; i<nExp; i++){
         amplitudeLListf[i] = std::vector<double>(4);
         amplitudeRListf[i] = std::vector<double>(4);
@@ -146,7 +149,7 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
         gRList[i] = std::vector< std::vector<double> >(4);
         gCList[i] = std::vector< std::vector<double> >(4);
         gDList[i] = std::vector< std::vector<double> >(4);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
         fLListTEV[i] = std::vector< std::vector<double> >(4);
         fRListTEV[i] = std::vector< std::vector<double> >(4);
         fCListTEV[i] = std::vector< std::vector<double> >(4);
@@ -171,7 +174,7 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
         amplitudeRListfTEV[i] = std::vector<double>(4);
         amplitudeCListfTEV[i] = std::vector<double>(4);
         amplitudeDListfTEV[i] = std::vector<double>(4);
-//-------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
         for(int j=0; j<4; j++){
             fLList[i][j] = std::vector<double>(time24);
             fRList[i][j] = std::vector<double>(time24);
@@ -181,7 +184,7 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
             gRList[i][j] = std::vector<double>(time24);
             gCList[i][j] = std::vector<double>(time24);
             gDList[i][j] = std::vector<double>(time24);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
             fLListTEV[i][j] = std::vector<double>(time24);
             fRListTEV[i][j] = std::vector<double>(time24);
             fCListTEV[i][j] = std::vector<double>(time24);
@@ -202,13 +205,15 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user, double cmunuR_user, double cm
             gRListqq[i][j] = std::vector<double>(time24);
             gCListqq[i][j] = std::vector<double>(time24);
             gDListqq[i][j] = std::vector<double>(time24);
-//-------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
         }
-    }// first index "experiment", second index "XX(0), XY(1), XZ(2), YZ(3)", third index "time stamp"
+    }// first index "experiment",
+     //second index "XX(0), XY(1), XZ(2), YZ(3)",
+     //third index "time stamp"
 
-//_________________________________________________________________________________//
-// read in txt files the values (for more informations go to line 179 of this file) //
-//_________________________________________________________________________________//
+//____________________________________________________________________________//
+// read in txt files the values (more informations go to line 179)            //
+//____________________________________________________________________________//
 
 // 100 TeV                                      //13 TeV
     nF[0] = readNumber("100TeVCMSF");           nF[3] = readNumber("13TeVCMSF");
