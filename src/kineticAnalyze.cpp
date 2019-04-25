@@ -1,7 +1,7 @@
 #include "../include/kineticAnalyze.hpp"
 #include "../include/style.hpp"
 
-#include <iostream>
+#include <sstream>
 #include <fstream>
 
 #include <TCanvas.h>
@@ -215,29 +215,49 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
 // read in txt files the values (more informations go to line 179)            //
 //____________________________________________________________________________//
 
-// 100 TeV                                      //13 TeV
-    nF[0] = readNumber("100TeVCMSF");           nF[3] = readNumber("13TeVCMSF");
-    nPqq[0] = readNumber("100TeVCMSPqqbar");    nPqq[3] = readNumber("13TeVCMSPqqbar");
-    nPgg[0] = readNumber("100TeVCMSP2g");       nPgg[3] = readNumber("13TeVCMSP2g");
-    AF[0] = readMatrix("100TeVCMSF");           AF[3] = readMatrix("13TeVCMSF");
-    APqq[0] = readMatrix("100TeVCMSPqqbar");    APqq[3] = readMatrix("13TeVCMSPqqbar");
-    APgg[0] = readMatrix("100TeVCMSP2g");       APgg[3] = readMatrix("13TeVCMSP2g");
+// 100 TeV
+    nF[0]   = readNumber("100TeVCMSF");
+    nPqq[0] = readNumber("100TeVCMSPqqbar");
+    nPgg[0] = readNumber("100TeVCMSP2g");
+    AF[0]   = readMatrix("100TeVCMSF");
+    APqq[0] = readMatrix("100TeVCMSPqqbar");
+    APgg[0] = readMatrix("100TeVCMSP2g");
+// 27 TeV
+    nF[1]   = readNumber("27TeVCMSF");
+    nPqq[1] = readNumber("27TeVCMSPqqbar");
+    nPgg[1] = readNumber("27TeVCMSP2g");
+    AF[1]   = readMatrix("27TeVCMSF");
+    APqq[1] = readMatrix("27TeVCMSPqqbar");
+    APgg[1] = readMatrix("27TeVCMSP2g");
+// 14 TeV
+    nF[2]   = readNumber("14TeVCMSF");
+    nPqq[2] = readNumber("14TeVCMSPqqbar");
+    nPgg[2] = readNumber("14TeVCMSP2g");
+    AF[2]   = readMatrix("14TeVCMSF");
+    APqq[2] = readMatrix("14TeVCMSPqqbar");
+    APgg[2] = readMatrix("14TeVCMSP2g");
+//13 TeV
+    nF[3]   = readNumber("13TeVCMSF");
+    nPqq[3] = readNumber("13TeVCMSPqqbar");
+    nPgg[3] = readNumber("13TeVCMSP2g");
+    AF[3]   = readMatrix("13TeVCMSF");
+    APqq[3] = readMatrix("13TeVCMSPqqbar");
+    APgg[3] = readMatrix("13TeVCMSP2g");
+//7 TeV
+    nF[4]   = readNumber("7TeVCMSF");
+    nPqq[4] = readNumber("7TeVCMSPqqbar");
+    nPgg[4] = readNumber("7TeVCMSP2g");
+    AF[4]   = readMatrix("7TeVCMSF");
+    APqq[4] = readMatrix("7TeVCMSPqqbar");
+    APgg[4] = readMatrix("7TeVCMSP2g");
+ //1.96TeV
+    nF[5]   = readNumber("2TeVCMSF");
+    nPqq[5] = readNumber("2TeVCMSPqqbar");
+    nPgg[5] = readNumber("2TeVCMSP2g");
+    AF[5]   = readMatrix("2TeVCMSF");
+    APqq[5] = readMatrix("2TeVCMSPqqbar");
+    APgg[5] = readMatrix("2TeVCMSP2g");
 
-// 27 TeV                                       //7 TeV
-    nF[1] = readNumber("27TeVCMSF");            nF[4] = readNumber("7TeVCMSF");
-    nPqq[1] = readNumber("27TeVCMSPqqbar");     nPqq[4] = readNumber("7TeVCMSPqqbar");
-    nPgg[1] = readNumber("27TeVCMSP2g");        nPgg[4] = readNumber("7TeVCMSP2g");
-    AF[1] = readMatrix("27TeVCMSF");           AF[4] = readMatrix("7TeVCMSF");
-    APqq[1] = readMatrix("27TeVCMSPqqbar");    APqq[4] = readMatrix("7TeVCMSPqqbar");
-    APgg[1] = readMatrix("27TeVCMSP2g");       APgg[4] = readMatrix("7TeVCMSP2g");
-
-// 14 TeV                                       //1.96TeV
-    nF[2] = readNumber("14TeVCMSF");            nF[5] = readNumber("2TeVCMSF");
-    nPqq[2] = readNumber("14TeVCMSPqqbar");     nPqq[5] = readNumber("2TeVCMSPqqbar");
-    nPgg[2] = readNumber("14TeVCMSP2g");        nPgg[5] = readNumber("2TeVCMSP2g");
-    AF[2] = readMatrix("14TeVCMSF");           AF[5] = readMatrix("2TeVCMSF");
-    APqq[2] = readMatrix("14TeVCMSPqqbar");    APqq[5] = readMatrix("2TeVCMSPqqbar");
-    APgg[2] = readMatrix("14TeVCMSP2g");       APgg[5] = readMatrix("2TeVCMSP2g");
 
     for(int i=0; i<nExp; i++){
         Aani[i] = calculateAverageMatrix(1, nPqq[i], nPgg[i], nF[i], APqq[i], APgg[i], AF[i]);
@@ -247,35 +267,37 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
         for(int j=1; j<6; j++){ //carefull index start at 1
             aL[i][j] = calculateCoefficent_a(j, Areal[i], latitudeCMS, azimuthCMS, true); //bool isCMS or D0
             aR[i][j] = calculateCoefficent_a(j, Aprod[i], latitudeCMS, azimuthCMS, true);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
             aLTEV[i][j] = calculateCoefficent_a(j, Areal[i], latitudeCMS, azimuthCMS, false);
             aRTEV[i][j] = calculateCoefficent_a(j, Aprod[i], latitudeCMS, azimuthCMS, false);
             aLgg[i][j] = calculateCoefficent_a(j, Afus[i], latitudeCMS, azimuthCMS, true);
             aRgg[i][j] = calculateCoefficent_a(j, APgg[i], latitudeCMS, azimuthCMS, true);
             aLqq[i][j] = calculateCoefficent_a(j, Aani[i], latitudeCMS, azimuthCMS, true);
             aRqq[i][j] = calculateCoefficent_a(j, APqq[i], latitudeCMS, azimuthCMS, true);
-//--------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
         }
         for(int j=0; j<4; j++){
             bL[i][j] = calculateCoefficent_b(j+1, Areal[i], latitudeCMS, azimuthCMS);
             bR[i][j] = calculateCoefficent_b(j+1, Aprod[i], latitudeCMS, azimuthCMS);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
             bLgg[i][j] = calculateCoefficent_b(j+1, Afus[i], latitudeCMS, azimuthCMS);
             bRgg[i][j] = calculateCoefficent_b(j+1, APgg[i], latitudeCMS, azimuthCMS);
             bLqq[i][j] = calculateCoefficent_b(j+1, Aani[i], latitudeCMS, azimuthCMS);
             bRqq[i][j] = calculateCoefficent_b(j+1, APqq[i], latitudeCMS, azimuthCMS);
-//--------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
         }
         aL[i][0] = (aL[i][1]-aL[i][2])/2.;
         aR[i][0] = (aR[i][1]-aR[i][2])/2.;
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
         aLTEV[i][0] = (aLTEV[i][1]-aLTEV[i][2])/2.;
         aRTEV[i][0] = (aRTEV[i][1]-aRTEV[i][2])/2.;
         aLgg[i][0] = (aLgg[i][1]-aLgg[i][2])/2.;
         aRgg[i][0] = (aRgg[i][1]-aRgg[i][2])/2.;
         aLqq[i][0] = (aLqq[i][1]-aLqq[i][2])/2.;
         aRqq[i][0] = (aRqq[i][1]-aRqq[i][2])/2.;
-//--------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
         for(int j=0; j<4; j++){
             fLList[i][j] = calculatef(time24, i, j, cmunuL_class, 0, 0, 0);
             fRList[i][j] = calculatef(time24, i, j, 0, cmunuR_class, 0, 0);
@@ -285,7 +307,7 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
             gRList[i][j] = calculateg(time24, i, j, 0, cmunuR_class, 0, 0);
             gCList[i][j] = calculateg(time24, i, j, 0, 0, cmunu_class, 0);
             gDList[i][j] = calculateg(time24, i, j, 0, 0, 0, dmunu_class);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
             fLListTEV[i][j] = calculatefTEV(time24, i, j, cmunuL_class, 0, 0, 0);
             fRListTEV[i][j] = calculatefTEV(time24, i, j, 0, cmunuR_class, 0, 0);
             fCListTEV[i][j] = calculatefTEV(time24, i, j, 0, 0, cmunu_class, 0);
@@ -306,7 +328,8 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
             gRListqq[i][j] = calculategqq(time24, i, j, 0, cmunuR_class, 0, 0);
             gCListqq[i][j] = calculategqq(time24, i, j, 0, 0, cmunu_class, 0);
             gDListqq[i][j] = calculategqq(time24, i, j, 0, 0, 0, dmunu_class);
-//--------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
             amplitudeLListf[i][j] = calculateMax(fLList[i][j]);
             amplitudeRListf[i][j] = calculateMax(fRList[i][j]);
             amplitudeCListf[i][j] = calculateMax(fCList[i][j]);
@@ -315,12 +338,13 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
             amplitudeRListg[i][j] = calculateMax(gRList[i][j]);
             amplitudeCListg[i][j] = calculateMax(gCList[i][j]);
             amplitudeDListg[i][j] = calculateMax(gDList[i][j]);
-//-------------------------------------------- Article ---------------------------------------//
+//----------------------------------- Article --------------------------------//
             amplitudeLListfTEV[i][j] = calculateMax(fLListTEV[i][j]);
             amplitudeRListfTEV[i][j] = calculateMax(fRListTEV[i][j]);
             amplitudeCListfTEV[i][j] = calculateMax(fCListTEV[i][j]);
             amplitudeDListfTEV[i][j] = calculateMax(fDListTEV[i][j]);
-//--------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
         }
     }
 /*
@@ -352,6 +376,13 @@ ________________________________
 
 */
 
+void KineticAnalyze::showMatrix(TMatrixD m){
+    std::cout<<"matrix is : "<<std::endl;
+    for(int i=0; i<4; i++)
+        std::cout<<m(i,0)<<" "<<m(i,1)<<" "<<m(i,2)<<" "<<m(i,3)<<std::endl;
+    std::cout<<std::endl;
+}
+
 TMatrixD KineticAnalyze::readMatrix(TString s){
     TMatrixD foo(4,4);
     std::string tmp;
@@ -371,8 +402,9 @@ std::vector<TMatrixD> KineticAnalyze::readVecMatrix(TString s, int n){
     for(int i=0; i<n; i++){
         foo[i].ResizeTo(4,4,-1);
         for(int j=0; j<4; j++)
-            for(int k=0; k<4; k++)
+            for(int k=0; k<4; k++){
                 f>>foo[i].operator()(j,k);
+            }
     }
     return foo;
 }
@@ -1241,7 +1273,7 @@ void KineticAnalyze::earthSignal(TString XX){
     double cmunuEarthSignal = 0.1;
     double tmp = M_PI/pas;                  // latitude
     double tmp2 = 2*(M_PI/pas);             // azimuth
-    double a0, a1, a2, a3, a4, a5, arg1, arg2;
+    double a0, a1, a2, a3, a4, a5, arg1;
     TCanvas* c = new TCanvas("max f_{SME}(#lambda, #theta) f","", 10,10,800,600);
     TH2F* h = new TH2F("", "", pas, 0, M_PI, pas, 0, 2*M_PI);
 
@@ -1328,12 +1360,17 @@ void KineticAnalyze::earthSignal(TString XX){
 }
 
 void KineticAnalyze::amunuHist(){
+    TMatrixD zero(4,4);
+    TString x[4];   TString p[4];
+    x[0] = "X";     p[0] = "Pqq";
+    x[1] = "Y";     p[1] = "Pgg";
+    x[2] = "Z";     p[2] = "F";
+    x[3] = "T";     p[3] = "TOT";
 
-    std::cout<<readVecMatrix("VMAPqqbar13TEVCMS", n13TeV)[17](0,0)<<std::endl;
     std::vector<std::vector<TMatrixD> > amunuForHist(4);
-    amunuForHist[0] = readVecMatrix("VMAPqqbar13TEVCMS", n13TeV);
-    amunuForHist[1] = readVecMatrix("VMAP2g13TEVCMS", n13TeV);
-    amunuForHist[2] = readVecMatrix("VMAP13TEVCMS", n13TeV);
+    amunuForHist[0] = readVecMatrix("VMAPqqbar13TeVCMS", n13TeV);
+    amunuForHist[1] = readVecMatrix("VMAP2g13TeVCMS", n13TeV);
+    amunuForHist[2] = readVecMatrix("VMAF13TeVCMS", n13TeV);
     amunuForHist[3] = std::vector<TMatrixD>(n13TeV);
     for(int i=0; i<n13TeV; i++){
         amunuForHist[3][i].ResizeTo(4,4,-1);
@@ -1344,24 +1381,68 @@ void KineticAnalyze::amunuHist(){
     std::array<std::array<std::array<TH1F*, 4>, 4>, 4> h;
     for(int i=0; i<4; i++)
         for(int j=0; j<4; j++){
-            c[i][j] = new TCanvas();
+            c[i][j] = new TCanvas("","",1000,800);
             c[i][j]->Divide(2,2);
             for(int k=0; k<4; k++)
-                h[i][j][k] = new TH1F("","",100,0,50);
+                h[i][j][k] = new TH1F("A^{"+x[i]+x[j]+"}_{"+p[k]+"}","",100,-50,50);
             for(int k=0; k<n13TeV; k++)
                 for(int a=0; a<4; a++){
-                    c[i][j]->cd(a+1);
-                    if(amunuForHist[a][k](i,j)!=0){
+                    if(!(amunuForHist[a][k]==zero)){
                         h[i][j][a]->Fill(amunuForHist[a][k](i,j));
                     }
                 }
-            for(int k=0; k<4; k++)
-               h[i][j][k]->Draw();
+            for(int k=0; k<4; k++){
+                c[i][j]->cd(k+1);
+                h[i][j][k]->Draw("SAME");
+            }
             c[i][j]->Update();
-            c[i][j]->SaveAs("results/amunu/truc.png");
+            c[i][j]->SaveAs("results/amunu/amunu"+x[i]+x[j]+".png");
     }
-
 }
+
+void KineticAnalyze::amunuHistSolo(int row, int column, bool isComparaison){
+    TMatrixD null(4,4);
+    TString x[4];
+    x[0] = "X";
+    x[1] = "Y";
+    x[2] = "Z";
+    x[3] = "T";
+
+    std::vector<std::vector<TMatrixD> > amunuForHist(4);
+    std::vector<std::vector<TMatrixD> > amunuForHist2(4);
+    amunuForHist[0] = readVecMatrix("VMAPqqbar13TeVCMS", n13TeV);
+    amunuForHist[1] = readVecMatrix("VMAP2g13TeVCMS", n13TeV);
+    amunuForHist[2] = readVecMatrix("VMAF13TeVCMS", n13TeV);
+    amunuForHist[3] = std::vector<TMatrixD>(n13TeV);
+    amunuForHist2[0] = readVecMatrix("VMAPqqbar13TeVCMStop", n13TeV);
+    amunuForHist2[1] = readVecMatrix("VMAP2g13TeVCMStop", n13TeV);
+    amunuForHist2[2] = readVecMatrix("VMAF13TeVCMStop", n13TeV);
+    amunuForHist2[3] = std::vector<TMatrixD>(n13TeV);
+    for(int i=0; i<n13TeV; i++){
+        amunuForHist[3][i].ResizeTo(4,4,-1);
+        amunuForHist[3][i] = 0.5*(((double)nPqq[3])/nF[3])*amunuForHist[0][i] + 0.5*(((double)nPgg[3])/nF[3])*amunuForHist[1][i] + amunuForHist[2][i];
+        amunuForHist2[3][i].ResizeTo(4,4,-1);
+        amunuForHist2[3][i] = 0.5*(((double)nPqq[3])/nF[3])*amunuForHist2[0][i] + 0.5*(((double)nPgg[3])/nF[3])*amunuForHist2[1][i] + amunuForHist2[2][i];
+    }
+    TCanvas *c = new TCanvas("","",800,600);
+    TH1F *h = new TH1F("A^{"+x[row]+x[column]+"}","",100,-50,50);
+    TH1F *h2 = new TH1F("","",100,-50,50);
+    for(int i=0; i<n13TeV; i++){
+        if(!(amunuForHist[3][i]==null))
+            h->Fill(amunuForHist[3][i](row,column));
+            h2->Fill(amunuForHist2[3][i](row,column));
+    }
+    h2->SetLineColor(kRed);
+    h->Draw();
+    if(isComparaison)
+        h2->Draw("SAME");
+    c->Update();
+    if(isComparaison)
+        c->SaveAs("results/amunu/solo/A"+x[row]+x[column]+"Comparaison.png");
+    else
+        c->SaveAs("results/amunu/solo/A"+x[row]+x[column]+".png");
+}
+
 
 //_________________________________________________//
 //________________ statistical stuff ______________//

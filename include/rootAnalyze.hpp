@@ -7,6 +7,9 @@
 #ifndef rootAnalyze_h
 #define rootAnalyze_h
 
+#include "../include/const.hpp"
+
+#include <fstream>
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
@@ -124,14 +127,14 @@ public :
 #endif
 
 #ifdef rootAnalyze_cxx
-Analyze::Analyze(TString rootFile, TTree *tree) : fChain(0) 
+Analyze::Analyze(TString rootFile, TTree *tree) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
       TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("data/LHE/"+rootFile);
       if (!f || !f->IsOpen()) {
-         f = new TFile("data/LHE/"+rootFile);
+         f = new TFile("../DATA/RootFile/"+rootFile);
       }
       f->GetObject("LHEF",tree);
 

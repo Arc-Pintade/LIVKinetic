@@ -5,11 +5,7 @@
 //                                                    //
 ////////////////////////////////////////////////////////
 
-#include "../include/const.hpp"
 #include "../include/matrixConstruction.hpp"
-
-#include <iostream> 
-#include <fstream>
 
 //___________________ MATRIX ELEMENT ___ SM ______________________//
 
@@ -166,32 +162,32 @@ TMatrixD MatrixElement::calculateP2g_munu(){
 // deltapMuu
     foo1 += (gS4 / (6*pow((u-mt2),3))) * ((-u * u + t * u - mt2 * t + 3*mt2 * u - 10*mt2 * mt2) * (matrixGen(pBeam1, pBeam2) + matrixGen(pBeam1, pBeam2).T()) + (u * u + t * u - mt2 * t - 9*mt2 * u) * (matrixGen(pt, ptbar) + matrixGen(pt, ptbar).T()) + (-u * u - t * u + mt2 * t + 5*mt2 * u + 4*mt2 * mt2) * (matrixGen(ptbar, pBeam1) + matrixGen(ptbar, pBeam1).T() + matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T()));
 // deltapMst
-    foo1 += ((3*gS4) / (32*s * pow((t-mt2),2))) * ((2*t*s - (t + mt2)*(u - mt2)) * (matrixGen(pt, pBeam1) + matrixGen(pt, pBeam1).T() + matrixGen(ptbar, pBeam2) + matrixGen(ptbar, pBeam2).T()) 
+    foo1 += ((3*gS4) / (32*s * pow((t-mt2),2))) * ((2*t*s - (t + mt2)*(u - mt2)) * (matrixGen(pt, pBeam1) + matrixGen(pt, pBeam1).T() + matrixGen(ptbar, pBeam2) + matrixGen(ptbar, pBeam2).T())
     + (t-mt2) * ((3*t - 5*mt2) * (matrixGen(ptbar, pBeam1) + matrixGen(ptbar, pBeam1).T() + matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T()) + (t + 3*u - 8*mt2) * (matrixGen(pBeam1, pBeam2) - matrixGen(pBeam1, pBeam2).T() + matrixGen(ptbar, pBeam1) - matrixGen(ptbar, pBeam1).T() - matrixGen(ptbar, pBeam2) + matrixGen(ptbar, pBeam2).T()))
     - 2*(8*mt2*mt2 + (t-3*mt2)*(3*t+u)) * (matrixGen(pBeam1, pBeam2) + matrixGen(pBeam1, pBeam2).T())
     + 4*(2*t*u - 3*mt2*t - mt2*u + 2*mt2*mt2) * (matrixGen(pt, ptbar) + matrixGen(pt, ptbar).T()));
 // deltapMsu
-    foo1 += ((3*gS4) / (32*s * pow((u-mt2),2))) * ((2*u*s - (u + mt2)*(t - mt2)) * (matrixGen(ptbar, pBeam1) + matrixGen(ptbar, pBeam1).T() + matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T()) 
+    foo1 += ((3*gS4) / (32*s * pow((u-mt2),2))) * ((2*u*s - (u + mt2)*(t - mt2)) * (matrixGen(ptbar, pBeam1) + matrixGen(ptbar, pBeam1).T() + matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T())
     + (u-mt2) * ((3*u - 5*mt2) * (matrixGen(pt, pBeam1) + matrixGen(pt, pBeam1).T() + matrixGen(ptbar, pBeam2) + matrixGen(ptbar, pBeam2).T()) + (u + 3*t - 8*mt2) * (matrixGen(pBeam1, pBeam2) - matrixGen(pBeam1, pBeam2).T() + matrixGen(pt, pBeam1) - matrixGen(pt, pBeam1).T() - matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T()))
     - 2*(8*mt2*mt2 + (u-3*mt2)*(3*u+t)) * (matrixGen(pBeam1, pBeam2) + matrixGen(pBeam1, pBeam2).T())
     + 4*(2*t*u - 3*mt2*u - mt2*t + 2*mt2*mt2) * (matrixGen(pt, ptbar) + matrixGen(pt, ptbar).T()));
 // deltapMtu
     foo1 += (gS4 / (24*pow((u-mt2),2)*pow((t-mt2),2))) * ((2*s+mt2)*(t-mt2)*(u-mt2)*(matrixGen(pBeam1, pBeam2) + matrixGen(pBeam1, pBeam2).T() - matrixGen(pt, ptbar) - matrixGen(pt, ptbar).T())
-    + mt2*((s*s - 7*mt2*s - 3*t*u + 3*mt2*mt2)*(matrixGen(pBeam1, pBeam2) + matrixGen(pBeam1, pBeam2).T() + matrixGen(pt, ptbar) + matrixGen(pt, ptbar).T()) 
-    - (t-mt2)*(t-u+4*mt2)*(matrixGen(ptbar, pBeam1) + matrixGen(ptbar, pBeam1).T() + matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T()) 
+    + mt2*((s*s - 7*mt2*s - 3*t*u + 3*mt2*mt2)*(matrixGen(pBeam1, pBeam2) + matrixGen(pBeam1, pBeam2).T() + matrixGen(pt, ptbar) + matrixGen(pt, ptbar).T())
+    - (t-mt2)*(t-u+4*mt2)*(matrixGen(ptbar, pBeam1) + matrixGen(ptbar, pBeam1).T() + matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T())
     + (u-mt2)*(t-u-4*mt2)*(matrixGen(pt, pBeam1) + matrixGen(pt, pBeam1).T() + matrixGen(ptbar, pBeam2) + matrixGen(ptbar, pBeam2).T())));
 //**************************** deltav ***************************//
 
 // deltavMss
     TMatrixD foo2(4,4);
-    foo2  = ((3*gS4) / (4*s*s)) * (t*(matrixGen(ptbar, pBeam1) + matrixGen(pt, pBeam2) - matrixGen(pBeam1, pBeam2) - matrixGen(pBeam1, pBeam2).T()) 
-    + u*(matrixGen(ptbar, pBeam2) + matrixGen(pt, pBeam1) - matrixGen(pBeam1, pBeam2) - matrixGen(pBeam1, pBeam2).T()) 
+    foo2  = ((3*gS4) / (4*s*s)) * (t*(matrixGen(ptbar, pBeam1) + matrixGen(pt, pBeam2) - matrixGen(pBeam1, pBeam2) - matrixGen(pBeam1, pBeam2).T())
+    + u*(matrixGen(ptbar, pBeam2) + matrixGen(pt, pBeam1) - matrixGen(pBeam1, pBeam2) - matrixGen(pBeam1, pBeam2).T())
     - mt2*(matrixGenvMss(pBeam1, pBeam2)));
 // deltavMtt
-    foo2 += (gS4 / (3*pow(3*(t-mt2),2))) * ((t-3*mt2)*(matrixGen(pt, pBeam1) + matrixGen(pt, pBeam1).T() + matrixGen(ptbar, pBeam2) + matrixGen(ptbar, pBeam2).T()) 
+    foo2 += (gS4 / (3*pow(3*(t-mt2),2))) * ((t-3*mt2)*(matrixGen(pt, pBeam1) + matrixGen(pt, pBeam1).T() + matrixGen(ptbar, pBeam2) + matrixGen(ptbar, pBeam2).T())
     + 4*mt2*(matrixGen(pt, ptbar) + matrixGen(pt, ptbar).T()));
 // deltavMuu
-    foo2 += (gS4 / (3*pow(3*(u-mt2),2))) * ((u-3*mt2)*(matrixGen(ptbar, pBeam1) + matrixGen(ptbar, pBeam1).T() + matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T()) 
+    foo2 += (gS4 / (3*pow(3*(u-mt2),2))) * ((u-3*mt2)*(matrixGen(ptbar, pBeam1) + matrixGen(ptbar, pBeam1).T() + matrixGen(pt, pBeam2) + matrixGen(pt, pBeam2).T())
     + 4*mt2*(matrixGen(pt, ptbar) + matrixGen(pt, ptbar).T()));
 // deltavMst
     foo2 += ((3*gS4) / (32*s*(t-mt2))) * (2*(s+4*mt2)*(matrixGen(pBeam1, pBeam2) + matrixGen(pBeam1, pBeam2).T())
@@ -215,12 +211,12 @@ TMatrixD MatrixElement::calculateP2g_munu(){
 
 TMatrixD MatrixElement::calculateF_munu(){
     TMatrixD foo(4,4);
-    foo = ((2*gW4) / (mt2 * gammat2 * ((pow((normMinkowski2(pDecay1 + pAntiDecay1) - mW2),2)) + (mW2 * gammaW2)))) * 
-    (scalarProduct(pb, pt) * (matrixGen(pDecay1, pAntiDecay1) + matrixGen(pDecay1, pAntiDecay1).T()) 
-    + scalarProduct(pb, pDecay1) * (matrixGen(pt, pAntiDecay1) + matrixGen(pt, pAntiDecay1).T()) 
-    - scalarProduct(pb, pAntiDecay1) * (matrixGen(pt, pDecay1) + matrixGen(pt, pDecay1).T()) 
-    - scalarProduct(pt, pDecay1) * (matrixGen(pb, pAntiDecay1) + matrixGen(pb, pAntiDecay1).T()) 
-    + scalarProduct(pt, pAntiDecay1) * (matrixGen(pb, pDecay1) + matrixGen(pb, pDecay1).T()) 
+    foo = ((2*gW4) / (mt2 * gammat2 * ((pow((normMinkowski2(pDecay1 + pAntiDecay1) - mW2),2)) + (mW2 * gammaW2)))) *
+    (scalarProduct(pb, pt) * (matrixGen(pDecay1, pAntiDecay1) + matrixGen(pDecay1, pAntiDecay1).T())
+    + scalarProduct(pb, pDecay1) * (matrixGen(pt, pAntiDecay1) + matrixGen(pt, pAntiDecay1).T())
+    - scalarProduct(pb, pAntiDecay1) * (matrixGen(pt, pDecay1) + matrixGen(pt, pDecay1).T())
+    - scalarProduct(pt, pDecay1) * (matrixGen(pb, pAntiDecay1) + matrixGen(pb, pAntiDecay1).T())
+    + scalarProduct(pt, pAntiDecay1) * (matrixGen(pb, pDecay1) + matrixGen(pb, pDecay1).T())
     + scalarProduct(pDecay1, pAntiDecay1) * (matrixGen(pb, pt) + matrixGen(pb, pt).T()));
     return foo;
 }
@@ -229,12 +225,12 @@ TMatrixD MatrixElement::calculateF_munu(){
 
 TMatrixD MatrixElement::calculateFbar_munu(){
     TMatrixD foo(4,4);
-    foo = ((2*gW4) / (mt2 * gammat2 * ((pow((normMinkowski2(pDecay2 + pAntiDecay2) - mW2),2)) + (mW2 * gammaW2)))) * 
-    (scalarProduct(pbbar, ptbar) * (matrixGen(pDecay2, pAntiDecay2) + matrixGen(pDecay2, pAntiDecay2).T()) 
-    + scalarProduct(ptbar, pDecay2) * (matrixGen(pbbar, pAntiDecay2) + matrixGen(pbbar, pAntiDecay2).T()) 
-    - scalarProduct(ptbar, pAntiDecay2) * (matrixGen(pbbar, pDecay2) + matrixGen(pbbar, pDecay2).T()) 
-    - scalarProduct(pbbar, pDecay2) * (matrixGen(ptbar, pAntiDecay2) + matrixGen(ptbar, pAntiDecay2).T()) 
-    + scalarProduct(pbbar, pAntiDecay2) * (matrixGen(ptbar, pDecay2) + matrixGen(ptbar, pDecay2).T()) 
+    foo = ((2*gW4) / (mt2 * gammat2 * ((pow((normMinkowski2(pDecay2 + pAntiDecay2) - mW2),2)) + (mW2 * gammaW2)))) *
+    (scalarProduct(pbbar, ptbar) * (matrixGen(pDecay2, pAntiDecay2) + matrixGen(pDecay2, pAntiDecay2).T())
+    + scalarProduct(ptbar, pDecay2) * (matrixGen(pbbar, pAntiDecay2) + matrixGen(pbbar, pAntiDecay2).T())
+    - scalarProduct(ptbar, pAntiDecay2) * (matrixGen(pbbar, pDecay2) + matrixGen(pbbar, pDecay2).T())
+    - scalarProduct(pbbar, pDecay2) * (matrixGen(ptbar, pAntiDecay2) + matrixGen(ptbar, pAntiDecay2).T())
+    + scalarProduct(pbbar, pAntiDecay2) * (matrixGen(ptbar, pDecay2) + matrixGen(ptbar, pDecay2).T())
     + scalarProduct(pDecay2, pAntiDecay2) * (matrixGen(pbbar, ptbar) + matrixGen(pbbar, ptbar).T()));
     return foo;
 }
@@ -265,7 +261,7 @@ double MatrixElement::scalarProduct(TLorentzVector p1, TLorentzVector p2){
 }
 
 void MatrixElement::writeDownVecMatrix(double*** Vecmatrix, TString s, double nEvents){
-    std::ofstream f("data/VecMatrix/"+s, std::ios::out);
+    std::ofstream f(""+s, std::ios::out);
     for(int i=0; i<nEvents; i++){
         for(int j =0; j<4; j++){
             f<<Vecmatrix[i][j][0]<<" "<<Vecmatrix[i][j][1]<<" "<<Vecmatrix[i][j][2]<<" "<<Vecmatrix[i][j][3]<<std::endl;
@@ -300,7 +296,7 @@ void MatrixElement::showMatrix(TMatrixD m){
 
 TMatrixD MatrixElement::matrixAF(TMatrixD AF, TMatrixD AFbar, double F, double Fbar){
     TMatrixD foo(4,4);
-    foo = (1/F)*AF; 
+    foo = (1/F)*AF;
     foo += (1/Fbar)*AFbar;
     return foo;
 }
@@ -338,4 +334,3 @@ TMatrixD MatrixElement::calculateMatrix(int ntot, int n, double*** vecMat){
     foo = (1/((double)n)) * foo;
     return foo;
 }
-

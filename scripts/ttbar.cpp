@@ -20,11 +20,17 @@ int main (){
         k.compareCMSD0(i);
         k.earthSignal(XX[i]);
     }
-
-    k.amplEnergyComparaison(true);
+*/
+//    k.amplEnergyComparaison(true);
 //    k.amplEnergyComparaison(false);
-    */
+
 //    k.amunuHist();
+
+    k.amunuHistSolo(1,1,true);
+
+//for(int i=0; i<4; i++)
+//    for(int j=0; j<4; j++)
+//        k.amunuHistSolo(i,j,true);
 
     return 0;
 }

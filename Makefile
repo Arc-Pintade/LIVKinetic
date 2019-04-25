@@ -25,7 +25,7 @@
 
 ######################## Compiler variable definitions #########################
 
-CC           = g++
+CC           = g++ -O2
 CFLAGS       = -Wall
 
 ######################## Directory variable definitions ########################
@@ -61,14 +61,15 @@ EXECUTABLE   = $(notdir $(SCRIPTS_BIN))
 
 .PHONY: clean clean-all
 all: $(EXECUTABLE)
-	mv ./$(SCRIPTS_DIR)/*.o ./$(BUILDS_DIR)/
-	mv ./$(SOURCES_DIR)/*.o ./$(BUILDS_DIR)/
 	@echo "\n"\
 	"*********************************\n"\
 	"** La compilation est finie :) **\n"\
 	"**   Woaaa quel codeur... <3   **\n"\
 	"**  Atom > Vim > Rien > Emacs  **\n"\
 	"*********************************\n"
+#	mv ./$(SCRIPTS_DIR)/*.o ./$(BUILDS_DIR)/
+#	mv ./$(SOURCES_DIR)/*.o ./$(BUILDS_DIR)/
+
 clean:
 	rm -f ./$(BUILDS_DIR)/*.o
 clean-all:
