@@ -12,21 +12,21 @@ int main (){
 
     KineticAnalyze k(wilson,wilson,wilson,wilson);
 // 13 Tev is experiment 3
-/*    for(int i=0; i<4; i++){
-        k.fTime(i, 3);
+    for(int i=0; i<4; i++){
+/*        k.fTime(i, 3);
         k.gTime(i,3);
         k.gTimeTT(i,3);
         k.compareFusAni(i,3);
         k.compareCMSD0(i);
-        k.earthSignal(XX[i]);
+*/        k.earthSignal(XX[i]);
     }
-*/
+
 //    k.amplEnergyComparaison(true);
 //    k.amplEnergyComparaison(false);
 
 //    k.amunuHist();
 
-    k.amunuHistSolo(1,1,true);
+//    k.amunuHistSolo(1,1,true);
 
 //for(int i=0; i<4; i++)
 //    for(int j=0; j<4; j++)

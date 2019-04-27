@@ -59,6 +59,7 @@ EXECUTABLE   = $(notdir $(SCRIPTS_BIN))
 
 ############################### Makefile commands ##############################
 
+.PRECIOUS: $(BUILDS_DIR)/%.o
 .PHONY: clean clean-all
 all: $(EXECUTABLE)
 	@echo "\n"\
@@ -67,8 +68,7 @@ all: $(EXECUTABLE)
 	"**   Woaaa quel codeur... <3   **\n"\
 	"**  Atom > Vim > Rien > Emacs  **\n"\
 	"*********************************\n"
-#	mv ./$(SCRIPTS_DIR)/*.o ./$(BUILDS_DIR)/
-#	mv ./$(SOURCES_DIR)/*.o ./$(BUILDS_DIR)/
+	mv ./$(SOURCES_DIR)/*.o ./$(BUILDS_DIR)/
 
 clean:
 	rm -f ./$(BUILDS_DIR)/*.o
@@ -77,13 +77,13 @@ clean-all:
 
 ############################### Objects creations ##############################
 
-$(SCRIPTS_DIR)/%.o: $(SCRIPTS_DIR)/%.cpp
+$(BUILDS_DIR)/%.o: $(SCRIPTS_DIR)/%.cpp
 #	$(CC) -c $(CFLAGS) $(Qt_INC_DIRS) $(Qt_LIBS) -o $@ $<
 #	$(CC) -c $(CFLAGS) $(GTK+_LIBS) -o $@ $<
 	$(CC) -c $(CFLAGS) $(ROOT_LIBS) -o $@ $<
 #	$(CC) -c $(CFLAGS) $(SFML_LIBS) -o $@ $<
 
-$(SOURCES_DIR)/%.o: $(SOURCES_DIR)/%.cpp
+$(BUILDS_DIR)/%.o: $(SOURCES_DIR)/*.cpp
 #	$(CC) -c $(CFLAGS) $(Qt_INC_DIRS) $(Qt_LIBS) -o $@ $<
 #	$(CC) -c $(CFLAGS) $(GTK+_LIBS) -o $@ $<
 	$(CC) -c $(CFLAGS) $(ROOT_LIBS) -o $@ $<
@@ -91,7 +91,7 @@ $(SOURCES_DIR)/%.o: $(SOURCES_DIR)/%.cpp
 
 ############################# Executables creations ############################
 
-%: $(SCRIPTS_DIR)/%.o $(SOURCES_OBJ)
+%: $(BUILDS_DIR)/%.o $(SOURCES_OBJ)
 #	$(CC) -o $(BINARIES_DIR)/$@ $^ $(Qt_LIBS)
 #	$(CC) -o $(BINARIES_DIR)/$@ $^ $(GTK+_LIBS)
 	$(CC) -o $(BINARIES_DIR)/$@ $^ $(ROOT_LIBS)

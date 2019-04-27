@@ -261,7 +261,7 @@ double MatrixElement::scalarProduct(TLorentzVector p1, TLorentzVector p2){
 }
 
 void MatrixElement::writeDownVecMatrix(double*** Vecmatrix, TString s, double nEvents){
-    std::ofstream f(""+s, std::ios::out);
+    std::ofstream f("../DATA/VecMatrix/"+s, std::ios::out);
     for(int i=0; i<nEvents; i++){
         for(int j =0; j<4; j++){
             f<<Vecmatrix[i][j][0]<<" "<<Vecmatrix[i][j][1]<<" "<<Vecmatrix[i][j][2]<<" "<<Vecmatrix[i][j][3]<<std::endl;

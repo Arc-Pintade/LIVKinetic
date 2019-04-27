@@ -1052,7 +1052,7 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         }
     }
     for(int i=0; i<4; i++){
-        c[i] = new TCanvas(name[i],"");
+        c[i] = new TCanvas(name[i],"",200,10,800,600);
         c[i]->SetFillColor(kWhite);
         m[i]->SetTitle("");
         m[i]->GetXaxis()->SetTitle("#sqrt{s} (TeV)");
@@ -1067,8 +1067,7 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         m[i]->GetXaxis()->SetLimits(1,200);
         legend[i]->Draw();
         c[i]->SetLogx();
-        c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".png");
-        c[i]->SaveAs("results/amplitude/amplEnergy"+name2[i]+".pdf");
+        c[i]->SaveAs("results/amplitude/"+name2[i]+".png");
     }
 }
 
@@ -1156,6 +1155,7 @@ void KineticAnalyze::compareFusAni(int munu, int exp){
 
 void KineticAnalyze::compareCMSD0(int munu){
     TCanvas* w = new TCanvas("","",200,10,800,600);
+//  TCanvas* w = new TCanvas("","");
     w->SetFillColor(kWhite);
     TH1F* h1 = new TH1F("","", 4, 0, 4);
     TH1F* h2 = new TH1F("","", 4, 0, 4);
@@ -1274,10 +1274,10 @@ void KineticAnalyze::earthSignal(TString XX){
     double tmp = M_PI/pas;                  // latitude
     double tmp2 = 2*(M_PI/pas);             // azimuth
     double a0, a1, a2, a3, a4, a5, arg1;
+
     TCanvas* c = new TCanvas("max f_{SME}(#lambda, #theta) f","", 10,10,800,600);
     TH2F* h = new TH2F("", "", pas, 0, M_PI, pas, 0, 2*M_PI);
-
-    for(int i = 0; i<pas; i++)
+    for(int i=0; i<pas; i++)
         for(int j=0; j<pas; j++){
             if(XX=="XX" or XX=="XY"){
                 a1 = calculateCoefficent_a(1, Areal[3], i*tmp, j*tmp2, true);
@@ -1285,44 +1285,36 @@ void KineticAnalyze::earthSignal(TString XX){
                 a0 = (a1-a2)/2.;
                 a3 = calculateCoefficent_a(3, Areal[3], i*tmp, j*tmp2, true);
                 if(XX=="XX"){
-                    if(a0>0)
+                    if(a0!=0)
                         arg1 = atan(a3/a0);
-                    else if(a0<0)
-                        arg1 = -atan(a3/abs(a0)) + M_PI;
                     else if(a0==0)
                         arg1 = 0;
-                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a0*cos(2*omega*arg1) + a3*sin(2*omega*arg1))) );
+                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a0*cos(arg1) + a3*sin(arg1))) );
                 }
                 else if(XX=="XY"){
-                    if(a3>0)
+                    if(a3!=0)
                         arg1 = atan(-a0/a3);
-                    else if(a3<0)
-                        arg1 = -atan(-a0/abs(a3)) + M_PI;
                     else if(a3==0)
                         arg1 = 0;
-                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a0*sin(2*omega*arg1) - a3*cos(2*omega*arg1))) );
+                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a0*sin(arg1) - a3*cos(arg1))) );
                 }
             }
             else if(XX=="XZ" or XX=="YZ"){
                 a4 = calculateCoefficent_a(4, Areal[3], i*tmp, j*tmp2, true);
                 a5 = calculateCoefficent_a(5, Areal[3], i*tmp, j*tmp2, true);
                 if(XX=="XZ"){
-                    if(a4>0)
+                    if(a4!=0)
                         arg1 = atan(a5/a4);
-                    else if(a4<0)
-                        arg1 = -atan(a5/abs(a4)) + M_PI;
                     else if(a4==0)
                         arg1 = 0;
-                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a4*cos(omega*arg1) + a5*sin(omega*arg1))) );
+                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a4*cos(arg1) + a5*sin(arg1))) );
                 }
                 else if(XX=="YZ"){
-                    if(a5>0)
+                    if(a5!=0)
                         arg1 = atan(-a4/a5);
-                    else if(a5<0)
-                        arg1 = -atan(-a4/abs(a5)) + M_PI;
                     else if(a5==0)
                         arg1 = 0;
-                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a4*sin(omega*arg1) - a5*cos(omega*arg1))) );
+                    h->SetBinContent(i+1, j+1, abs(2*cmunuEarthSignal*(a4*sin(arg1) - a5*cos(arg1))) );
                 }
             }
         }
@@ -1430,6 +1422,7 @@ void KineticAnalyze::amunuHistSolo(int row, int column, bool isComparaison){
     for(int i=0; i<n13TeV; i++){
         if(!(amunuForHist[3][i]==null))
             h->Fill(amunuForHist[3][i](row,column));
+        if(!(amunuForHist2[3][i]==null))
             h2->Fill(amunuForHist2[3][i](row,column));
     }
     h2->SetLineColor(kRed);
