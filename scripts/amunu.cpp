@@ -25,8 +25,10 @@ int main(){
         an = new Analyze("unweighted_events_ttbardilepLHC2TeV.root");
     else if(simu == "D02TeV")
         an = new Analyze("unweighted_events_ttbardilepTevatron.root");
-    else
+    else{
         cout<<"error with simulation"<<endl;
+        return 0;
+    }
     an->Loop();
     int Events = an->fChain->GetEntriesFast();
 

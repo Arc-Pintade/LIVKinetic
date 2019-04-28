@@ -26,7 +26,7 @@
 ######################## Compiler variable definitions #########################
 
 CC           = g++ -O2
-CFLAGS       = -Wall
+CFLAGS       = -Wall -Wextra
 
 ######################## Directory variable definitions ########################
 
@@ -55,6 +55,7 @@ SCRIPTS_BIN  = $(SCRIPTS:.cpp=)
 
 ########################## Executable name definitions #########################
 
+OBJECTS      = $(subst $(SOURCES_DIR),$(BUILDS_DIR),$(SOURCES_OBJ))
 EXECUTABLE   = $(notdir $(SCRIPTS_BIN))
 
 ############################### Makefile commands ##############################
@@ -68,7 +69,7 @@ all: $(EXECUTABLE)
 	"**   Woaaa quel codeur... <3   **\n"\
 	"**  Atom > Vim > Rien > Emacs  **\n"\
 	"*********************************\n"
-	mv ./$(SOURCES_DIR)/*.o ./$(BUILDS_DIR)/
+#	mv ./$(SOURCES_DIR)/*.o ./$(BUILDS_DIR)/
 
 clean:
 	rm -f ./$(BUILDS_DIR)/*.o
@@ -83,7 +84,7 @@ $(BUILDS_DIR)/%.o: $(SCRIPTS_DIR)/%.cpp
 	$(CC) -c $(CFLAGS) $(ROOT_LIBS) -o $@ $<
 #	$(CC) -c $(CFLAGS) $(SFML_LIBS) -o $@ $<
 
-$(BUILDS_DIR)/%.o: $(SOURCES_DIR)/*.cpp
+$(BUILDS_DIR)/%.o: $(SOURCES_DIR)/%.cpp
 #	$(CC) -c $(CFLAGS) $(Qt_INC_DIRS) $(Qt_LIBS) -o $@ $<
 #	$(CC) -c $(CFLAGS) $(GTK+_LIBS) -o $@ $<
 	$(CC) -c $(CFLAGS) $(ROOT_LIBS) -o $@ $<
@@ -91,7 +92,7 @@ $(BUILDS_DIR)/%.o: $(SOURCES_DIR)/*.cpp
 
 ############################# Executables creations ############################
 
-%: $(BUILDS_DIR)/%.o $(SOURCES_OBJ)
+%: $(BUILDS_DIR)/%.o $(OBJECTS)
 #	$(CC) -o $(BINARIES_DIR)/$@ $^ $(Qt_LIBS)
 #	$(CC) -o $(BINARIES_DIR)/$@ $^ $(GTK+_LIBS)
 	$(CC) -o $(BINARIES_DIR)/$@ $^ $(ROOT_LIBS)

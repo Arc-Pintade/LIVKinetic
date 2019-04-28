@@ -277,13 +277,13 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
 //----------------------------------------------------------------------------//
         }
         for(int j=0; j<4; j++){
-            bL[i][j] = calculateCoefficent_b(j+1, Areal[i], latitudeCMS, azimuthCMS);
-            bR[i][j] = calculateCoefficent_b(j+1, Aprod[i], latitudeCMS, azimuthCMS);
+            bL[i][j] = calculateCoefficent_b(j+1, Areal[i]);
+            bR[i][j] = calculateCoefficent_b(j+1, Aprod[i]);
 //----------------------------------- Article --------------------------------//
-            bLgg[i][j] = calculateCoefficent_b(j+1, Afus[i], latitudeCMS, azimuthCMS);
-            bRgg[i][j] = calculateCoefficent_b(j+1, APgg[i], latitudeCMS, azimuthCMS);
-            bLqq[i][j] = calculateCoefficent_b(j+1, Aani[i], latitudeCMS, azimuthCMS);
-            bRqq[i][j] = calculateCoefficent_b(j+1, APqq[i], latitudeCMS, azimuthCMS);
+            bLgg[i][j] = calculateCoefficent_b(j+1, Afus[i]);
+            bRgg[i][j] = calculateCoefficent_b(j+1, APgg[i]);
+            bLqq[i][j] = calculateCoefficent_b(j+1, Aani[i]);
+            bRqq[i][j] = calculateCoefficent_b(j+1, APqq[i]);
 //----------------------------------------------------------------------------//
 
         }
@@ -482,7 +482,7 @@ double KineticAnalyze::calculateCoefficent_a(int i, TMatrixD m_user, double lati
     return foo;
 }
 
-double KineticAnalyze::calculateCoefficent_b(int i, TMatrixD m_user, double latitude_user, double azimuth_user){
+double KineticAnalyze::calculateCoefficent_b(int i, TMatrixD m_user){
     double foo = 0;
         if(i==1)
             foo = -sin(latitudeCMS)*sin(azimuthCMS)*m_user(3,0) + cos(latitudeCMS)*m_user(3,1) + sin(latitudeCMS)*cos(azimuthCMS)*m_user(3,2);
@@ -971,7 +971,7 @@ void KineticAnalyze::gTimeTT(int munu, int exp){
 
 void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
 
-    TStyle* style1 = myStyle();
+    myStyle();
 
     TString name[4];    TString name2[4];
     TString xx1[4];     TString xx2[4]; TString CL[2];
@@ -1320,7 +1320,7 @@ void KineticAnalyze::earthSignal(TString XX){
         }
 
 
-    h->SetTitle("Amplitude f_{SME}(#lambda, #theta)) f"+XX);
+    h->SetTitle("Amplitude f_{SME}(#lambda, #theta) f"+XX);
     h->GetYaxis()->SetTitle("Azimuth #theta (in rad)");
     h->GetXaxis()->SetTitle("Latitude #lambda (in rad)");
 

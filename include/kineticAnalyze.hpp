@@ -59,7 +59,7 @@ class KineticAnalyze{
 
         TMatrixD calculateAverageMatrix(int option, int nP1_user, int nP2_user, int nF_user, TMatrixD AP1_user, TMatrixD AP2_user, TMatrixD AF_user);
         double calculateCoefficent_a(int i, TMatrixD m_user, double latitude_user, double azimuth_user, bool isD0);
-        double calculateCoefficent_b(int i, TMatrixD m_user, double latitude_user, double azimuth_user);
+        double calculateCoefficent_b(int i, TMatrixD m_user);
         std::vector<double> calculatef(int n, int exp, int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu);
         std::vector<double> calculateg(int n, int exp, int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu);
 
