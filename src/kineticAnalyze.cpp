@@ -57,9 +57,14 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
     aR = std::vector< std::vector<double> >(nExp);
     bL = std::vector< std::vector<double> >(nExp);
     bR = std::vector< std::vector<double> >(nExp);
+
 //----------------------------------- Article --------------------------------//
     aLTEV = std::vector< std::vector<double> >(nExp);
     aRTEV = std::vector< std::vector<double> >(nExp);
+    aLggTEV = std::vector< std::vector<double> >(nExp);
+    aRggTEV = std::vector< std::vector<double> >(nExp);
+    aLqqTEV = std::vector< std::vector<double> >(nExp);
+    aRqqTEV = std::vector< std::vector<double> >(nExp);
     aLgg = std::vector< std::vector<double> >(nExp);
     aRgg = std::vector< std::vector<double> >(nExp);
     bLgg = std::vector< std::vector<double> >(nExp);
@@ -77,6 +82,10 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
 //----------------------------------- Article --------------------------------//
         aLTEV[i] = std::vector<double>(6);
         aRTEV[i] = std::vector<double>(6);
+        aLggTEV[i] = std::vector<double>(6);
+        aRggTEV[i] = std::vector<double>(6);
+        aLqqTEV[i] = std::vector<double>(6);
+        aRqqTEV[i] = std::vector<double>(6);
         aLgg[i] = std::vector<double>(6);
         aRgg[i] = std::vector<double>(6);
         bLgg[i] = std::vector<double>(4);
@@ -87,7 +96,6 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
         bRqq[i] = std::vector<double>(4);
 //----------------------------------------------------------------------------//
     }// first index "experiment", second index "a coefficient"
-
     fLList = std::vector< std::vector< std::vector<double> > >(nExp);
     fRList = std::vector< std::vector< std::vector<double> > >(nExp);
     fCList = std::vector< std::vector< std::vector<double> > >(nExp);
@@ -101,6 +109,14 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
     fRListTEV = std::vector< std::vector< std::vector<double> > >(nExp);
     fCListTEV = std::vector< std::vector< std::vector<double> > >(nExp);
     fDListTEV = std::vector< std::vector< std::vector<double> > >(nExp);
+    fLListggTEV = std::vector< std::vector< std::vector<double> > >(nExp);
+    fRListggTEV = std::vector< std::vector< std::vector<double> > >(nExp);
+    fCListggTEV = std::vector< std::vector< std::vector<double> > >(nExp);
+    fDListggTEV = std::vector< std::vector< std::vector<double> > >(nExp);
+    fLListqqTEV = std::vector< std::vector< std::vector<double> > >(nExp);
+    fRListqqTEV = std::vector< std::vector< std::vector<double> > >(nExp);
+    fCListqqTEV = std::vector< std::vector< std::vector<double> > >(nExp);
+    fDListqqTEV = std::vector< std::vector< std::vector<double> > >(nExp);
     fLListgg = std::vector< std::vector< std::vector<double> > >(nExp);
     fRListgg = std::vector< std::vector< std::vector<double> > >(nExp);
     fCListgg = std::vector< std::vector< std::vector<double> > >(nExp);
@@ -127,10 +143,26 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
     amplitudeCListg = std::vector< std::vector<double> >(nExp);
     amplitudeDListg = std::vector< std::vector<double> >(nExp);
 //----------------------------------- Article --------------------------------//
+    amplitudeLListfgg = std::vector< std::vector<double> >(nExp);
+    amplitudeRListfgg = std::vector< std::vector<double> >(nExp);
+    amplitudeCListfgg = std::vector< std::vector<double> >(nExp);
+    amplitudeDListfgg = std::vector< std::vector<double> >(nExp);
+    amplitudeLListfqq = std::vector< std::vector<double> >(nExp);
+    amplitudeRListfqq = std::vector< std::vector<double> >(nExp);
+    amplitudeCListfqq = std::vector< std::vector<double> >(nExp);
+    amplitudeDListfqq = std::vector< std::vector<double> >(nExp);
     amplitudeLListfTEV = std::vector< std::vector<double> >(nExp);
     amplitudeRListfTEV = std::vector< std::vector<double> >(nExp);
     amplitudeCListfTEV = std::vector< std::vector<double> >(nExp);
     amplitudeDListfTEV = std::vector< std::vector<double> >(nExp);
+    amplitudeLListfggTEV = std::vector< std::vector<double> >(nExp);
+    amplitudeRListfggTEV = std::vector< std::vector<double> >(nExp);
+    amplitudeCListfggTEV = std::vector< std::vector<double> >(nExp);
+    amplitudeDListfggTEV = std::vector< std::vector<double> >(nExp);
+    amplitudeLListfqqTEV = std::vector< std::vector<double> >(nExp);
+    amplitudeRListfqqTEV = std::vector< std::vector<double> >(nExp);
+    amplitudeCListfqqTEV = std::vector< std::vector<double> >(nExp);
+    amplitudeDListfqqTEV = std::vector< std::vector<double> >(nExp);
 //----------------------------------------------------------------------------//
     for(int i=0; i<nExp; i++){
         amplitudeLListf[i] = std::vector<double>(4);
@@ -154,6 +186,14 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
         fRListTEV[i] = std::vector< std::vector<double> >(4);
         fCListTEV[i] = std::vector< std::vector<double> >(4);
         fDListTEV[i] = std::vector< std::vector<double> >(4);
+        fLListggTEV[i] = std::vector< std::vector<double> >(4);
+        fRListggTEV[i] = std::vector< std::vector<double> >(4);
+        fCListggTEV[i] = std::vector< std::vector<double> >(4);
+        fDListggTEV[i] = std::vector< std::vector<double> >(4);
+        fLListqqTEV[i] = std::vector< std::vector<double> >(4);
+        fRListqqTEV[i] = std::vector< std::vector<double> >(4);
+        fCListqqTEV[i] = std::vector< std::vector<double> >(4);
+        fDListqqTEV[i] = std::vector< std::vector<double> >(4);
         fLListgg[i] = std::vector< std::vector<double> >(4);
         fRListgg[i] = std::vector< std::vector<double> >(4);
         fCListgg[i] = std::vector< std::vector<double> >(4);
@@ -174,6 +214,22 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
         amplitudeRListfTEV[i] = std::vector<double>(4);
         amplitudeCListfTEV[i] = std::vector<double>(4);
         amplitudeDListfTEV[i] = std::vector<double>(4);
+        amplitudeLListfgg[i] = std::vector<double>(4);
+        amplitudeRListfgg[i] = std::vector<double>(4);
+        amplitudeCListfgg[i] = std::vector<double>(4);
+        amplitudeDListfgg[i] = std::vector<double>(4);
+        amplitudeLListfqq[i] = std::vector<double>(4);
+        amplitudeRListfqq[i] = std::vector<double>(4);
+        amplitudeCListfqq[i] = std::vector<double>(4);
+        amplitudeDListfqq[i] = std::vector<double>(4);
+        amplitudeLListfggTEV[i] = std::vector<double>(4);
+        amplitudeRListfggTEV[i] = std::vector<double>(4);
+        amplitudeCListfggTEV[i] = std::vector<double>(4);
+        amplitudeDListfggTEV[i] = std::vector<double>(4);
+        amplitudeLListfqqTEV[i] = std::vector<double>(4);
+        amplitudeRListfqqTEV[i] = std::vector<double>(4);
+        amplitudeCListfqqTEV[i] = std::vector<double>(4);
+        amplitudeDListfqqTEV[i] = std::vector<double>(4);
 //----------------------------------------------------------------------------//
         for(int j=0; j<4; j++){
             fLList[i][j] = std::vector<double>(time24);
@@ -189,6 +245,14 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
             fRListTEV[i][j] = std::vector<double>(time24);
             fCListTEV[i][j] = std::vector<double>(time24);
             fDListTEV[i][j] = std::vector<double>(time24);
+            fLListggTEV[i][j] = std::vector<double>(time24);
+            fRListggTEV[i][j] = std::vector<double>(time24);
+            fCListggTEV[i][j] = std::vector<double>(time24);
+            fDListggTEV[i][j] = std::vector<double>(time24);
+            fLListqqTEV[i][j] = std::vector<double>(time24);
+            fRListqqTEV[i][j] = std::vector<double>(time24);
+            fCListqqTEV[i][j] = std::vector<double>(time24);
+            fDListqqTEV[i][j] = std::vector<double>(time24);
             fLListgg[i][j] = std::vector<double>(time24);
             fRListgg[i][j] = std::vector<double>(time24);
             fCListgg[i][j] = std::vector<double>(time24);
@@ -258,7 +322,6 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
     APqq[5] = readMatrix("2TeVCMSPqqbar");
     APgg[5] = readMatrix("2TeVCMSP2g");
 
-
     for(int i=0; i<nExp; i++){
         Aani[i] = calculateAverageMatrix(1, nPqq[i], nPgg[i], nF[i], APqq[i], APgg[i], AF[i]);
         Afus[i] = calculateAverageMatrix(2, nPqq[i], nPgg[i], nF[i], APqq[i], APgg[i], AF[i]);
@@ -270,6 +333,10 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
 //----------------------------------- Article --------------------------------//
             aLTEV[i][j] = calculateCoefficent_a(j, Areal[i], latitudeCMS, azimuthCMS, false);
             aRTEV[i][j] = calculateCoefficent_a(j, Aprod[i], latitudeCMS, azimuthCMS, false);
+            aLggTEV[i][j] = calculateCoefficent_a(j, Afus[i], latitudeCMS, azimuthCMS, false);
+            aRggTEV[i][j] = calculateCoefficent_a(j, APgg[i], latitudeCMS, azimuthCMS, false);
+            aLqqTEV[i][j] = calculateCoefficent_a(j, Aani[i], latitudeCMS, azimuthCMS, false);
+            aRqqTEV[i][j] = calculateCoefficent_a(j, APqq[i], latitudeCMS, azimuthCMS, false);
             aLgg[i][j] = calculateCoefficent_a(j, Afus[i], latitudeCMS, azimuthCMS, true);
             aRgg[i][j] = calculateCoefficent_a(j, APgg[i], latitudeCMS, azimuthCMS, true);
             aLqq[i][j] = calculateCoefficent_a(j, Aani[i], latitudeCMS, azimuthCMS, true);
@@ -292,6 +359,10 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
 //----------------------------------- Article --------------------------------//
         aLTEV[i][0] = (aLTEV[i][1]-aLTEV[i][2])/2.;
         aRTEV[i][0] = (aRTEV[i][1]-aRTEV[i][2])/2.;
+        aLggTEV[i][0] = (aLggTEV[i][1]-aLggTEV[i][2])/2.;
+        aRggTEV[i][0] = (aRggTEV[i][1]-aRggTEV[i][2])/2.;
+        aLqqTEV[i][0] = (aLqqTEV[i][1]-aLqqTEV[i][2])/2.;
+        aRqqTEV[i][0] = (aRqqTEV[i][1]-aRqqTEV[i][2])/2.;
         aLgg[i][0] = (aLgg[i][1]-aLgg[i][2])/2.;
         aRgg[i][0] = (aRgg[i][1]-aRgg[i][2])/2.;
         aLqq[i][0] = (aLqq[i][1]-aLqq[i][2])/2.;
@@ -312,6 +383,15 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
             fRListTEV[i][j] = calculatefTEV(time24, i, j, 0, cmunuR_class, 0, 0);
             fCListTEV[i][j] = calculatefTEV(time24, i, j, 0, 0, cmunu_class, 0);
             fDListTEV[i][j] = calculatefTEV(time24, i, j, 0, 0, 0, dmunu_class);
+            fLListggTEV[i][j] = calculatefggTEV(time24, i, j, cmunuL_class, 0, 0, 0);
+            fRListggTEV[i][j] = calculatefggTEV(time24, i, j, 0, cmunuR_class, 0, 0);
+            fCListggTEV[i][j] = calculatefggTEV(time24, i, j, 0, 0, cmunu_class, 0);
+            fDListggTEV[i][j] = calculatefggTEV(time24, i, j, 0, 0, 0, dmunu_class);
+            fLListqqTEV[i][j] = calculatefqqTEV(time24, i, j, cmunuL_class, 0, 0, 0);
+            fRListqqTEV[i][j] = calculatefqqTEV(time24, i, j, 0, cmunuR_class, 0, 0);
+            fCListqqTEV[i][j] = calculatefqqTEV(time24, i, j, 0, 0, cmunu_class, 0);
+            fDListqqTEV[i][j] = calculatefqqTEV(time24, i, j, 0, 0, 0, dmunu_class);
+            fLListgg[i][j] = calculatefgg(time24, i, j, cmunuL_class, 0, 0, 0);
             fLListgg[i][j] = calculatefgg(time24, i, j, cmunuL_class, 0, 0, 0);
             fRListgg[i][j] = calculatefgg(time24, i, j, 0, cmunuR_class, 0, 0);
             fCListgg[i][j] = calculatefgg(time24, i, j, 0, 0, cmunu_class, 0);
@@ -339,10 +419,26 @@ KineticAnalyze::KineticAnalyze(double cmunuL_user,
             amplitudeCListg[i][j] = calculateMax(gCList[i][j]);
             amplitudeDListg[i][j] = calculateMax(gDList[i][j]);
 //----------------------------------- Article --------------------------------//
+            amplitudeLListfgg[i][j] = calculateMax(fLListgg[i][j]);
+            amplitudeRListfgg[i][j] = calculateMax(fRListgg[i][j]);
+            amplitudeCListfgg[i][j] = calculateMax(fCListgg[i][j]);
+            amplitudeDListfgg[i][j] = calculateMax(fDListgg[i][j]);
+            amplitudeLListfqq[i][j] = calculateMax(fLListqq[i][j]);
+            amplitudeRListfqq[i][j] = calculateMax(fRListqq[i][j]);
+            amplitudeCListfqq[i][j] = calculateMax(fCListqq[i][j]);
+            amplitudeDListfqq[i][j] = calculateMax(fDListqq[i][j]);
             amplitudeLListfTEV[i][j] = calculateMax(fLListTEV[i][j]);
             amplitudeRListfTEV[i][j] = calculateMax(fRListTEV[i][j]);
             amplitudeCListfTEV[i][j] = calculateMax(fCListTEV[i][j]);
             amplitudeDListfTEV[i][j] = calculateMax(fDListTEV[i][j]);
+            amplitudeLListfggTEV[i][j] = calculateMax(fLListggTEV[i][j]);
+            amplitudeRListfggTEV[i][j] = calculateMax(fRListggTEV[i][j]);
+            amplitudeCListfggTEV[i][j] = calculateMax(fCListggTEV[i][j]);
+            amplitudeDListfggTEV[i][j] = calculateMax(fDListggTEV[i][j]);
+            amplitudeLListfqqTEV[i][j] = calculateMax(fLListqqTEV[i][j]);
+            amplitudeRListfqqTEV[i][j] = calculateMax(fRListqqTEV[i][j]);
+            amplitudeCListfqqTEV[i][j] = calculateMax(fCListqqTEV[i][j]);
+            amplitudeDListfqqTEV[i][j] = calculateMax(fDListqqTEV[i][j]);
 //----------------------------------------------------------------------------//
 
         }
@@ -570,34 +666,34 @@ std::vector<double> KineticAnalyze::calculatefTEV(int n, int exp,int wilson, dou
     }
     return foo;
 }
-std::vector<double> KineticAnalyze::calculatefgg(int n, int exp,int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu){
+std::vector<double> KineticAnalyze::calculatefggTEV(int n, int exp,int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu){
     std::vector<double> foo(n);
     for(int i=0; i<n; i++){
         if(cmunu==0 and dmunu==0){
             if(wilson==0)
-                foo[i] = cmunuL *  2 * (aLgg[exp][0] * cos(2*omega*i) + aLgg[exp][3] * sin(2*omega*i)) + cmunuR * 2 * (aRgg[exp][0] * cos(2*omega*i) + aRgg[exp][3] * sin(2*omega*i));
+                foo[i] = cmunuL *  2 * (aLggTEV[exp][0] * cos(2*omega*i) + aLggTEV[exp][3] * sin(2*omega*i)) + cmunuR * 2 * (aRggTEV[exp][0] * cos(2*omega*i) + aRggTEV[exp][3] * sin(2*omega*i));
             else if(wilson==1)
-                foo[i] = cmunuL *  2 * (aLgg[exp][0] * sin(2*omega*i) - aLgg[exp][3] * cos(2*omega*i)) + cmunuR * 2 * (aRgg[exp][0] * sin(2*omega*i) - aRgg[exp][3] * cos(2*omega*i));
+                foo[i] = cmunuL *  2 * (aLggTEV[exp][0] * sin(2*omega*i) - aLggTEV[exp][3] * cos(2*omega*i)) + cmunuR * 2 * (aRggTEV[exp][0] * sin(2*omega*i) - aRggTEV[exp][3] * cos(2*omega*i));
             else if(wilson==2)
-                foo[i] = cmunuL *  2 * (aLgg[exp][4] * cos(omega*i) + aLgg[exp][5] * sin(omega*i)) + cmunuR * 2 * (aRgg[exp][4] * cos(omega*i) + aRgg[exp][5] * sin(omega*i));
+                foo[i] = cmunuL *  2 * (aLggTEV[exp][4] * cos(omega*i) + aLggTEV[exp][5] * sin(omega*i)) + cmunuR * 2 * (aRggTEV[exp][4] * cos(omega*i) + aRggTEV[exp][5] * sin(omega*i));
             else if(wilson==3)
-                foo[i] = cmunuL *  2 * (aLgg[exp][4] * sin(omega*i) - aLgg[exp][5] * cos(omega*i)) + cmunuR * 2 * (aRgg[exp][4] * sin(omega*i) - aRgg[exp][5] * cos(omega*i));
+                foo[i] = cmunuL *  2 * (aLggTEV[exp][4] * sin(omega*i) - aLggTEV[exp][5] * cos(omega*i)) + cmunuR * 2 * (aRggTEV[exp][4] * sin(omega*i) - aRggTEV[exp][5] * cos(omega*i));
             else
                 std::cout<<"error f fonction"<<std::endl;
         }
         else if(cmunuL==0 and cmunuR==0){
             if(wilson==0)
-                foo[i] = cmunu * 2 * ((aLgg[exp][0] + aRgg[exp][0]) * cos(2*omega*i) + (aLgg[exp][3] + aRgg[exp][3]) * sin(2*omega*i))
-                + dmunu * 2 * ((aLgg[exp][0] - aRgg[exp][0]) * cos(2*omega*i) + (aLgg[exp][3] - aRgg[exp][3]) * sin(2*omega*i));
+                foo[i] = cmunu * 2 * ((aLggTEV[exp][0] + aRggTEV[exp][0]) * cos(2*omega*i) + (aLggTEV[exp][3] + aRggTEV[exp][3]) * sin(2*omega*i))
+                + dmunu * 2 * ((aLggTEV[exp][0] - aRggTEV[exp][0]) * cos(2*omega*i) + (aLggTEV[exp][3] - aRggTEV[exp][3]) * sin(2*omega*i));
             else if(wilson==1)
-                foo[i] = cmunu * 2 * ((aLgg[exp][0] + aRgg[exp][0]) * sin(2*omega*i) - (aLgg[exp][3] + aRgg[exp][3]) * cos(2*omega*i))
-                    + dmunu * 2 * ((aLgg[exp][0] - aRgg[exp][0]) * sin(2*omega*i) - (aLgg[exp][3] - aRgg[exp][3]) * cos(2*omega*i));
+                foo[i] = cmunu * 2 * ((aLggTEV[exp][0] + aRggTEV[exp][0]) * sin(2*omega*i) - (aLggTEV[exp][3] + aRggTEV[exp][3]) * cos(2*omega*i))
+                    + dmunu * 2 * ((aLggTEV[exp][0] - aRggTEV[exp][0]) * sin(2*omega*i) - (aLggTEV[exp][3] - aRggTEV[exp][3]) * cos(2*omega*i));
             else if(wilson==2)
-                foo[i] = cmunu * 2 * ((aLgg[exp][4] + aRgg[exp][4]) * cos(omega*i) + (aLgg[exp][5] + aRgg[exp][5]) * sin(omega*i))
-                    + dmunu * 2 * ((aLgg[exp][4] - aRgg[exp][4]) * cos(omega*i) + (aLgg[exp][5] - aRgg[exp][5]) * sin(omega*i));
+                foo[i] = cmunu * 2 * ((aLggTEV[exp][4] + aRggTEV[exp][4]) * cos(omega*i) + (aLggTEV[exp][5] + aRggTEV[exp][5]) * sin(omega*i))
+                    + dmunu * 2 * ((aLggTEV[exp][4] - aRggTEV[exp][4]) * cos(omega*i) + (aLggTEV[exp][5] - aRggTEV[exp][5]) * sin(omega*i));
             else if(wilson==3)
-                foo[i] = cmunu * 2 * ((aLgg[exp][4] + aRgg[exp][4]) * sin(omega*i) - (aLgg[exp][5] + aRgg[exp][5]) * cos(omega*i))
-                    + dmunu * 2 * ((aLgg[exp][4] - aRgg[exp][4]) * sin(omega*i) - (aLgg[exp][5] - aRgg[exp][5]) * cos(omega*i));
+                foo[i] = cmunu * 2 * ((aLggTEV[exp][4] + aRggTEV[exp][4]) * sin(omega*i) - (aLggTEV[exp][5] + aRggTEV[exp][5]) * cos(omega*i))
+                    + dmunu * 2 * ((aLggTEV[exp][4] - aRggTEV[exp][4]) * sin(omega*i) - (aLggTEV[exp][5] - aRggTEV[exp][5]) * cos(omega*i));
             else
                 std::cout<<"error f fonction"<<std::endl;
         }
@@ -606,7 +702,42 @@ std::vector<double> KineticAnalyze::calculatefgg(int n, int exp,int wilson, doub
     }
     return foo;
 }
-
+std::vector<double> KineticAnalyze::calculatefqqTEV(int n, int exp,int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu){
+    std::vector<double> foo(n);
+    for(int i=0; i<n; i++){
+        if(cmunu==0 and dmunu==0){
+            if(wilson==0)
+                foo[i] = cmunuL *  2 * (aLqqTEV[exp][0] * cos(2*omega*i) + aLqqTEV[exp][3] * sin(2*omega*i)) + cmunuR * 2 * (aRqqTEV[exp][0] * cos(2*omega*i) + aRqqTEV[exp][3] * sin(2*omega*i));
+            else if(wilson==1)
+                foo[i] = cmunuL *  2 * (aLqqTEV[exp][0] * sin(2*omega*i) - aLqqTEV[exp][3] * cos(2*omega*i)) + cmunuR * 2 * (aRqqTEV[exp][0] * sin(2*omega*i) - aRqqTEV[exp][3] * cos(2*omega*i));
+            else if(wilson==2)
+                foo[i] = cmunuL *  2 * (aLqqTEV[exp][4] * cos(omega*i) + aLqqTEV[exp][5] * sin(omega*i)) + cmunuR * 2 * (aRqqTEV[exp][4] * cos(omega*i) + aRqqTEV[exp][5] * sin(omega*i));
+            else if(wilson==3)
+                foo[i] = cmunuL *  2 * (aLqqTEV[exp][4] * sin(omega*i) - aLqqTEV[exp][5] * cos(omega*i)) + cmunuR * 2 * (aRqqTEV[exp][4] * sin(omega*i) - aRqqTEV[exp][5] * cos(omega*i));
+            else
+                std::cout<<"error f fonction"<<std::endl;
+        }
+        else if(cmunuL==0 and cmunuR==0){
+            if(wilson==0)
+                foo[i] = cmunu * 2 * ((aLqqTEV[exp][0] + aRqqTEV[exp][0]) * cos(2*omega*i) + (aLqqTEV[exp][3] + aRqqTEV[exp][3]) * sin(2*omega*i))
+                + dmunu * 2 * ((aLqqTEV[exp][0] - aRqqTEV[exp][0]) * cos(2*omega*i) + (aLqqTEV[exp][3] - aRqqTEV[exp][3]) * sin(2*omega*i));
+            else if(wilson==1)
+                foo[i] = cmunu * 2 * ((aLqqTEV[exp][0] + aRqqTEV[exp][0]) * sin(2*omega*i) - (aLqqTEV[exp][3] + aRqqTEV[exp][3]) * cos(2*omega*i))
+                    + dmunu * 2 * ((aLqqTEV[exp][0] - aRqqTEV[exp][0]) * sin(2*omega*i) - (aLqqTEV[exp][3] - aRqqTEV[exp][3]) * cos(2*omega*i));
+            else if(wilson==2)
+                foo[i] = cmunu * 2 * ((aLqqTEV[exp][4] + aRqqTEV[exp][4]) * cos(omega*i) + (aLqqTEV[exp][5] + aRqqTEV[exp][5]) * sin(omega*i))
+                    + dmunu * 2 * ((aLqqTEV[exp][4] - aRqqTEV[exp][4]) * cos(omega*i) + (aLqqTEV[exp][5] - aRqqTEV[exp][5]) * sin(omega*i));
+            else if(wilson==3)
+                foo[i] = cmunu * 2 * ((aLqqTEV[exp][4] + aRqqTEV[exp][4]) * sin(omega*i) - (aLqqTEV[exp][5] + aRqqTEV[exp][5]) * cos(omega*i))
+                    + dmunu * 2 * ((aLqqTEV[exp][4] - aRqqTEV[exp][4]) * sin(omega*i) - (aLqqTEV[exp][5] - aRqqTEV[exp][5]) * cos(omega*i));
+            else
+                std::cout<<"error f fonction"<<std::endl;
+        }
+        else
+            std::cout<<"error with cmunu coeff with f function"<<std::endl;
+    }
+    return foo;
+}
 std::vector<double> KineticAnalyze::calculatefqq(int n, int exp,int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu){
     std::vector<double> foo(n);
     for(int i=0; i<n; i++){
@@ -635,6 +766,43 @@ std::vector<double> KineticAnalyze::calculatefqq(int n, int exp,int wilson, doub
             else if(wilson==3)
                 foo[i] = cmunu * 2 * ((aLqq[exp][4] + aRqq[exp][4]) * sin(omega*i) - (aLqq[exp][5] + aRqq[exp][5]) * cos(omega*i))
                     + dmunu * 2 * ((aLqq[exp][4] - aRqq[exp][4]) * sin(omega*i) - (aLqq[exp][5] - aRqq[exp][5]) * cos(omega*i));
+            else
+                std::cout<<"error f fonction"<<std::endl;
+        }
+        else
+            std::cout<<"error with cmunu coeff with f function"<<std::endl;
+    }
+    return foo;
+}
+
+std::vector<double> KineticAnalyze::calculatefgg(int n, int exp,int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu){
+    std::vector<double> foo(n);
+    for(int i=0; i<n; i++){
+        if(cmunu==0 and dmunu==0){
+            if(wilson==0)
+                foo[i] = cmunuL *  2 * (aLgg[exp][0] * cos(2*omega*i) + aLgg[exp][3] * sin(2*omega*i)) + cmunuR * 2 * (aRgg[exp][0] * cos(2*omega*i) + aRgg[exp][3] * sin(2*omega*i));
+            else if(wilson==1)
+                foo[i] = cmunuL *  2 * (aLgg[exp][0] * sin(2*omega*i) - aLgg[exp][3] * cos(2*omega*i)) + cmunuR * 2 * (aRgg[exp][0] * sin(2*omega*i) - aRgg[exp][3] * cos(2*omega*i));
+            else if(wilson==2)
+                foo[i] = cmunuL *  2 * (aLgg[exp][4] * cos(omega*i) + aLgg[exp][5] * sin(omega*i)) + cmunuR * 2 * (aRgg[exp][4] * cos(omega*i) + aRgg[exp][5] * sin(omega*i));
+            else if(wilson==3)
+                foo[i] = cmunuL *  2 * (aLgg[exp][4] * sin(omega*i) - aLgg[exp][5] * cos(omega*i)) + cmunuR * 2 * (aRgg[exp][4] * sin(omega*i) - aRgg[exp][5] * cos(omega*i));
+            else
+                std::cout<<"error f fonction"<<std::endl;
+        }
+        else if(cmunuL==0 and cmunuR==0){
+            if(wilson==0)
+                foo[i] = cmunu * 2 * ((aLgg[exp][0] + aRgg[exp][0]) * cos(2*omega*i) + (aLgg[exp][3] + aRgg[exp][3]) * sin(2*omega*i))
+                + dmunu * 2 * ((aLqq[exp][0] - aRgg[exp][0]) * cos(2*omega*i) + (aLgg[exp][3] - aRgg[exp][3]) * sin(2*omega*i));
+            else if(wilson==1)
+                foo[i] = cmunu * 2 * ((aLgg[exp][0] + aRgg[exp][0]) * sin(2*omega*i) - (aLgg[exp][3] + aRgg[exp][3]) * cos(2*omega*i))
+                    + dmunu * 2 * ((aLgg[exp][0] - aRgg[exp][0]) * sin(2*omega*i) - (aLgg[exp][3] - aRgg[exp][3]) * cos(2*omega*i));
+            else if(wilson==2)
+                foo[i] = cmunu * 2 * ((aLgg[exp][4] + aRgg[exp][4]) * cos(omega*i) + (aLgg[exp][5] + aRgg[exp][5]) * sin(omega*i))
+                    + dmunu * 2 * ((aLgg[exp][4] - aRgg[exp][4]) * cos(omega*i) + (aLgg[exp][5] - aRgg[exp][5]) * sin(omega*i));
+            else if(wilson==3)
+                foo[i] = cmunu * 2 * ((aLgg[exp][4] + aRgg[exp][4]) * sin(omega*i) - (aLgg[exp][5] + aRgg[exp][5]) * cos(omega*i))
+                    + dmunu * 2 * ((aLgg[exp][4] - aRgg[exp][4]) * sin(omega*i) - (aLgg[exp][5] - aRgg[exp][5]) * cos(omega*i));
             else
                 std::cout<<"error f fonction"<<std::endl;
         }
@@ -814,7 +982,6 @@ void KineticAnalyze::fTime(int munu, int exp){
     h1->SetStats(0);
 
     TLegend* legend = new TLegend(0.1,0.7,0.48,0.9);
-    legend->SetHeader("f_{SME}(t) functions histogram ","C"); // option "C" allows to center the header
     legend->AddEntry(h1,"c_{XX} = - c_{YY}","l"); // option "l" is for line (form of legend)
     legend->AddEntry(h2,"c_{XY} = c_{YX}","l");
     legend->AddEntry(h3,"c_{XZ} = c_{ZX}","l");
@@ -1267,6 +1434,72 @@ void KineticAnalyze::compareCMSD0(int munu){
 
 }
 
+void KineticAnalyze::compareCMSD0Article(int munu){
+    TCanvas* w = new TCanvas("","",200,10,800,600);
+//  TCanvas* w = new TCanvas("","");
+    w->SetFillColor(kWhite);
+    TH1F* h1 = new TH1F("","", 3, 0, 3);
+    TH1F* h2 = new TH1F("","", 3, 0, 3);
+    std::vector<std::vector<TMarker*> > m(2);
+    for(int i=0; i<2; i++)
+        m[i] = std::vector<TMarker*>(3);
+
+    TString wil[4], cm[4];
+    wil[0]="cL";    wil[1]="cR";    wil[2]="c";    wil[3]="d";
+    cm[0]="c^{XX,YY}"; cm[1]="c^{XY}"; cm[2]="c^{XZ}"; cm[3]="c^{YZ}";
+
+    h1->GetXaxis()->SetBinLabel(1,"gluon fusion");
+    h1->GetXaxis()->SetBinLabel(2,"quark/antiquark anihilation");
+    h1->GetXaxis()->SetBinLabel(3,"realistic signal");
+
+        h1->SetBinContent(1, amplitudeLListfgg[5][munu]);
+        h1->SetBinContent(2, amplitudeLListfqq[5][munu]);
+        h1->SetBinContent(2, amplitudeLListf[5][munu]);
+        h1->Draw("P SAME");
+        m[0][0] = new TMarker(0.5, amplitudeLListfgg[5][munu], 20);
+        m[0][1] = new TMarker(1.5, amplitudeLListfqq[5][munu], 20);
+        m[0][2] = new TMarker(2.5, amplitudeLListf[5][munu], 20);
+        for(int k=0; k<3; k++){
+            m[0][k]->SetMarkerColor(kBlue);
+            m[0][k]->SetMarkerSize(1);
+            m[0][k]->Draw("SAME");
+        }
+        h2->SetBinContent(1, amplitudeLListfggTEV[5][munu]);
+        h2->SetBinContent(2, amplitudeLListfqqTEV[5][munu]);
+        h2->SetBinContent(3, amplitudeLListfTEV[5][munu]);
+        h2->Draw("P SAME");
+        m[1][0] = new TMarker(0.5, amplitudeLListfggTEV[5][munu], 20);
+        m[1][1] = new TMarker(1.5, amplitudeLListfqqTEV[5][munu], 20);
+        m[1][2] = new TMarker(2.5, amplitudeLListfTEV[5][munu], 20);
+        for(int k=0; k<3; k++){
+            m[1][k]->SetMarkerColor(kRed);
+            m[1][k]->SetMarkerSize(1);
+            m[1][k]->Draw("SAME");
+        }
+
+    h1->Write();   h1->SetLineWidth(2);    h1->SetFillColor(kBlue);
+    h2->Write();   h2->SetLineWidth(2);    h2->SetFillColor(kRed);
+
+    h1->GetYaxis()->SetTitle("Amplitude f(t)");
+    h1->GetXaxis()->SetTitle("");
+    h1->SetMaximum(0.02);
+    h1->SetMinimum(0);
+    h1->SetStats(0);
+
+    TLegend* legend = new TLegend(0.1,0.7,0.48,0.9);
+    legend->SetHeader("Experiment for "+cm[munu],"C"); // option "C" allows to center the header
+    legend->AddEntry(m[0][0],"CMS 1.96 TeV","p"); // option "l" is for line (form of legend)
+    legend->AddEntry(m[1][0],"D0 1.96 TeV","p");
+    legend->Draw();
+
+    w->Update();
+    TString format[2];    format[0]=".png";    format[1]=".pdf";
+    for(int i=0; i<2; i++){
+        w->SaveAs("results/compaFusAni/article/compaCMSTEVLArticle"+cm[munu]+format[i]);
+    }
+
+}
+
 void KineticAnalyze::earthSignal(TString XX){
 
     double pas = 1000;
@@ -1276,14 +1509,14 @@ void KineticAnalyze::earthSignal(TString XX){
     double a0, a1, a2, a3, a4, a5, arg1;
 
     TCanvas* c = new TCanvas("max f_{SME}(#lambda, #theta) f","", 10,10,800,600);
-    TH2F* h = new TH2F("", "", pas, 0, M_PI, pas, 0, 2*M_PI);
+    TH2F* h = new TH2F("", "", pas, -M_PI/2., M_PI/2., pas, 0, 2*M_PI);
     for(int i=0; i<pas; i++)
         for(int j=0; j<pas; j++){
             if(XX=="XX" or XX=="XY"){
-                a1 = calculateCoefficent_a(1, Areal[3], i*tmp, j*tmp2, true);
-                a2 = calculateCoefficent_a(2, Areal[3], i*tmp, j*tmp2, true);
+                a1 = calculateCoefficent_a(1, Areal[3], -M_PI/2. + i*tmp, j*tmp2, true);
+                a2 = calculateCoefficent_a(2, Areal[3], -M_PI/2. + i*tmp, j*tmp2, true);
                 a0 = (a1-a2)/2.;
-                a3 = calculateCoefficent_a(3, Areal[3], i*tmp, j*tmp2, true);
+                a3 = calculateCoefficent_a(3, Areal[3], -M_PI/2. + i*tmp, j*tmp2, true);
                 if(XX=="XX"){
                     if(a0!=0)
                         arg1 = atan(a3/a0);
@@ -1300,8 +1533,8 @@ void KineticAnalyze::earthSignal(TString XX){
                 }
             }
             else if(XX=="XZ" or XX=="YZ"){
-                a4 = calculateCoefficent_a(4, Areal[3], i*tmp, j*tmp2, true);
-                a5 = calculateCoefficent_a(5, Areal[3], i*tmp, j*tmp2, true);
+                a4 = calculateCoefficent_a(4, Areal[3], -M_PI/2. + i*tmp, j*tmp2, true);
+                a5 = calculateCoefficent_a(5, Areal[3], -M_PI/2. + i*tmp, j*tmp2, true);
                 if(XX=="XZ"){
                     if(a4!=0)
                         arg1 = atan(a5/a4);
@@ -1320,7 +1553,7 @@ void KineticAnalyze::earthSignal(TString XX){
         }
 
 
-    h->SetTitle("Amplitude f_{SME}(#lambda, #theta) f"+XX);
+    h->SetTitle("Amplitude f_{SME}(#lambda, #theta) f_{"+XX+"}");
     h->GetYaxis()->SetTitle("Azimuth #theta (in rad)");
     h->GetXaxis()->SetTitle("Latitude #lambda (in rad)");
 
@@ -1341,7 +1574,7 @@ void KineticAnalyze::earthSignal(TString XX){
     pointATLAS->Draw("same");
     h->SetStats(0);
 
-    TLegend* legend = new TLegend(0.4,0.6,0.89,0.89);
+    TLegend* legend = new TLegend(0.1,0.7,0.3,0.9);
     legend->AddEntry(pointCMS,"CMS","p");
     legend->AddEntry(pointATLAS,"ATLAS","p");
     legend->AddEntry(pointD0,"D0","p");

@@ -30,9 +30,9 @@ CFLAGS       = -Wall -Wextra
 
 ######################## Directory variable definitions ########################
 
-Qt_INC_DIRS  =  -I/usr/include/qt4			$\
-				-I/usr/include/qt4/QtCore	$\
-				-I/usr/include/qt4/QtGui
+Qt_INC_DIRS  =  -I/usr/include/qt4		$\
+	    	-I/usr/include/qt4/QtCore	$\
+		-I/usr/include/qt4/QtGui
 SOURCES_DIR  = src
 SCRIPTS_DIR  = scripts
 BUILDS_DIR   = builds

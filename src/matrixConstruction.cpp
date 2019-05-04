@@ -118,7 +118,7 @@ MatrixElement::MatrixElement(TLorentzVector pBeam1_user, TLorentzVector pBeam2_u
     if(isFusion)
         P2g_munu = calculateP2g_munu();
     else
-    Pqqbar_munu = calculatePqqbar_munu();
+        Pqqbar_munu = calculatePqqbar_munu();
     F_munu = calculateF_munu();
     Fbar_munu = calculateFbar_munu();
 }

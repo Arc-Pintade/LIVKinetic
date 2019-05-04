@@ -68,6 +68,10 @@ class KineticAnalyze{
 //--------------------------------------------------------------- Article ---------------------------------------------------------------//
         std::vector< std::vector<double> > aLTEV;
         std::vector< std::vector<double> > aRTEV;
+        std::vector< std::vector<double> > aLggTEV;
+        std::vector< std::vector<double> > aRggTEV;
+        std::vector< std::vector<double> > aLqqTEV;
+        std::vector< std::vector<double> > aRqqTEV;
         std::vector< std::vector<double> > aLgg;
         std::vector< std::vector<double> > aRgg;
         std::vector< std::vector<double> > bLgg;
@@ -81,6 +85,14 @@ class KineticAnalyze{
         std::vector< std::vector< std::vector<double> > > fRListTEV;
         std::vector< std::vector< std::vector<double> > > fCListTEV;
         std::vector< std::vector< std::vector<double> > > fDListTEV;
+        std::vector< std::vector< std::vector<double> > > fLListggTEV;
+        std::vector< std::vector< std::vector<double> > > fRListggTEV;
+        std::vector< std::vector< std::vector<double> > > fCListggTEV;
+        std::vector< std::vector< std::vector<double> > > fDListggTEV;
+        std::vector< std::vector< std::vector<double> > > fLListqqTEV;
+        std::vector< std::vector< std::vector<double> > > fRListqqTEV;
+        std::vector< std::vector< std::vector<double> > > fCListqqTEV;
+        std::vector< std::vector< std::vector<double> > > fDListqqTEV;
         std::vector< std::vector< std::vector<double> > > fLListgg;
         std::vector< std::vector< std::vector<double> > > fRListgg;
         std::vector< std::vector< std::vector<double> > > fCListgg;
@@ -98,12 +110,30 @@ class KineticAnalyze{
         std::vector< std::vector< std::vector<double> > > gCListqq;
         std::vector< std::vector< std::vector<double> > > gDListqq;
 
+        std::vector< std::vector<double> > amplitudeLListfgg;
+        std::vector< std::vector<double> > amplitudeRListfgg;
+        std::vector< std::vector<double> > amplitudeCListfgg;
+        std::vector< std::vector<double> > amplitudeDListfgg;
+        std::vector< std::vector<double> > amplitudeLListfqq;
+        std::vector< std::vector<double> > amplitudeRListfqq;
+        std::vector< std::vector<double> > amplitudeCListfqq;
+        std::vector< std::vector<double> > amplitudeDListfqq;
         std::vector< std::vector<double> > amplitudeLListfTEV;
         std::vector< std::vector<double> > amplitudeRListfTEV;
         std::vector< std::vector<double> > amplitudeCListfTEV;
         std::vector< std::vector<double> > amplitudeDListfTEV;
+        std::vector< std::vector<double> > amplitudeLListfggTEV;
+        std::vector< std::vector<double> > amplitudeRListfggTEV;
+        std::vector< std::vector<double> > amplitudeCListfggTEV;
+        std::vector< std::vector<double> > amplitudeDListfggTEV;
+        std::vector< std::vector<double> > amplitudeLListfqqTEV;
+        std::vector< std::vector<double> > amplitudeRListfqqTEV;
+        std::vector< std::vector<double> > amplitudeCListfqqTEV;
+        std::vector< std::vector<double> > amplitudeDListfqqTEV;
 
         std::vector<double> calculatefTEV(int n, int exp, int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu);
+        std::vector<double> calculatefggTEV(int n, int exp, int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu);
+        std::vector<double> calculatefqqTEV(int n, int exp, int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu);
         std::vector<double> calculatefgg(int n, int exp, int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu);
         std::vector<double> calculateggg(int n, int exp, int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu);
         std::vector<double> calculatefqq(int n, int exp, int wilson, double cmunuL, double cmunuR, double cmunu, double dmunu);
@@ -141,6 +171,7 @@ class KineticAnalyze{
         void amplEnergyComparaison(bool isBenchmark);
         void compareFusAni(int munu, int exp);
         void compareCMSD0(int munu);
+        void compareCMSD0Article(int munu);
         void earthSignal(TString XX);
         void amunuHist();
         void amunuHistSolo(int row, int column, bool isComparaison);

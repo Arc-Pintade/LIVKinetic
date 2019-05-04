@@ -29,7 +29,7 @@
     const double gammat = 1.41;       //Uncertainties ~ +0.19-0.15
     const double gammat2 = gammat * gammat;
 // W Mass
-    const double mW = 80.385;         //Uncertainties ~0.015  
+    const double mW = 80.385;         //Uncertainties ~0.015
     const double mW2 = mW * mW;
 // W Width
     const double gammaW = 2.085;      //Uncertainties ~0.042
