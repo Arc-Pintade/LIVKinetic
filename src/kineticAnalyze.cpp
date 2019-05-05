@@ -973,7 +973,7 @@ void KineticAnalyze::fTime(int munu, int exp){
     }
 
     h1->Draw();          h1->Write();   h1->SetLineWidth(2);   h1->SetLineColor(kRed);
-    h2->Draw("SAME");    h2->Write();   h2->SetLineWidth(2);   h2->SetLineColor(kMagenta);
+    h2->Draw("SAME");    h2->Write();   h2->SetLineWidth(2);   h2->SetLineColor(kOrange);
     h3->Draw("SAME");    h3->Write();   h3->SetLineWidth(2);   h3->SetLineColor(kBlue);
     h4->Draw("SAME");    h4->Write();   h4->SetLineWidth(2);   h4->SetLineColor(kGreen);
 
