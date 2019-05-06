@@ -18,11 +18,11 @@ int main (){
         k.gTimeTT(i,3);
         k.compareFusAni(i,3);
         k.compareCMSD0(i);
-*/        k.earthSignal(XX[i]);
+        k.earthSignal(XX[i]);
         k.compareCMSD0Article(i);
-    }
+*/    }
 
-//    k.amplEnergyComparaison(true);
+    k.amplEnergyComparaison(true);
 //    k.amplEnergyComparaison(false);
 
 //    k.amunuHist();

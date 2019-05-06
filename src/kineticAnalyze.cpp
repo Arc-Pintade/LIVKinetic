@@ -977,36 +977,29 @@ void KineticAnalyze::fTime(int munu, int exp){
     h3->Draw("SAME");    h3->Write();   h3->SetLineWidth(2);   h3->SetLineColor(kBlue);
     h4->Draw("SAME");    h4->Write();   h4->SetLineWidth(2);   h4->SetLineColor(kGreen);
 
-    h1->GetYaxis()->SetTitle("f_{SME}(t)");
+    h1->GetYaxis()->SetTitle("f(t) = #sigma_{SME} / #sigma_{SM} - 1");
+    h1->GetYaxis()->SetTitleOffset(1.4);
     h1->GetXaxis()->SetTitle("sideral time #hat{t} (in h)");
     h1->SetStats(0);
 
     TLegend* legend = new TLegend(0.1,0.7,0.48,0.9);
-    legend->AddEntry(h1,"c_{XX} = - c_{YY}","l"); // option "l" is for line (form of legend)
-    legend->AddEntry(h2,"c_{XY} = c_{YX}","l");
-    legend->AddEntry(h3,"c_{XZ} = c_{ZX}","l");
-    legend->AddEntry(h4,"c_{YZ} = c_{ZY}","l");
+    legend->AddEntry(h1,"c_{XX} = - c_{YY} = 0.01","l"); // option "l" is for line (form of legend)
+    legend->AddEntry(h2,"c_{XY} = c_{YX} = 0.01","l");
+    legend->AddEntry(h3,"c_{XZ} = c_{ZX} = 0.01","l");
+    legend->AddEntry(h4,"c_{YZ} = c_{ZY} = 0.01","l");
     legend->Draw();
 
     w->Update();
     TString format[2];    format[0]=".png";    format[1]=".pdf";
     for(int i=0; i<2; i++){
-        if(munu==0){
-            h1->SetTitle("c_{L#mu#nu} = "+TString::Format("%f",cmunuL_class));
+        if(munu==0)
             w->SaveAs("results/fComparaisonL"+format[i]);
-        }
-        else if(munu==1){
-            h1->SetTitle("c_{R#mu#nu} = "+TString::Format("%f",cmunuR_class));
+        else if(munu==1)
             w->SaveAs("results/fComparaisonR"+format[i]);
-        }
-        else if(munu==2){
-            h1->SetTitle("c_{#mu#nu} = "+TString::Format("%f",cmunu_class));
+        else if(munu==2)
             w->SaveAs("results/fComparaisonC"+format[i]);
-        }
-        else if(munu==3){
-            h1->SetTitle("d_{#mu#nu} = "+TString::Format("%f",dmunu_class));
+        else if(munu==3)
             w->SaveAs("results/fComparaisonD"+format[i]);
-        }
         else
             std::cout<<"error with cmunu"<<std::endl;
     }
@@ -1219,12 +1212,12 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         }
     }
     for(int i=0; i<4; i++){
-        c[i] = new TCanvas(name[i],"",200,10,800,600);
+        c[i] = new TCanvas();
         c[i]->SetFillColor(kWhite);
         m[i]->SetTitle("");
         m[i]->GetXaxis()->SetTitle("#sqrt{s} (TeV)");
         m[i]->GetXaxis()->CenterTitle();
-        m[i]->GetYaxis()->SetTitle("Amplitude of #sigma_{LIV}(t)/#sigma_{SM} - 1");
+        m[i]->GetYaxis()->SetTitle("Amplitude of #sigma_{SME}(t)/#sigma_{SM} - 1");
         m[i]->GetYaxis()->CenterTitle();
         m[i]->Draw("AP");
         if(i==0 or i==1)
@@ -1235,6 +1228,7 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         legend[i]->Draw();
         c[i]->SetLogx();
         c[i]->SaveAs("results/amplitude/"+name2[i]+".png");
+        c[i]->SaveAs("results/amplitude/"+name2[i]+".pdf");
     }
 }
 
