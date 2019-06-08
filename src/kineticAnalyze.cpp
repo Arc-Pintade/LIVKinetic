@@ -990,7 +990,7 @@ void KineticAnalyze::fTime(int munu, int exp){
     legend->Draw();
 
     w->Update();
-    TString format[2];    format[0]=".png";    format[1]=".pdf";
+    TString format[2];    format[0]=".png";    format[1]=".eps";
     for(int i=0; i<2; i++){
         if(munu==0)
             w->SaveAs("results/fComparaisonL"+format[i]);
@@ -1212,7 +1212,8 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         }
     }
     for(int i=0; i<4; i++){
-        c[i] = new TCanvas();
+        // c[i] = new TCanvas();
+        c[i] = new TCanvas("","",200,10,800,600);
         c[i]->SetFillColor(kWhite);
         m[i]->SetTitle("");
         m[i]->GetXaxis()->SetTitle("#sqrt{s} (TeV)");
@@ -1228,7 +1229,7 @@ void KineticAnalyze::amplEnergyComparaison(bool isBenchmark){
         legend[i]->Draw();
         c[i]->SetLogx();
         c[i]->SaveAs("results/amplitude/"+name2[i]+".png");
-        c[i]->SaveAs("results/amplitude/"+name2[i]+".pdf");
+        c[i]->SaveAs("results/amplitude/"+name2[i]+".eps");
     }
 }
 
@@ -1286,7 +1287,7 @@ void KineticAnalyze::compareFusAni(int munu, int exp){
     }
 
     w->Update();
-    TString format[2];    format[0]=".png";    format[1]=".pdf";
+    TString format[2];    format[0]=".png";    format[1]=".eps";
     for(int i=0; i<2; i++){
         if(munu==0){
             legend->SetHeader("f_{SME}(t) functions histogram for c_{LXX} = - c_{LYY} = 0.01", "C"); // option "C" allows to center the header
@@ -1575,7 +1576,7 @@ void KineticAnalyze::earthSignal(TString XX){
     legend->Draw();
 
     c->SaveAs("results/earthSignal/"+XX+".png");
-    c->SaveAs("results/earthSignal/"+XX+".pdf");
+    c->SaveAs("results/earthSignal/"+XX+".eps");
 }
 
 void KineticAnalyze::amunuHist(){
